@@ -52,7 +52,7 @@ export function TestCarouselCard({
   if (loading) {
     return (
       <Card className="min-w-0 pt-0" id={id}>
-        <Skeleton className="aspect-square w-full rounded-t-[min(var(--radius-4xl),24px)] rounded-b-none border-0" />
+        <Skeleton className="aspect-[16/9] w-full rounded-t-[min(var(--radius-4xl),24px)] rounded-b-none border-0" />
         <CardHeader className="gap-2">
           <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-3 w-full" />
@@ -61,9 +61,9 @@ export function TestCarouselCard({
         <CardContent>
           <Skeleton className="h-5 w-24 rounded-full" />
         </CardContent>
-        <CardFooter className="flex flex-col gap-2">
-          <Skeleton className="h-7 w-full rounded-full" />
-          <Skeleton className="h-7 w-full rounded-full" />
+        <CardFooter className="flex flex-row gap-2">
+          <Skeleton className="h-8 flex-1 rounded-full" />
+          <Skeleton className="h-8 flex-1 rounded-full" />
         </CardFooter>
       </Card>
     );
@@ -123,7 +123,7 @@ export function TestCarouselCard({
       {cardHasMedia ? (
         <AspectRatio
           className="overflow-hidden rounded-t-[min(var(--radius-4xl),24px)] bg-muted"
-          ratio={1}
+          ratio={16 / 9}
         >
           {hasImage ? (
             <img
@@ -166,13 +166,13 @@ export function TestCarouselCard({
 
       <CardHeader className="gap-2">
         <CardTitle
-          className={`font-heading font-semibold text-sm leading-snug tracking-tight ${isUnbreakable ? "line-clamp-2 break-all" : "line-clamp-2"}`}
+          className={`font-heading font-medium text-base leading-snug tracking-tight ${isUnbreakable ? "line-clamp-2 break-all" : "line-clamp-2"}`}
         >
           {title}
         </CardTitle>
         {description ? (
           <CardDescription
-            className={`leading-relaxed ${isUnbreakable ? "break-all" : "line-clamp-2"}`}
+            className={`text-muted-foreground text-sm leading-relaxed ${isUnbreakable ? "break-all" : "line-clamp-2"}`}
           >
             {description}
           </CardDescription>
@@ -197,32 +197,30 @@ export function TestCarouselCard({
         )}
       </CardContent>
 
-      <CardFooter className="flex flex-col gap-2">
+      <CardFooter className="flex flex-row gap-2">
         <Button
           aria-label={`Adaugă ${title} în coș`}
-          className="w-full rounded-full"
+          className="min-w-0 flex-1 rounded-full"
           disabled={disabled || !hasPrice}
           onClick={onAddToCart}
-          size="sm"
         >
-          <RiShoppingCartLine data-icon="inline-start" />
           <span className="truncate">
             {disabled || !hasPrice ? "Indisponibil" : "Adaugă în coș"}
           </span>
+          <RiShoppingCartLine data-icon="inline-end" />
         </Button>
         <Button
           aria-label={`${isComparing ? "Scoate" : "Compară"} ${title}`}
           aria-pressed={isComparing}
-          className="w-full rounded-full"
+          className="min-w-0 flex-1 rounded-full"
           disabled={disabled}
           onClick={onCompare}
-          size="sm"
           variant={isComparing ? "secondary" : "outline"}
         >
-          <RiScalesLine data-icon="inline-start" />
           <span className="truncate">
             {isComparing ? "Comparat" : "Compară"}
           </span>
+          <RiScalesLine data-icon="inline-end" />
         </Button>
       </CardFooter>
     </Card>
