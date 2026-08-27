@@ -34,6 +34,7 @@ import { Skeleton } from "@workspace/ui/components/skeleton";
 import { Switch } from "@workspace/ui/components/switch";
 import { Textarea } from "@workspace/ui/components/textarea";
 import { AdvancedShowcase } from "../components/playground/AdvancedShowcase";
+import { LaborataShowcase } from "../components/playground/LaborataShowcase";
 import StateFrame from "../components/playground/StateFrame.astro";
 import PlaygroundLayout from "../layouts/playground.astro";
 
@@ -671,6 +672,10 @@ const longDescription =
         </StateFrame>
       </div>
     </div>
+
+    <Separator />
+
+    <LaborataShowcase client:load />
 
     <Separator />
 
