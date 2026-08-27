@@ -128,7 +128,7 @@ Import only from @workspace/ui.
 Prefer composition over new markup.
 Use semantic tokens only.
 Every interactive surface needs loading / empty / error / disabled considerations.
-Required states must appear in "apps/ui-playground".
+Required states must appear in "apps/web/src/pages/showcase.astro" (local dev may use "apps/ui-playground" as alias if present).
 Never override component colors with arbitrary Tailwind values.
 
 ---
@@ -154,7 +154,7 @@ Baseline: run `node_modules/.bin/shadscan --json` to get the top-level `score`. 
 When hardening a component (the `design_tools/codex-tip.txt` `/goal` loop, adapted for Pi/OpenCode):
 
 1. **Inspect only this component.** Read its actual props, slots, states, data sources, and call sites. Select only the stress cases that apply — do not pad the matrix.
-2. **Build the test page in `apps/ui-playground`.** Import the *real* component with project fonts/tokens/layout (via `@workspace/ui/globals.css`). Render every required state side-by-side in one pass on the single showcase grid (`apps/ui-playground/src/pages/index.astro`): no data / one / many, loading Skeleton / error Alert + retry / disabled / permission-denied, normal / very long / unbreakable text, missing image, very large number, incomplete data, 320px + supported breakpoints, light+dark (skip dark if unsupported). Do not rebuild a lookalike or connect to production data.
+2. **Build the test page in `apps/web/src/pages/showcase.astro`.** Import the *real* component with project fonts/tokens/layout (via `@workspace/ui/globals.css`). Render every required state side-by-side in one pass on the single showcase grid (`apps/web/src/pages/showcase.astro` — local dev may use `apps/ui-playground` as alias if present): no data / one / many, loading Skeleton / error Alert + retry / disabled / permission-denied, normal / very long / unbreakable text, missing image, very large number, incomplete data, 320px + supported breakpoints, light+dark (skip dark if unsupported). Do not rebuild a lookalike or connect to production data.
 3. **Isolate instances:** Give each rendered instance a unique `id` suffix so duplicate ARIA `id`s / focus traps do not contaminate the check (one real mount vs many side-by-side artifacts).
 4. **Record only reproducible failures.** Open the page, list problems you can actually see. Do not predict from code or report taste as bug.
 5. **Fix only confirmed problems, one at a time.** After each fix rerender the *same* failing state and verify: content no longer overflows/disappears, primary actions still work, keyboard/focus not regressed, already-passing states not broken. Do not redesign the component, change its public API, or touch outside the test page.
@@ -167,6 +167,6 @@ From `design_tools/matt-dailey-how-i-design-with-ai.md:81-84`: for any feature t
 This repo:
 
 - **Backend** = data pipeline (`packages/data`, `scripts/`, generated `dist/*.json`, event log). Verification = `bun run typecheck` + unit/integration tests on `normalize`/`cluster`/replay — no preview needed. PR label `backend`.
-- **Frontend** = `apps/web` + `packages/ui` + `packages/blocks` + `apps/ui-playground` (`/showcase`). Verification = **Vercel preview deploy** per PR (Astro 7.2.7 `output: static`) + `node_modules/.bin/shadscan --check-ui <preview-url> --route /` + manual 320px/desktop check on the preview link. Every component must first be added to `apps/ui-playground/src/pages/index.astro` matrix before wiring to `apps/web`.
+- **Frontend** = `apps/web` + `packages/ui` + `packages/blocks` + `apps/ui-playground` (`/showcase`). Verification = **Vercel preview deploy** per PR (Astro 7.2.7 `output: static`) + `node_modules/.bin/shadscan --check-ui <preview-url> --route /` + `shadscan --check-ui <preview-url> --route /showcase` + manual 320px/desktop check on the preview link. Every component must first be added to `apps/web/src/pages/showcase.astro` matrix (or `apps/ui-playground/src/pages/index.astro` alias) before wiring to `apps/web`.
 - **PR rule:** Never mix data-generation changes with visual changes in one PR. If both are needed, open `feat(data-…)` and `feat(web-…)` stacked on the same branch but reviewed/deployed separately. `lefthook.yml` `pre-commit: ultracite fix + shadscan --fail-under 43` and `pre-push: typecheck` plus CI (`shadscan.yml` + future `preview.yml` with `shadscan --check-ui`) enforce the gate.
-- **Design iteration:** Use `apps/ui-playground` (or Figma) for 3–4 variants before touching `apps/web` — do not graft directly onto the real page.
+- **Design iteration:** Use `apps/web/src/pages/showcase.astro` (or `apps/ui-playground` alias, or Figma) for 3–4 variants before touching `apps/web` product routes — do not graft directly onto the real page.

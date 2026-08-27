@@ -1,0 +1,29 @@
+---
+import PlaygroundLayout from "../layouts/playground.astro";
+---
+
+<PlaygroundLayout description="Not-found state." title="404 — Not Found">
+  <div
+    class="flex min-h-[50vh] flex-col items-center justify-center gap-4 rounded-xl border border-dashed p-8 text-center"
+  >
+    <h1 class="font-heading text-2xl font-semibold tracking-tight">
+      404 — Not found
+    </h1>
+    <p class="max-w-md text-sm text-muted-foreground">
+      The route you requested does not exist. Return to the home or showcase
+      grid.
+    </p>
+    <div class="flex gap-2">
+      <a
+        class="inline-flex h-9 items-center rounded-xl bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+        href="/"
+        >Home</a
+      >
+      <a
+        class="inline-flex h-9 items-center rounded-xl border bg-card px-4 text-sm font-medium hover:bg-muted"
+        href="/showcase"
+        >Showcase</a
+      >
+    </div>
+  </div>
+</PlaygroundLayout>
