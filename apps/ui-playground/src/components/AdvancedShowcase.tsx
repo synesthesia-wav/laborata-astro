@@ -51,7 +51,7 @@ export function AdvancedShowcase() {
       <div className="grid min-w-0 gap-4 lg:grid-cols-2">
         {/* Avatar — missing image fallback */}
         <div
-          className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+          className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
           data-state-frame="playground-avatar"
         >
           <div className="flex flex-col gap-1">
@@ -95,7 +95,7 @@ export function AdvancedShowcase() {
 
         {/* Tabs — trigger inside TabsList */}
         <div
-          className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+          className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
           data-state-frame="playground-tabs"
         >
           <div className="flex flex-col gap-1">
@@ -134,7 +134,7 @@ export function AdvancedShowcase() {
 
         {/* Select — Group + Item */}
         <div
-          className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+          className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
           data-state-frame="playground-select"
         >
           <div className="flex flex-col gap-1">
@@ -178,7 +178,7 @@ export function AdvancedShowcase() {
 
           {/* Accordion — no positive tabindex */}
           <div
-            className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+            className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
             data-state-frame="playground-accordion"
           >
             <div className="flex flex-col gap-1">
@@ -215,7 +215,7 @@ export function AdvancedShowcase() {
 
           {/* Item — structured */}
           <div
-            className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+            className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
             data-state-frame="playground-item"
           >
             <div className="flex flex-col gap-1">
@@ -262,7 +262,7 @@ export function AdvancedShowcase() {
 
           {/* ScrollArea — local scroll */}
           <div
-            className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+            className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
             data-state-frame="playground-scrollarea"
           >
             <div className="flex flex-col gap-1">
@@ -297,7 +297,7 @@ export function AdvancedShowcase() {
 
         {/* Pagination — separate row */}
         <div
-          className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+          className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
           data-state-frame="playground-pagination"
         >
           <div className="flex flex-col gap-1">

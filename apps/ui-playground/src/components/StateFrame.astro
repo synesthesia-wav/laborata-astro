@@ -11,7 +11,7 @@ const { id, title, description, width } = Astro.props;
 ---
 
 <section
-  class="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
+  class="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"
   data-state-frame={id}
   id={id}
   style={width ? `max-width:${width}; width:100%` : undefined}

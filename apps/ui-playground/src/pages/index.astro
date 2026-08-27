@@ -96,13 +96,15 @@ const longDescription =
           width="320px"
         >
           <div class="flex min-w-0 flex-col gap-3">
-            <div class="flex items-center gap-2">
+            <div class="flex min-w-0 items-center gap-2">
               <div
                 class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
               >
                 JD
               </div>
-              <span class="truncate text-sm font-medium">{longTitle}</span>
+              <span class="min-w-0 truncate text-sm font-medium"
+                >{longTitle}</span
+              >
             </div>
             <div class="flex gap-2">
               <Button size="sm" client:load>Primary action</Button
@@ -119,8 +121,8 @@ const longDescription =
           title="768px card"
           width="768px"
         >
-          <div class="grid grid-cols-2 gap-3">
-            <Card
+          <div class="grid min-w-0 grid-cols-2 gap-3">
+            <Card className="min-w-0"
               ><CardHeader
                 ><CardTitle className="text-sm">Hemoleucogramă</CardTitle
                 ><CardDescription>47 parametri</CardDescription></CardHeader
@@ -130,7 +132,7 @@ const longDescription =
                 ><Button size="sm" client:load>Adaugă</Button></CardFooter
               ></Card
             >
-            <Card
+            <Card className="min-w-0"
               ><CardHeader
                 ><CardTitle className="text-sm">Profil lipidic</CardTitle
                 ><CardDescription>8 parametri</CardDescription></CardHeader
@@ -189,7 +191,7 @@ const longDescription =
           id="playground-one-card"
           title="One item — correct Card composition"
         >
-          <Card>
+          <Card className="min-w-0">
             <CardHeader>
               <CardTitle>Vitamina D 25-OH</CardTitle>
               <CardDescription>Sânge venos · 1 zi</CardDescription>
@@ -216,7 +218,7 @@ const longDescription =
         <StateFrame id="playground-many-grid" title="Many — 6 cards, gap-based">
           <div class="grid gap-3 sm:grid-cols-2">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Card>
+              <Card className="min-w-0">
                 <CardHeader className="pb-3">
                   <CardTitle className="truncate text-sm">Analiză {i + 1}</CardTitle>
                   <CardDescription className="truncate">Descriere scurtă</CardDescription>
@@ -316,7 +318,7 @@ const longDescription =
       </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame id="playground-text-normal" title="Normal">
-          <Card>
+          <Card className="min-w-0">
             <CardHeader
               ><CardTitle className="text-sm">Glucoză serică</CardTitle
               ><CardDescription>{longDescription}</CardDescription></CardHeader
@@ -331,7 +333,7 @@ const longDescription =
           id="playground-text-very-long"
           title="Very long — truncates, button stays"
         >
-          <Card>
+          <Card className="min-w-0">
             <CardHeader>
               <CardTitle className="line-clamp-2 text-sm leading-snug"
                 >{longTitle}</CardTitle
@@ -360,7 +362,7 @@ const longDescription =
           id="playground-text-unbreakable"
           title="Unbreakable — break-all, no overflow"
         >
-          <div class="flex flex-col gap-3 rounded-lg border p-3">
+          <div class="flex min-w-0 flex-col gap-3 rounded-lg border p-3">
             <p class="break-all text-xs font-mono text-muted-foreground">
               {unbreakable}
             </p>
@@ -437,7 +439,7 @@ const longDescription =
           title="Incomplete data — graceful"
         >
           <div class="flex min-w-0 flex-col gap-3">
-            <Card>
+            <Card className="min-w-0">
               <CardHeader
                 ><CardTitle className="text-sm">TSH</CardTitle
                 ><CardDescription
