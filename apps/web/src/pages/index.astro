@@ -1,13 +1,13 @@
 ---
-import "@workspace/ui/globals.css"
-import { Button } from "@workspace/ui/components/button"
+import "@workspace/ui/globals.css";
+import { Button } from "@workspace/ui/components/button";
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml">
     <title>Astro App</title>
   </head>
   <body>
@@ -17,7 +17,7 @@ import { Button } from "@workspace/ui/components/button"
           <h1 class="font-medium">Project ready!</h1>
           <p>You may now add components and start building.</p>
           <p>We've already added the button component for you.</p>
-          <Button client:load className="mt-2">Button</Button>
+          <Button className="mt-2" client:load>Button</Button>
         </div>
       </div>
     </div>

@@ -1,0 +1,22 @@
+name: shadscan
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  issues: write # only needed with create-issue
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: TheOrcDev/shadscan@main
+        with:
+          path: .
+          version: "0.17.0" # pin exact — do not use moving tag (minimumReleaseAge drift)
+          fail-under: "43"
+          create-issue: "true"
+          issue-label: "shadscan"

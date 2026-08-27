@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "c1a68ee06a668aced9ab2b5fbdea5f989864123794eb2e056b339a072dbb7f10"
+    },
+    "shadscan-pre-commit": {
+      "source": "TheOrcDev/skills",
+      "sourceType": "github",
+      "skillPath": "skills/shadscan-pre-commit/SKILL.md",
+      "computedHash": "69c00e0ac54fbc3ba960562c7e005c292d5061f37f5688706f71d3ff6326e1b0"
+    }
+  }
+}

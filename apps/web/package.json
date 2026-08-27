@@ -1,15 +1,15 @@
 {
   "name": "web",
   "version": "0.0.1",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint",
+    "build": "astro build",
+    "dev": "astro dev",
     "format": "prettier --write \"**/*.{ts,tsx,astro}\"",
+    "lint": "eslint",
+    "preview": "astro preview",
     "typecheck": "astro check"
   },
   "dependencies": {
@@ -19,8 +19,8 @@
     "@types/react-dom": "^19",
     "@workspace/ui": "workspace:*",
     "astro": "^7",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9",

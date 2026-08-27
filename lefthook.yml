@@ -1,0 +1,20 @@
+pre-commit:
+  jobs:
+    - run: bun x ultracite fix
+      glob:
+        - "**/*.js"
+        - "**/*.jsx"
+        - "**/*.ts"
+        - "**/*.tsx"
+        - "**/*.json"
+        - "**/*.jsonc"
+        - "**/*.css"
+        - "**/*.astro"
+      stage_fixed: true
+    - run: node_modules/.bin/shadscan --fail-under 43 --no-interactive --no-roast
+      stage_fixed: false
+
+pre-push:
+  jobs:
+    - run: bun run typecheck
+      stage_fixed: false

@@ -1,0 +1,703 @@
+Laborata Data — Granular Ground-Up Report for a Specialist Prepared 2026-08-26 from repo ~/coding-projects/Laborata (commit 6c18208 + untracked experiments), sibling ~/coding-projects/analize-md, and scripts/pipeline/reports/intake-report.json. All paths relative to repo root unless noted. ──────────────────────────────────────────────────────────────────────────────── 0. TL;DR for the specialist Product is not a catalog, it is a price-comparison market. 5 Moldovan labs (Synevo, Invitro, Sante, MedExpert, Alfa) sell the same clinical tests under different names/prices. Value = neutral MKT_* canonical + per-vendor price_mdl + turnaround + sampleType + branch + panel decomposition (N of M). Value is destroyed by two conflation classes: many raw names → one MKT (wrong price on page) and one bundle → wrong archetype (wrong N of M). Current snapshot (gated, green): canonical_tests 1,723 (+218 via CUR_ mints), archetypes 37, vendor_items 3,478 (panels 246 incl. 141 without evidence), branches 145, price_outliers 0 (whitelist 2: MKT_1618 HHV-6 4010, MKT_1077 RF IgM 563), conflation top-3 166/158/74, unmapped priced rows 3,422 (al 2,012 / iv 713 / sy 880 / sa 439 / me 185), coverage 0.35 sy, 0.36 iv, 0.42 al, 0.59 sa, 0.63 me, pending review 403 (399 test / 4 info). Why this is hard: The canonical universe (labri.catalog.json 1,554 rows + 1,498 empty category) is curated-once, not derived. Genesis mappings.json (4,559 raw→MKT) was a single LLM synthesis in analize-md (prompt in cli.py:68-96 + data/genesis_prompt.txt) with no human-in-loop, producing systematic overmerge (top magnet MKT_1108 166 names). Every downstream layer has been patching that decision for 8 weeks (REFRESH-FOLLOWUPS.md + plans 006→011). Any ground-up redesign must decide: keep labri as source-of-truth, or replace it with a living, audited synthesis. ──────────────────────────────────────────────────────────────────────────────── 1. Data types — the contract (apps/web/lib/schema/types.ts v1) Three-layer model (enforced in generated-integrity.test.ts:23 tests): ┌───────┬───────────────────┬─────────────────────────────────────────┬───────────────────────────┬────────────────────────────────────────────────────────────────────────┬────────────┐ │ Layer │ Type │ Id │ Example │ Key field │ Provenance │ ├───────┼───────────────────┼─────────────────────────────────────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────┼────────────┤ │ L1 │ CatalogItem │ MKT_* (emitted CUR_→MKT_ unified at │ MKT_1137 Glucoză serică │ offers: VendorOffer[] (priceMdl, priceAsOf, sourceUrl, code), │ urine │ │ │ │ intake.ts:unifyNamespaceId) │ │ `sampleType: blood │ │ ├───────┼───────────────────┼─────────────────────────────────────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────┼────────────┤ │ L2 │ PanelArchetype │ arch-* (DAG, acyclic) │ arch-trombofilie-genetica │ referenceComponentIds: MKT_*[], nestedArchetypeIds?: arch-*[] (≤1 │ imported │ │ │ │ │ │ level), notYetSold?: true for 4 orphans │ │ │ │ │ │ │ (ogtt-gestational/roma/hepatita-e/cardiac), category │ │ ├───────┼───────────────────┼─────────────────────────────────────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────┼────────────┤ │ L3 │ VendorCatalogItem │ `al │ iv │ me │ sa │ └───────┴───────────────────┴─────────────────────────────────────────┴───────────────────────────┴────────────────────────────────────────────────────────────────────────┴────────────┘ Supporting types: - TestCategory 17 labels + CATEGORY_SLUGS (ro-only, shared across ro/en), CATEGORY_MAPPING from analize.md taxonomy (labri category is empty for 1,498/1,554 rows → lib/classify.ts keyword classifier prioritized molecular > viral-markers > tumor-markers >... > chemistry via norm()). - SampleType 5 + SPECIMEN_TO_SAMPLE_TYPE map (Serum/Plasma→blood, *Swab/Secretions→swab, 24h Urine→urine, Saliva→saliva, else other). sampleTypeOf(specimen) uses it; lib/locations.ts:canonicalCity normalizes Bălți/Chisinau etc. - SlugRegistry (SlugEntry {curated, status current|redirect, redirectsTo}) — RESERVED_SLUGS (16 route words + ro/en/api), EXCLUDED_COLLECTION_ITEMS (7 MKT_1405..1413) venipuncture fees filtered at both sinks to avoid "Prelevarea sângelui" as a test (QA finding), NOT_YET_SOLD_ARCHETYPES (4), PUNCTURE_FEES_WHITELIST (11 of 132) — gems_vendor_fees.json 121 are noise (alfa injections, me Coagulograma 465). - LabBranch (id slugify vendor-name, city canonical, geo, phoneNumbers, schedule: LabScheduleEntry[] days mon-fri|sat|sun intervals HH:MM, mapsUrl, provenance). - TurnaroundDays, PriceRange, VendorOffer.priceAsOf: string|null (fresh = snapshot date, kept = previous date, visible as muted "as of"). Committed generated artifacts (apps/web/lib/data/generated/ ~4.0 MB, ADR 001 offline-build): canonical-tests.ts 2.3 MB, vendor-catalogs.ts 1.8 MB, archetypes.ts, slugs.ts 386 KB, branches.ts 91 KB, item-summaries.ts 617 KB, vendor-meta.ts, manifest.ts (generatedAt 2026-08-21T08:16:06Z, pricesAsOf 2026-08-24). ──────────────────────────────────────────────────────────────────────────────── 2. Vendor quirks — why one scraper never fits all ┌───────────┬───────────┬──────────────────────┬───────────────────────────────────┬────────────────────────────┬──────────────────────────────────┬────────────────────────────────────┐ │ Vendor │ Vendored │ Raw shape │ Price locus │ Dropped by filters │ Scraper mode │ Quirks / loss │ │ │ rows │ │ │ │ │ │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ synevo │ 11,785 │ {name, price, tat, │ Typesense API │ — │ html (vendors.ts:sitemaps │ No retry, no backoff; │ │ │ │ url} (V2_FIELDS sy) │ synevo.md/ts/collections/posts/do │ │ sitemap-analize.xml+sitemap-pach │ synevo_unmapped_candidates.json │ │ │ │ │ cuments/search │ │ ete.xml, urlFilter /shop/) — │ only signal; labri already │ │ │ │ │ (TYPESENSE_API_KEY, 30s timeout, │ │ RefreshClient plain fetch │ synevo-centric, so coverage 0.354 │ │ │ │ │ 250/page, 0.3s gap) + HTTP TAT │ │ │ lowest but still "seed" vendor for │ │ │ │ │ fetch 15s; 6 known duplicates by │ │ │ archetype attribution; synthesis │ │ │ │ │ norm(name) │ │ │ bail at 250/500 rows (dense │ │ │ │ │ │ │ │ allergen fx/gx ~30% density) │ │ │ │ │ │ │ │ triggered LLM refusal in │ │ │ │ │ │ │ │ single-pass — required │ │ │ │ │ │ │ │ fallback-source.ts HEAD injection │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ invitro │ 9,274 │ {vendor_raw_name, │ Sitemap sitemap_ro.xml → per-page │ /consult..., /category/, │ excizia │ terapia │ │ │ │ price_mdl, │.../services/{slug} → │ `punctie │ │ │ │ │ │ turnaround_time, │ analyzes-price div │ │ │ │ │ │ │ code, url} │ (\.analyzes-price.*(MDL|lei)) │ │ │ │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ sante │ 10,233 │ same as invitro + │ Browser JS (priceSelectors │ /analiza/ only (1135→824 │ browser (BrowserClient │ Sitemap shrink without notice → │ │ │ │ breadcrumb_category │ ["s.detail-price-full","[class*=' │ shrinkage observed, 311 │ Playwright, concurrency 4) or │ extra-urls.json; browser flake → │ │ │ │ │ price']"] — <s> is list, bold is │ lost) │ firecrawl-crawl.ts (remote │ Firecrawl bridge built │ │ │ │ │ -15% promo; we publish list) │ │ render, concurrency 6, 120s │ specifically for medexpert/sante; │ │ │ │ │ │ │ timeout, 15s×attempt backoff, │ │ │ │ │ │ │ │ markdown # first h1 + matchPrice │ │ │ │ │ │ │ │ ) │ │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ medexpert │ 4,842 │ same │.price selector │ /product/ only, skip │ browser / Firecrawl │ Tagline "tehnologie avansata, │ │ │ │ │ │ /consultatii-specialisti/, │ │ diagnostic sigur" appears as <h1> │ │ │ │ │ │ /servicii-imagistice-, │ │ on failed loads → badNames │ │ │ │ │ │ /uncategorized/ │ │ denylist (norm compare); │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ alfa │ 31,407 │ same + │ AJAX index │ n_price≤0 (services), code │ alfa.ts A-Z loop 26× pag until │ Discovery vendor — 31,407 raw │ │ │ │ ms_ServiceCode, │ alfalab.md/analyse/analysepage_tp │ CEG/SYS (genetic/system) │ 0, parseAlfaPage htmlUnescape, │ includes ~1,900 single-gene │ │ │ │ n_price, │ l?&letter=A-Z&pag=N&rt=ajax │ │ absoluteUrl │ genetics (MTTP, Achromatopsia) │ │ │ │ duration_text, │ X-Requested-With: XMLHttpRequest │ │ │ that labri never had → unmapped │ │ │ │ specialfields │ → <textarea js_component> JSON │ │ │ 2,012 + coverage 0.419; URLs are │ │ │ │ │ data.objects[] │ │ │ template component_analyseaz_tpl │ │ │ │ │ │ │ │ repeated → nameOnly:true identity │ │ │ │ │ │ │ │ (URL useless); │ └───────────┴───────────┴──────────────────────┴───────────────────────────────────┴────────────────────────────┴──────────────────────────────────┴────────────────────────────────────┘ Shared refresh hygiene (REFRESH-FOLLOWUPS.md): norm() cedilla ş↔ș, ţ↔ț unify, stripStrikethrough(html) (<del>/<s>), extra-urls.json seed, identity.ts mergeKey(url:normalized)+rowName with nameOnly for alfa, parse.ts PRICE_TOKEN_RE + parsePriceToken locale 1.500,00 tolerant, price-sanity.ts consensus MIN 3 / SPREAD 3× / OUTLIER 5×. ──────────────────────────────────────────────────────────────────────────────── 3. Scrapers & refresh — tried, kept, dropped - Analize-md scrapers (scrapers/scrape_*_http.py): Python urllib, 30s Typesense / 15s HTTP, no retry, no price_as_of. Synevo paginates 250, Alfa paginates letter×page until empty, others fetch HTML and regex. All emit _v2.json flat list {name, price, tat, url, category, code}. Freshness: none — file mtime only. - Laborata refresh (scripts/pipeline/refresh/*, not in CI): run.ts <vendor|all> [--fresh] [--limit N] → vendors.ts:refreshVendor (cache CACHE_DIR, sitemaps + extra-urls, crawlHtml vs crawlBrowser batch 4) + alfa.ts:scrapeAlfa + invitro.ts:scrapeInvitro + firecrawl-crawl.ts bridge. run.ts:diffVsBaseline (name-or-URL key) prints matched/changed/unmatched and drift.json. apply.ts <date> [--vendors a,b] price-only merge (identity.ts:mergeRowsPriceOnly) — snapshot price adopted, existing name/url/code/tat kept (propagating h1 renames broke genesis_mappings coverage collapse 2026-08-24), unmatched = discovery for adjudication, kept-stale count persisted, price-snapshot.json {date} bumped, manifest/inputs.json {sha256,size} re-hashed, then intake.ts re-run. Deterministic, git diff review step before apply. - Dropped paths: Playwright for medexpert/sante → Firecrawl CLI (scrapeViaCli retry 3×, scrapeOnce maxBuffer 64MB), still browser for sante full-price <s> handling. Unknown MODEL_API_KEY retry for LLM scrapes — now bounded LLM_MAX_RETRIES 3 + LLM_TIMEOUT_MS 600k (experiment llm-first-run.log timeout cascade). Friction inventory (scrape layer): no retries / no schedule / no timestamp in DB (vendor_offerings/canonical_tests have no scraped_at; vendor_locations does), vendor-coupled HTML/selectors, sitemap size volatility (Sante 311/1135), template URLs (Alfa), duplicate h1s (Synevo Proteina tau LCR 2520 vs 1020). ──────────────────────────────────────────────────────────────────────────────── 4. Intake — deterministic core that absorbed 5 plans intake.ts 2,216 + lib/intake-core.ts:loadLabri/loadMappings/loadVendorScrapes/loadPanelScrapes/loadLocations/parseTatDays/sampleTypeOf/isPanelish/bundleIdFor/buildBundleList + lib/classify.ts + lib/locations.ts:buildBranches + lib/normalize.ts:norm/slugify/tokenOverlap + lib/panel-components.ts:resolvePanelComponents + lib/emit.ts + lib/review.ts. Stages (invariants in check-report.ts + generated-integrity.test.ts): 1. Load & validate vendored (zod labriTestSchema, mappingSchema, V2_FIELDS remap vendor_raw_name/price_mdl/turnaround_time vs synevo legacy, readCategory(breadcrumb_category|category), firstNonEmpty for TAT). 2. Curated overlay (data/curated-tests.json merged into labri map, id-collision warn, CUR_111… → MKT_ via unifyNamespaceId) — removed sibling-repo edit ritual (plan 011 A; first mint CUR_GLU_URINA urine glucose, 2 vendors). 3. Curated mapping veto (data/curated-mappings.json 628 with mktId:null semantics — curatedOwner:null deletes stale genesis offers; sweep deletes 22+ imitators). 4. EXCLUSIVE_TARGETS (MKT_1108 BRCA, MKT_1302 HER2, MKT_1495 neonatal + later EXCLUDED_COLLECTION_ITEMS 7) — rest of 166/158/74 riders drop via keptStale without per-row entry. 5. Genesis/curated owner resolution (applyCuratedBundleArchetypes stable vendor|norm(name) key wins over mergeLlmSynthesis positional B0000 → now hash B<sha256(vendor|name)[:10]> after drift disproved positional. 6. Panel evidence (buildVendorPanelEvidence + resolvePanelComponents exact norm(name_ro)|analyte|code — never invent, unresolved reported, panel_evidence_pending 39). 7. Attribution (assignIntentArchetypes coarseIntent tiroida-baza/extins/mini, lipid-baza/extins, torch-baza etc. grouped by intentKey(name+category), LLM archetypes.json 37 stable, synevo seed, mappingConfidence verified|proposed). 8. Slug registry (curated-slugs.json + deterministic slugify + RESERVED_SLUGS guard + redirect map). 9. Branches (buildBranches deduped slugify vendor-name, canonicalCity, parseTextSchedule/hoursRowsToSchedule, phone split, geo finite check → 145 ). 10. Emit (emitGenerated header Generated at from manifest generated_at not wall-clock, generatedAt/priceAsOf byte-idempotent). 11. Reports (reports/intake-report.json: counts.{canonical 1723, vendor_items 3478, archetypes 37, attribution_changes 12, curated 493, panels_with_evidence 102/without 141}, conflation_audit (>10 names), unmapped_items, vendor_coverage, price_outliers, review_items 19, mapped_but_not_surfaced 1,116 (not yet committed metric)). Reasoning of past fixes (why not alternatives): - Committed generated (ADR 001) vs generate-at-build: offline CI/preview, 4 MB < LFS, vendor.ts --check guards vendored. Cost: regen diffs large — pay with byte-ideterminism. - URL-keyed identity vs name-keyed: names drift (diacritics, renames), URLs stable (except alfa) — collapse same-price variants (keep existing name mappings reference), flag same-URL+different-price collisions, keep stale. - Price-only merge vs full replace: full replace renamed products → genesis mapping miss → coverage collapse 2026-08-24 — price-only keeps identity, discovery goes via adjudication queue. - Winner-preference (resolveMappings labri-informed: single-target=non-panelish, panel-target=panelish) — stopped Pachete medicale 465 / cardiac CK mispricing, unmasked MKT_0518 900 etc. - Whitelist MKT_1618/1077 — live-checked 4010/563 are market spread, not misparse; heuristic bounded. ──────────────────────────────────────────────────────────────────────────────── 5. What was tried with LLMs — granular outcomes ### 5.1 Single-pass whole-corpus synthesis (experiments/single-pass/RESULTS.md:v2, lib/prompt.ts) Setup: harness build-corpus.ts [vendors] [--rows N] distills rows (VENDOR|ROWIDX|name|price|code|tat|category + labri 1,554 + mappings 4,559 + panels) → chunk.ts → synthesize(-chunks).ts (Meta muse-spark-1.2, 1.0 temp, json_schema, maxTokens 64k → max_completion_tokens 131k after probe, llm.ts now sends documented field, LLM_PROVIDER pin). Prices/codes never emitted — copied by index. Calibrated scorer score.ts vs HEAD: 99.7% agreement, Jaccard 1.0, 0 structural (17/5,057 unresolved stale genesis → accepted). Result table (decisive axis = OUTPUT, not input): ┌───────┬────────┬───────────┬────────────┬────────────┬───────────────────────────────────────────────────────────────────────────────┐ │ Rows │ Budget │ In tokens │ Out tokens │ Referenced │ Verdict │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 60 │ 64k │ 16.6k │ 5.0k │ 60/60 │ ✓ │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 150 │ 64k │ 132k │ 12.4k │ 150/150 │ ✓ 83% agree, 0 name mismatches │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 300 │ 64k │ 138k │ 20.4k │ 300/300 │ ✓ 68% exact, 49 invented genetics are wins (pipeline drops alfa single-genes) │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 500 │ 64k │ 145k │ 8.7k │ 81/500 │ ✗ sample │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 500 │ 131k │ 145k │ 8.4k │ 99/500 │ ✗ sample, flat │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 5,057 │ 64k │ 294k │ 2.4-3.6k │ 30-94 │ ✗ 2/2 runs │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 5,057 │ 131k │ 294k │ 1.5k │ 51 │ ✗ smaller │ └───────┴────────┴───────────┴────────────┴────────────┴───────────────────────────────────────────────────────────────────────────────┘ Finding falsified: Strict-A single-pass (≈1,400 tests + 5k refs, 294k in) is behaviorally refused beyond ~300-500 objects regardless of budget (verified max_completion_tokens:131072 accepted, probe max_tokens alias). Model samples schema shapes. DeepSeek chapter (deepseek/deepseek-v4-flash-0731 OpenRouter, 393k out): Pinned LLM_PROVIDER=DeepSeek → 495/500 ✓ (~50k out); unpinned (= dynamic provider) → ~1 test bail. Whole 5,057 still impossible (~600k out >393k). Alfa-500 completes, Synevo-500 bails at 500→250 even with lenient schema + allergen rule (0 tests, 121 tokens) — data-dependent bail on synevo dense allergen fx/gx near-duplicates (30% density, zero codes). 17-chunk E2E proof abandoned after ~8 retries. Takeaway: chunked 300-500 × 17-34 parallel + trivial merge is viable (+ provider pin mandatory), synevo needs per-vendor fallback. Open product Q: alfa's ~1,900 single-gene genetics — pipeline drops, model surfaces. Catalog policy, not harness. ### 5.2 LLM-first sandbox (experiments/llm-first/REPORT.md 2026-08-19, lib/review-prompt.ts) Pretends labri is intact; replaces only the mapping layer. ``` [A] 500-row chunks (17×8079) — batched ingest coverage≥99% (re-batch halves →.escalated.json) [B] merge + invariants (HEAD-keyed ids: exact HEAD name→ fuzzy ≥0.7→ labri mkt_id→ mint; 4-tuple (name,specimen) dedup, 0 collisions) — id-preservation 100% overlap (334 exact+28 fuzzy of 495), 133 genuinely-new mints [C] reviewer — batch 500: MISSED planted alfa|20 Acid uric→allergen + 7 noisy (spelling/acetonă specimen); per-test (1 canonical+its rows, ~8/call): CAUGHT (high, MKT_0057) + 2 real (fx70 vs fx4, cuișoare vs ienibahar) [C'] precision 30→80-90% after "spelling/diacritic = SAME" rule; 62 batches 61k in/36.7k out → 10 findings (bean f15→beech t5, IgG vs IgE, f14 vs f259, fungus species) [D] fix loop high-confidence only, revalidated 100% queue: review-queue.ts findings→pending.json kind:test source:llm-review-per-test 605→615 idempotent ``` Synevo bail Track B fallback-source.ts: inject HEAD committed vendor-catalogs+canonical+archetypes via existing genesis→curated links for bailing vendor; 1,393 rows → 428 tests, 100% HEAD-id, 18 arch, 599 unmapped (HEAD-faithful), 88.5% agreement, 0 name mismatches. Cost: Track A 2 calls ~$0.2, Track B no extra LLM. Verdict: deterministic core + per-test review + escalation-only fix is migration candidate; batch reviewer never sufficient. ### 5.3 Production adjudication (plans/011, adjudicate/run.ts Shadow/Eval, validators.ts, lib/llm.ts a0287c7) Prompt per row: sibling canonicals (name/specimen/price) + similar adjudicated examples + breadcrumb + catalog context. specimenConsistent blood↔urine fails, NON_TEST_RE services, tokenOverlap Jaccard + STOP list, nameTokens 3-char filter, price band 3× (tighter than consensus 5×), near-duplicate≥0.9 before policy gate. Validators invert model confidence: ┌──────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────┐ │ Decision │ Gates │ Status │ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────┤ │ remap │ target exists + specimen consistent + ambiguity guard (otherScore > chosen OR ≥chosen×0.85 & diff<0.34 → demote hs-CRP vs CRP trap) + │ accept/demote/fail │ │ │ price within 3× band │ │ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────┤ │ mint │ bilingual name_ro+name_en + overlap<0.9 vs all canons + single-vendor only if high │ accept/demote/fail │ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────┤ │ reject │ service signal in `raw_name │ breadcrumborevidence` mentions │ │ │ │ it │ └──────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────┘ Shadow engine (run.ts shadow: 60→ 38 accept/22 demote/0 fail ~26k tokens $0.1 + one false reject "Screening Hepatite B și C" caught). **Holdout `eval`:** `CUR_/MKT_` unified + 113 stale-target pins excluded → `reject 100% (10/10)` autonomous, `remap 33% exact (~65% effective)` misses = near-duplicate variant picks + specificity mints (remap stays shadow), `mint 16/22` single-vendor demoted pending rarity policy. Migration a0287c7 after Meta block: stealth/ox-alpha via OpenRouter — llm.ts bare-root → /chat/completions, body-read-once retry on unparseable 200 HTML, decisionEnvelope normalizer (decisions|dispositions|results + bare object), eval n=40 parse-fail 26→0, remap 78% exact +17 validator saves/4 wrong-lands (specificity mints duplicating canons) — still under 90% bar. Landings: 417 backlog adjudicated (~280k tokens) → 64 accept/342 demote/8 fail, 2 apply batches → 46 vetoes (canonical 1,359→1,523, invitro 67→78%, me 64→75.6%, sa 54→60.4%), queue 448→395 (276 single-vendor mints parked). apply subcommand writes ordinary curated-mappings.json vetoes — intake unchanged, gates own. ──────────────────────────────────────────────────────────────────────────────── 6. Info architecture — how the app consumes the data Stack: bun 1.3.14 + turbo + Next 16.3 App Router (proxy.ts rewrites /→/ro, canonicalizes NEXT_PUBLIC_SITE_URL), packages/ui shadcn, server-only mock-data.ts. Generated at build (apps/web/lib/data/generated/* is the only data source): catalogMap (id→CatalogItem), vendorCatalogs (vendor→VendorCatalogItem[] cached Map), labProfiles (getVendorCatalog+getVendorMeta → LabStats {categories minPrice popularItems testCount turnaroundDays}), slugRegistry. Routes (app/[lang]/(app)/* thin components/pages/*-route.tsx re-exports Option A): ┌─────────────────────────────────────────┬───────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────┐ │ URL (ro ↔ en) │ Data read │ Client state │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /analize ↔ /tests (listing) │ getFilteredWithoutSort (keyword from normalize("NFD")+romanian cedilla + │ — │ │ │ classifyCategory fallback) + searchCatalog linear filter(...includes) (5k) — │ │ │ │ N-01 server trie deferred │ │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /analize/[slug] ↔ /tests/[slug] │ unifiedItemId→CatalogItem + offers[] │ use-lists.ts Zustand+localStorage (10 lists, activeListId, │ │ │ │ VendorSavedItem hostile __proto__ guard, │ │ │ │ parseVendorRefsParam safe), storage sync │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /profiluri/[slug] ↔ /panels/[slug] │ panelArchetype.referenceComponentIds + panelComponents per vendor │ PanelCarousel, ConcernGrid │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /laboratoare/[id] ↔ /labs/[id] │ labProfiles.stats + branches (city, geo, schedule, phoneNumbers) │ — │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /laboratoare/[id]/analize/[itemId]/orde │ VendorCatalogItem + collection fee (`EXTRACTION_SAMPLE_TYPES blood │ swab, COLLECTION_FEES invitro blood 30 swab 75`) │ │ r ↔... │ │ │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /compare, /categorii/[slug], │ compare.test.ts, getBestBundle │ use-lists-mutations │ │ /profiluri, /liste, /ordine │ │ │ └─────────────────────────────────────────┴───────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────────────────────────┘ i18n: next-intl, URL skeletons ro/en, messages apps/web/messages/{en,ro}.json 680 leaves + parity.test.ts leaf-key gate (plan 018), client-messages.ts safe. SEO: sitemap.ts / opengraph-image.tsx bake SITE_URL, hreflang alternates, slug is SEO surface (ids never in URL, redirects via registry). Gates: verify (vendor.ts --check + pipeline tests + check-report.ts + typecheck + test 256 + ultracite + build + check:size 620/100 KB + lighthouserc 0.70/0.95/0.95/0.95), verify:quick, /health {"ok":true} proxy-excluded, PostHog opt_out_capturing_by_default + capture_exceptions, CSP/HSTS headers. ──────────────────────────────────────────────────────────────────────────────── 7. Decisions & reasoning — why we kept what we kept ┌────────────────────────────────────────────────────────────┬────────────────────────┬───────────────────────────────────────────┬─────────────────────────────────────────────────────┐ │ Decision │ Alternative rejected │ Reason kept │ Evidence │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Committed 4 MB (ADR 001 D-02) │ generate at build / │ Offline CI/preview, deterministic │ emit.ts + vendor.ts --check │ │ │ LFS │ │ │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ intake.ts god-module slice by slice (019) not rewrite │ big-bang refactor │ Byte-idempotency must hold each slice │ locations.ts extracted 251 lines, git diff │ │ │ │ │ branches.ts 0 │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Byte-idempotency via SOURCE_DATE_EPOCH else manifest │ wall-clock │ git diff freshness gate would never pass │ Plan 006 C │ │ generated_at │ │ │ │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ URL-keyed merge │ name-keyed │ Names drift, URLs stable │ Collapse experiment 2026-08-12/13, identity.ts │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Price-only apply │ full snapshot replace │ Rename broke genesis_mappings coverage │ Observed 2026-08-24 collapse │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Hash B<sha…> vs sequential B0000 │ stable? no │ Insertion drift dangled every tail │ One-mapping-fix displaced all later ids │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Consensus outlier 3/3×/5× ratchet │ bounds only │ Order-of-magnitude on commoditized test │ generated-integrity BASELINE 11 │ │ │ │ is bug │ │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ LLM adjudication shadow + validator outrank + gate revert │ LLM at crawl time │ Data is batch, gates cheap │ Plan 011 C thresholds reject 95/remap 90/mint 85 │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Meta→ox-alpha via OpenRouter │ fix Meta filter │ Medical-content filter on account │ Holdout 26→0 parse fails │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ 11-entry puncture whitelist │ raw 132 │ 121 noise (injections, panels) │ types.ts:PUNCTURE_FEES_WHITELIST │ └────────────────────────────────────────────────────────────┴────────────────────────┴───────────────────────────────────────────┴─────────────────────────────────────────────────────┘ Deferred / intentional debt: 005 deduped 16 files Option A (keep dirs, thin re-exports) — helpers in components/pages/*. 002 hono/js-yaml/nanoid overrides, headers. 003 1.9 MB leak guard server-only. 021-023 static-first (ƒ 76%→● generateStaticParams per slug), monorepo @workspace/* (move generated/schema/catalog), bundle <550 KB + Suspense + cacheComponents readiness — planned on 3c331a6. ──────────────────────────────────────────────────────────────────────────────── 8. What the specialist should solve ground-up — prompts 1. Is labri.catalog.json the right primitive? It encodes 4-tuple identity (analyte|fraction|specimen|immunoglobulin) + is_panel but category empty and lore is implicit. Ground-up alternative: event-sourced canonical with provenance (imported vs minted vs split from MKT_x at date y) + explicit tuple_key UNIQUE + audit trail (vendor_offerings.offering_key content-hash exists but no history). Current overlay curated-tests.json is already event-sourced handmint — formalize it or replace it. 2. Genetics breadth policy: Should alfa's ~1,900 single-gene CEG-nonfiltered genetics be catalog citizens? If yes, model a genetics-panel family (cheaper than per-gene MKT) vs per-gene MKT (current labri per-gene). This single product decision explains alfa unmapped 2,012 and coverage 0.42. 3. Conflation as learning, not vetting: Genesis LLM taught us labri is already contaminated (MKT_1108 lists Stargardt synonym, MKT_1495 fuse, MKT_0016 vitamins). A ground-up synthesis should learn canonical set from raw + labri jointly (as llm-first does), not map into labri and veto afterwards. The specialist can design the chunk(300)×17 + merge(HEAD-keyed) + per-test review tenure. 4. Panel model mismatch: labri.component_ids (13 archetypes only) vs vendor bundle pages (authoritative) vs archetype.referenceComponentIds (curated typical). Who is source? Propose source-of-truth = vendor page components per archetype majority vote + validator that referenceComponentIds quorum ≥2 vendors. 5. Freshness contract: Today priceAsOf per-offer + price_snapshot.json date + keptStale count, but no offering.created_at/updated_at DB columns (analize-md had them only for vendor_locations) and no cron. Specialist to design retention: keep N snapshots, GC policy, sitemap size monotonic alarm (Sante 311 drop would alert), and whether Firecrawl is durable vs lab price API hunt (Alfa AJAX index is already an API — others may have one). All prior tries are reproducible via: bun run scripts/pipeline/vendor.ts --check, bun run scripts/pipeline/intake.ts (byte-idempotent), bunx vitest -p generated-integrity, bun run scripts/pipeline/adjudicate/run.ts shadow|eval, bun run scripts/pipeline/experiments/single-pass/* (scratch, gitignored), bun --cwd apps/web build (prints ○/●/ƒ). --- This is the shit I am dealing with. Let's solve it gracefully and simply. Ask questions or any input if you need.
+
+Ground-Up Redesign Proposal: From Curated Catalog to Living Evidence Graph
+1. Core Insight
+The current system treats labri.catalog.json as a static, curated source of truth, then patches it with overlays (curated-tests.json, curated-mappings.json) to correct overmerges and missing items. This creates a brittle, hard-to-audit pipeline where every fix is a new veto layer.
+
+The ground-up solution should invert this:
+
+The canonical set is not an input but an output of a continuous synthesis from raw vendor data, with human review only for ambiguous cases.
+
+The canonical identity is based on a content-defined tuple (analyte, fraction, specimen, immunoglobulin, maybe method) with an explicit provenance trail (imported from vendor X, minted by LLM on date Y, split from MKT_Z, etc.).
+
+The entire pipeline is event-sourced: every change to the canonical set or mappings is recorded as an immutable event, enabling replay, audit, and rollback.
+
+This eliminates the need for overlays and vetoes: the canonical set is rebuilt (or incrementally updated) each cycle from evidence, not patched post-hoc.
+
+2. Answers to the Specialist Prompts
+Prompt 1: Is labri.catalog.json the right primitive?
+No. Replace it with an event-sourced canonical store.
+
+Canonical entity: analyte_key = (normalized analyte, fraction, specimen, immunoglobulin class, method if significant).
+Example: ("glucose", null, "blood", null, "enzymatic").
+
+Provenance: Each canonical item has a list of events:
+
+imported_from_vendor(vendor, raw_id, date)
+
+minted_by_llm(evidence_chunk_id, date)
+
+split_from(parent_mkt_id, reason, date)
+
+merged_from(ids, reason, date)
+
+manually_curated(editor, date)
+
+Evidence: For each canonical item, store all raw vendor items that map to it (vendor, raw name, code, price history, timestamps). This makes conflation transparent and auditable.
+
+The current labri.catalog.json can be imported as an initial set of canonical items with provenance imported_from_labri, but it is no longer the sole source.
+
+Benefits:
+
+Overmerge detection becomes a query (“which canonical items have >N raw names?”) instead of a manual audit.
+
+Rollback of a bad LLM decision is trivial (revert the event).
+
+The system can learn from mistakes and avoid re-merging items that were previously split.
+
+Prompt 2: Genetics Breadth Policy
+Recommended: Include all sold genetics tests as canonical items, but introduce a two-level hierarchy to manage volume.
+
+Level 1: Gene Panel Families
+Define panel archetypes for common genetic panels (e.g., “Thrombophilia Genetic Panel”, “Cystic Fibrosis Panel”). These are regular arch-* items.
+
+Level 2: Individual Gene Tests
+Each distinct gene test (e.g., MTHFR C677T, F2 Prothrombin) becomes its own canonical MKT_* item only if it is sold by at least two different vendors.
+Rationale: if only one vendor sells it, it cannot be price-compared and thus has no market value on this platform. It remains in the vendor’s raw catalog (for completeness) but is not promoted to canonical until another vendor offers a matching test.
+
+Fallback: For single-vendor genes, we may optionally group them into a “Vendor-Specific Genetics” category, but they are not shown in comparison views.
+
+This policy reduces the unmapped alfa genetics from ~1,900 to perhaps a few hundred that have cross-vendor equivalents, while still allowing future inclusion as more vendors add tests.
+
+Prompt 3: Conflation as Learning – Chunked Synthesis with Review
+Adopt the llm-first sandbox as the production pipeline, with improvements:
+
+Ingest raw vendor data and split into chunks of 300–500 rows per vendor, plus a seed set from the current canonical (or previous synthesis) as context.
+
+LLM Synthesis per Chunk (using a provider with reliable output, e.g., DeepSeek, Meta via OpenRouter):
+
+Input: raw rows, previous canonical items (if any), panel evidence.
+
+Output: proposed canonical items (with analyte_key, name_ro/en, sample type), and mappings from raw rows to canonical items (new or existing).
+
+The model is instructed not to merge items with different tuple keys unless evidence is strong (e.g., same analyte but different specimen → distinct).
+
+Merge & Deduplicate across chunks:
+
+Use deterministic key matching (exact analyte_key or high fuzzy overlap) to unify canonical items.
+
+Prefer existing canonical IDs (from previous cycle) if the tuple matches; otherwise mint new IDs with provenance.
+
+For conflicts (two different canonical items mapping to the same raw row), flag for review.
+
+Per-Test Review (human or automated):
+
+Only ambiguous cases (confidence < threshold, near-duplicate mappings, price outliers) are surfaced to a review queue.
+
+The review is per canonical item, not per chunk, and uses a simple UI showing all vendor rows mapped to that item.
+
+Continuous Learning:
+
+Every accepted/ rejected review decision is logged as an event and can be used to fine-tune the LLM prompt or add rule-based pre-filters (e.g., “never merge IgE and IgG”).
+
+This replaces the current genesis_mappings.json + overlay model with a self-correcting loop.
+
+Prompt 4: Panel Model Mismatch
+Source of truth: Vendor page components, cross-validated by quorum.
+
+Scrape component lists from each vendor’s panel/bundle page (already partially done via panel_evidence). Extract the list of individual test names or codes that make up the panel.
+
+Normalize component names to canonical items (using the same synthesis mapping). For each vendor panel, we get a set of canonical component IDs.
+
+Build a component matrix: rows = vendor panels, columns = canonical items; cell = 1 if component is listed.
+
+Cluster vendor panels that have high overlap (e.g., Jaccard > 0.8) into panel archetypes.
+
+Define archetype reference components as those present in ≥2 vendor panels (quorum). Components listed by only one vendor are considered optional or vendor-specific and not part of the core archetype.
+
+Manual curation can override the quorum set, but the default is evidence-based.
+
+This ensures the archetype reflects what is actually sold, not just what one vendor or a curator thinks.
+
+Prompt 5: Freshness Contract & Retention
+Design a time-series data store for vendor offerings:
+
+Append-only price history:
+Each vendor_offering row gets valid_from, valid_to timestamps. A new snapshot creates a new version of the row (same offering_key content-hash). This enables historical price comparison and trend detection.
+
+Retention policy:
+Keep at least 12 monthly snapshots (or more if storage allows). Older snapshots can be aggregated (min/avg/max per month). The priceAsOf field remains for display, but historical data is queryable.
+
+Monitoring & Alerts:
+
+Sitemap size changes: if a vendor’s sitemap drops by >20% without an announced change, trigger an alert.
+
+Price changes: if a test’s price jumps >5× or drops to zero, flag for review.
+
+Scraper failures: track success rate per vendor per run; alert on repeated failures.
+
+API-first approach:
+
+Alfa already has an AJAX API. Investigate others (Synevo’s Typesense is an API, Invitro may have one). Prefer APIs over HTML scraping; fallback to Firecrawl only when necessary.
+
+For APIs, implement proper retry/backoff and cache headers.
+
+3. Proposed Architecture (High Level)
+Raw Vendor Data (scraped/API)
+        │
+        ▼
+Chunked LLM Synthesis (per vendor, per batch)
+        │  outputs: proposed canonical items + mappings
+        ▼
+Merge & Deduplicate (deterministic)
+        │  uses previous canonical store as baseline
+        ▼
+Review Queue (ambiguous cases)
+        │  human/automated
+        ▼
+Event-Sourced Canonical Store
+        │  (provenance, tuple key, evidence links)
+        ▼
+Panel Component Extraction & Quorum Voting
+        │
+        ▼
+Generated Data (committed artifacts for web)
+Event log stored in a simple JSONL or SQLite file per cycle; changes applied atomically.
+
+Canonical store is derived from the event log (materialized view) and used for lookups.
+
+Review UI reads from a pending queue (similar to existing pending.json but more structured).
+
+Intake pipeline becomes a deterministic application of the latest synthesis result, replacing the current overlay logic.
+
+4. Phased Implementation Plan
+Phase 1 – Canonical Store Migration (Weeks 1–2)
+
+Define event schema and tuple key.
+
+Write importer to convert current labri.catalog.json + curated-tests.json into initial canonical items with provenance.
+
+Refactor intake to read from the new store (read-only), ensuring existing generated outputs are unchanged (byte-idempotent).
+
+Phase 2 – LLM Synthesis Pipeline (Weeks 3–4)
+
+Implement chunked synthesis using existing harness (already proven).
+
+Add merge/dedup logic with event logging.
+
+Run in shadow mode; compare results against current pipeline; iterate until agreement >95%.
+
+Phase 3 – Panel Quorum Extraction (Week 5)
+
+Enhance scrapers to reliably extract component lists from vendor panel pages.
+
+Implement clustering and quorum voting.
+
+Replace archetype.referenceComponentIds with quorum-derived set.
+
+Phase 4 – Freshness & Monitoring (Week 6)
+
+Add timestamp columns to vendor offerings; implement append-only price history.
+
+Set up basic alerts for sitemap drops and scraper failures.
+
+Investigate vendor APIs; replace scrapers where feasible.
+
+Phase 5 – Gradual Rollout & Review
+
+Enable the new pipeline as the sole intake (remove overlays).
+
+Monitor review queue size; adjust thresholds.
+
+Fine-tune genetics policy based on actual cross-vendor matches.
+
+5. Open Questions for You
+Human review capacity: How many ambiguous items per week can realistically be reviewed? This determines how aggressively we can set confidence thresholds.
+
+LLM budget: Is there a monthly cost cap for synthesis? The chunked approach with 300–500 rows is cheap (~$0.2 per 500 rows), but full rebuild may cost a few dollars per cycle – acceptable?
+
+Catalog size tolerance: Are you comfortable with a canonical set that may grow to 2,500–3,000 items (including many genetics) if cross-vendor matches are found, or do you want to cap it?
+
+Vendor API access: Do you have contacts or permissions to explore official APIs for Synevo, Invitro, Sante, MedExpert? This could drastically improve reliability.
+
+If these are not blocking, I recommend proceeding with Phase 1 and 2 immediately. The system is already halfway there – we just need to formalize the event-sourced foundation and let the synthesis pipeline own the canonical set.
+
+Let me know your thoughts or any constraints, and I can refine the plan.
+
+What if we reframe the problem? What if we use agentic autoresearch loops?
+
+Thought for 16 seconds
+
+We need to respond to the user's question: "What if we reframe the problem? What if we use agentic autoresearch loops?"
+
+The user is a specialist dealing with a complex data pipeline for aggregating medical lab test prices from multiple vendors in Moldova. The problem: maintaining a canonical catalog, mappings, panel archetypes, etc., with many ad-hoc layers and LLM experiments. They're asking about "agentic autoresearch loops" as a potential reframing.
+
+We need to provide an insightful answer: what does that mean in this context? How could an autonomous research agent loop solve the core problem? The core problem is maintaining a living, audited synthesis of vendor data into a canonical set, handling conflation, panels, etc. An agentic loop could continuously explore vendor data, propose changes (mappings, merges, splits, new canonical items), validate them against evidence, and update the knowledge base automatically, with human oversight only for exceptions.
+
+We should outline how such a system could work, its benefits, challenges, and how it aligns with or supersedes previous approaches.
+
+The previous answer proposed an event-sourced canonical store and chunked LLM synthesis. Agentic autoresearch loops would be an extension: instead of batch processing, the agent could autonomously investigate, hypothesize, and act, learning from feedback.
+
+We should address the user's question directly: reframing the problem as an ongoing research task rather than a data processing pipeline. The agent could be designed to:
+
+Monitor vendor catalogs for changes (via scrapers or APIs) and detect new items, price changes, removals.
+
+For each new/changed item, automatically investigate: search existing canonical items, check for similarities, propose a mapping or mint.
+
+Use tools: search canonical store, query vendor pages, maybe even search the web for test descriptions.
+
+Learn from past decisions (reinforcement or memory) to avoid repeating mistakes like overmerging.
+
+Maintain a confidence score and only escalate to human when ambiguous.
+
+Continuously refine panel archetypes by comparing across vendors.
+
+This would shift from a deterministic pipeline with LLM chunks to an autonomous agent that can make decisions in context, using retrieval and reasoning, and that can be run periodically or even continuously.
+
+We should discuss potential pitfalls: agentic loops can be unpredictable, may require careful guardrails, cost control, and need to be reproducible (event log). But the benefits are reduced manual curation, adaptability to new data, and self-correction.
+
+We should also tie this back to the previous ground-up proposal, showing how agentic loops are a natural evolution: the agent would be the one managing the event-sourced store, making updates through events, and using the same review queue for exceptions.
+
+We should ask clarifying questions if needed, but the prompt says "Ask questions or any input if you need." So we can provide a conceptual answer and ask for feedback.
+
+I'll structure the response:
+
+Acknowledge the reframe: problem is continuous discovery and reconciliation, not just batch processing.
+
+Define what an agentic autoresearch loop would look like in this context.
+
+Map components: tools, memory, planning, evaluation.
+
+Show how it addresses key issues (conflation, genetics, panel mismatch, freshness).
+
+Highlight benefits vs previous approaches.
+
+Discuss challenges (guardrails, cost, reproducibility, trust).
+
+Suggest a phased implementation: start with a semi-autonomous loop for mapping new items, then expand.
+
+Ask for input on constraints (e.g., acceptable autonomy level, cost, review capacity).
+
+Reframing as agentic autoresearch loops is a powerful shift: instead of a pipeline that processes data in batches and applies rules, you'd have a continuous, self-directed agent that explores vendor catalogs, forms hypotheses about canonical identity, tests them against evidence, and updates the knowledge base autonomously, escalating only when confidence is low. This aligns with the core challenge: the data is noisy, evolving, and requires judgment that static rules or one-shot LLM calls can't fully capture.
+
+What an Agentic Loop Would Look Like Here
+Goal: Maintain a living, audited canonical catalog (tests, panels, mappings) with minimal human intervention, maximizing accuracy and coverage.
+
+Tools the agent has access to:
+
+Vendor scrapers/APIs (to fetch current data on demand).
+
+The canonical store (query by name, tuple key, provenance).
+
+The review queue (to add items for human review).
+
+Possibly external resources (e.g., medical ontologies, web search) to disambiguate test names.
+
+A memory of past decisions (e.g., "never merge IgE with IgG", "MKT_1108 is overmerged").
+
+Loop structure (run daily, hourly, or triggered by scraper events):
+
+Perception: Pull new or changed vendor rows (diff from last snapshot).
+
+Triage: For each row, decide if it's likely a new test, a duplicate, a panel, or noise (service, non-test).
+
+Use fast heuristics first (existing mappings, string similarity).
+
+If uncertain, engage LLM reasoning with retrieved context.
+
+Investigation: For ambiguous rows, the agent can:
+
+Search the canonical store for potential matches (by analyte, specimen, synonyms).
+
+Fetch the vendor's own page or related pages to get more detail (e.g., method, units).
+
+Compare prices across vendors to detect duplicate vs. distinct tests.
+
+Check panel evidence if the row appears to be a bundle.
+
+Proposal: Form a hypothesis (map to existing MKT, mint new MKT, merge/split canonicals, assign to archetype) with a confidence score and evidence summary.
+
+Decision:
+
+High confidence → apply update immediately, log as event.
+
+Medium confidence → apply but also add to review queue for human spot-check.
+
+Low confidence → add to review queue only.
+
+Learning: Feedback from human review (or future corrections) updates the agent's policies (e.g., via prompt adjustments, few-shot examples, or a fine-tuned model).
+
+This loop can also proactively discover new panels or vendor changes by monitoring sitemaps and price fluctuations, not just waiting for a full refresh.
+
+Why This Solves the Core Problems
+Conflation/overmerge: The agent can examine each potential merge in context, using more evidence than a single LLM call. It can also remember past splits and avoid repeating them.
+
+Genetics breadth: For each single-gene test from Alfa, the agent can search other vendors for the same gene, and if none, mark it as single-vendor and exclude from canonical (but keep in vendor catalog). Policy is enforced consistently.
+
+Panel mismatch: The agent can compare component lists across vendor panels in real time, vote on quorum, and update archetype references when vendors change their bundles.
+
+Freshness: The loop is continuous, so new items are processed within hours, not in weekly batch cycles. Price changes trigger re-evaluation of outliers.
+
+Challenges & Guardrails
+Unpredictability: Agents can make wrong decisions. Mitigate with:
+
+Strict event-sourcing (every change is reversible).
+
+Confidence thresholds that gate autonomous actions.
+
+A sandbox mode where the agent proposes changes but doesn't apply until a human approves (initially).
+
+Cost: Each investigation may require multiple LLM calls. Use cheap models for triage, expensive reasoning only when needed. Budget can be enforced per cycle.
+
+Reproducibility: The agent's decisions must be reproducible. Log all tool calls, prompts, and intermediate results as part of the event log.
+
+Trust: Build a dashboard showing the agent's recent actions, reasons, and pending review items. Humans can veto or correct, and the agent learns from that.
+
+Phased Rollout
+Shadow Agent: Run the loop in parallel with current pipeline, logging proposed actions. Compare against manual decisions to measure precision/recall.
+
+Semi-Autonomous: Allow agent to apply high-confidence mappings (≥95%) and mint new tests, but all panels, merges, and price outlier fixes require human review.
+
+Full Autonomy with Sampling: Agent applies all decisions, but a random sample (e.g., 5%) is reviewed; if error rate exceeds threshold, revert to semi-autonomous.
+
+This reframing turns the problem from "maintain a static catalog" into "train an expert system that continuously improves itself." Your existing infrastructure (scrapers, event log, review queue) is a solid foundation; the agent becomes the orchestrator.
+
+Questions for you:
+
+What's your comfort level with autonomous updates? Could we start with a shadow mode and gradually increase trust?
+
+Are there hard constraints on LLM spend per month?
+
+Do you have a preference for the agent's runtime (cron job, serverless, long-running service)?
+
+But how might we avoid the bias of already tried things and figure the most elegant solution from ground up? E.g. looking and inspecting the live vendor website or looking at the raw scrape output?
+
+Thought for 15 seconds
+
+We need to address the user's question: they want to avoid the bias of already tried things and figure the most elegant solution from ground up. They specifically mention "looking and inspecting the live vendor website or looking at the raw scrape output". They are asking how to approach the problem from first principles, perhaps questioning the current assumptions and architecture.
+
+The user is likely seeking advice on how to redesign the system without being constrained by existing implementations. They may want a fresh perspective, perhaps by examining the actual data sources (live vendor websites, raw scrapes) to understand the problem domain directly, rather than relying on the accumulated reports and decisions.
+
+We should provide guidance on how to conduct a ground-up analysis: start with the raw data, understand the vendors' actual information structures, identify the fundamental entities and relationships, and then design a minimal, elegant solution that fits the reality. We should also discuss how to avoid biases from previous attempts, such as the labri catalog, the three-layer model, or the LLM synthesis approach.
+
+We should suggest a process:
+
+Observe: Directly inspect the live vendor websites and raw scrape outputs (JSON/HTML) to understand what data is actually available, how it's structured, and what variations exist.
+
+Abstract: Identify the core entities (tests, panels, vendors, prices, etc.) and their natural relationships from the data itself, not from the current codebase.
+
+Question assumptions: List all current assumptions (e.g., canonical must be MKT_*, identity based on 4-tuple, panel decomposition, etc.) and challenge whether they are truly necessary or artifacts of past decisions.
+
+Simplify: Aim for the simplest possible model that captures the essence: maybe a single table of offerings with attributes, and a flexible grouping mechanism for equivalence.
+
+Prototype: Build a minimal system that uses these observations to perform the key functions (price comparison, test browsing) and iterate.
+
+We can also discuss the concept of "brownfield vs greenfield" and how to do greenfield thinking even within an existing codebase.
+
+We should be practical, acknowledging that some constraints (like needing to maintain current web app) may limit full redesign, but the thinking process can still be fresh.
+
+We need to answer in a helpful, expert manner, addressing the user's desire to avoid bias and find elegance.
+
+Given the conversation history, the user is deeply involved and knowledgeable, so we can be technical.
+
+Let's structure the answer:
+
+Emphasize the importance of starting from raw data and direct observation.
+
+Provide steps for a ground-up analysis: inspect raw scrapes, visit live sites, catalog the actual variation.
+
+Suggest creating a "data inventory" of what exists across vendors, independent of current schema.
+
+Encourage questioning each layer: do we need L1/L2/L3? Is MKT_* necessary? Maybe a simpler model with vendor items and automatic clustering.
+
+Propose an elegant solution idea: treat everything as "offerings" with attributes; similarity-based clustering to form canonical groups; panel detection as pattern recognition.
+
+Discuss how to avoid past biases: don't reuse labri, don't assume the mapping must be perfect, allow for ambiguity.
+
+Finally, offer to help explore further if they share raw data samples or live URLs.
+
+We'll keep the tone supportive and collaborative.
+
+Excellent reframe. You're right: the current system has accumulated layers of patches that may obscure the underlying simplicity. To find the most elegant ground-up solution, we must re-engage with the raw reality —the live vendor websites, the raw scraped data—and let the data speak for itself, without forcing it through the lens of existing abstractions (labri catalog, MKT_* IDs, three-layer schema).
+
+Here’s a practical method to strip away bias and design from first principles.
+
+1. Start with direct observation
+Goal: Understand the vendors' own mental models and data structures.
+
+Open each vendor's website (Synevo, Invitro, Sante, MedExpert, Alfa) and browse their test catalogs as a user would.
+
+Note how they group tests (by category, organ, method?).
+
+Look at individual test pages: what fields do they display? (Name, price, turnaround, sample type, method, reference ranges, description.)
+
+How do they handle panels/bundles? Are they listed as separate items with a list of components, or just a name with a price?
+
+Inspect the raw scrape output you already have. Print a few random rows from each vendor. Ask:
+
+What fields are actually present? Are there hidden fields in HTML/JSON that we ignored?
+
+What variations exist in naming? (e.g., diacritics, abbreviations, synonyms)
+
+Are there obvious errors or noise that could be filtered trivially?
+
+This observation phase often reveals that the data is simpler or more structured than our abstractions assume. For example, maybe all vendors consistently include a "sample type" field, making the 4-tuple identity unnecessary.
+
+2. Build a "data inventory" independent of current schema
+Create a spreadsheet or markdown document listing, for each vendor, the raw fields available in their data, with examples. Then compare across vendors.
+
+Example:
+
+Vendor	Field: name	Field: price	Field: code	Field: tat	Field: sample_type	Field: category	Field: components
+Synevo	"Glucoză serică"	"120 MDL"	"GLU123"	"1 zi"	"Ser"	"Biochimie"	(none)
+Invitro	"Glucoza (ser)"	"130 lei"	"GLC"	"24 ore"	"Sânge"	"Chimie"	(none)
+Alfa	"Determinarea glucozei"	"110"	"GLU-01"	"1 zi lucrătoare"	"Ser sangvin"	"Biochimie generală"	(none)
+Look for common denominators: all have a name and price; most have code and TAT; some have sample type. This tells you the minimal data contract.
+
+Also note differences in granularity: Alfa sells individual genes; Synevo sells dense allergen panels. The ground-up solution must handle both without forcing a uniform abstraction.
+
+3. Question every layer of the current architecture
+For each component (labri catalog, MKT_* IDs, PanelArchetype, VendorCatalogItem), ask: "Is this necessary to achieve the core user value?"
+
+Core user value: Given a clinical test name (or symptom), find the best price across labs, with reliable details like turnaround and sample type, and understand panel composition.
+
+Do we need a separate canonical catalog (L1)?
+Maybe not. We could treat each vendor item as a node in a graph, and automatically cluster similar items using embeddings or rule-based matching. The cluster becomes the "canonical test". No need for labri or MKT_*.
+
+Do we need PanelArchetype (L2)?
+Panels are just vendor items that map to multiple canonical tests. We can detect them by looking for item names that contain multiple analytes or by scraping component lists, then linking them to the clusters.
+
+Do we need the three-layer schema?
+The web app could consume a unified list of "offerings" (vendor, name, price, sample type, tat, cluster_id) plus a list of "clusters" (representative name, list of vendor items, optional panel links). That's essentially two tables.
+
+4. Design the simplest possible model
+Based on raw data, here's a candidate elegant model:
+
+Entity 1: Offering
+
+vendor_id
+
+raw_name (as displayed on site)
+
+normalized_name (for matching)
+
+price (numeric)
+
+currency (MDL)
+
+turnaround (string or parsed days)
+
+sample_type (blood/urine/swab/etc.) if available
+
+url (page or API endpoint)
+
+code (vendor's internal code)
+
+fetched_at timestamp
+
+Entity 2: TestCluster
+
+cluster_id (auto-generated)
+
+canonical_name (chosen from most common or most descriptive)
+
+synonyms (list of raw names that belong)
+
+sample_types (set of observed sample types, to detect mismatches)
+
+panel_flag (true if cluster represents a panel)
+
+component_cluster_ids (if panel, list of child cluster IDs)
+
+Matching: Use a combination of:
+
+Rule-based normalization (diacritics, stopwords, unit extraction)
+
+Embedding similarity for fuzzy matches
+
+Price-band sanity checks to catch false merges (e.g., "HIV" vs "HIV Viral Load")
+
+Human review queue for uncertain merges
+
+This model is data-driven: clusters emerge from vendor offerings, and can be continuously updated as new offerings arrive. No need for a pre-existing canonical catalog.
+
+5. Prototype on a small subset
+Take ~50 random offerings from each vendor, manually cluster them (or use simple heuristics) to see if the model holds. Ask:
+
+Are there items that don't fit any cluster? (e.g., services, consultations)
+
+Are there clusters that should be split? (e.g., "Glucose" vs "Glucose tolerance test")
+
+How much manual effort is needed to resolve ambiguity?
+
+This prototype will quickly reveal whether the simple model is sufficient or if additional structure (like panel decomposition) is needed.
+
+6. Avoid past biases explicitly
+Don't reuse labri.catalog.json initially. Ignore it; build clusters from raw data only. Later, you can compare your clusters against labri to see if labri added value (probably it did for some obscure tests, but you'll see if it's worth importing).
+
+Don't assume the mapping must be perfect. Ambiguity is acceptable as long as the user can still compare prices; the UI can show "Multiple possible matches" for uncertain cases.
+
+Don't force panel decomposition. If a vendor sells a panel without listing components, treat it as a black-box item with a price. You can later scrape components if needed, but it's not essential for price comparison.
+
+7. Elegance through iteration
+The most elegant solution will likely be emergent: start with the two-entity model, and add complexity only when proven necessary by real user needs or data anomalies.
+
+For example, if you find that many clusters have ambiguous names (e.g., "Test de toleranță la glucoză" could be 2h or 3h), then you may introduce a variant field. But don't preemptively design for variants.
+
+Next Steps
+I suggest you:
+
+Pick one vendor (e.g., Synevo) and dump its raw scraped data (JSON) into a local file.
+
+Explore it with a quick script or even a spreadsheet to understand the shape.
+
+Do the same for Alfa (the most different vendor).
+
+Write a 1-page summary of what you see: fields, variations, obvious challenges.
+
+Then sketch the minimal model that could serve the web app's needs.
+
+If you share that summary (or snippets of raw data), I can help you refine the model and identify potential pitfalls. This ground-up exploration will likely reveal a simpler path than the layered system currently in place.
+
+Would you like to start by sharing a few raw scrape files or a description of what you find when browsing the live sites?
+
+Also, I will start fresh in a Astro + Shadcn monorepo; I prioritize SEO, catalog accuracy and customer delight.
+
+Thought for 13 seconds
+
+Excellent pivot. Starting fresh with Astro + Shadcn gives you the freedom to build a system that’s lean, SEO‑native, and user‑focused—while carrying over only the hard‑won lessons from the current tangle. Here’s how I’d approach it.
+
+1. Architecture: Astro + Shadcn Monorepo
+Monorepo (Turborepo + pnpm workspaces) with at least two packages:
+
+apps/web – Astro site (static by default, with islands for interactivity).
+
+packages/data – TypeScript types, normalization utilities, and the generated static JSON that Astro imports at build time.
+
+Optional packages/pipeline – the offline data processing (scrapers, matching, review queue) that regenerates the JSON.
+
+Astro’s strengths for SEO:
+
+Static generation – every test, lab, and comparison page can be pre‑rendered to HTML, perfect for crawling.
+
+On‑demand rendering if you later need user‑specific content (e.g., saved lists) via server islands.
+
+Built‑in sitemap, RSS, and canonical URL support.
+
+Performance – zero‑JS by default, which also improves Core Web Vitals.
+
+Shadcn works beautifully with Astro via the @astrojs/react or @astrojs/svelte integrations; or you can use the vanilla shadcn‑ui components with Astro’s .astro files. Choose the framework you’re most comfortable with for interactive parts (comparison tool, list builder).
+
+2. Data Pipeline: Simplicity First
+The old pipeline’s biggest mistake was treating a curated catalog as the source of truth. In the new system, the vendor raw data is the only truth. The canonical catalog is an emergent, continuously refined view over that data.
+
+MVP approach (weeks 1–2):
+
+Scrape each vendor into a flat JSON structure:
+
+{
+  "vendor": "synevo",
+  "name": "Glucoză serică",
+  "price": 120,
+  "currency": "MDL",
+  "turnaround": "1 zi",
+  "sample_type": "Ser",
+  "url": "https://...",
+  "code": "GLU123"
+}
+Normalize names with a simple function:
+
+lowercase, remove diacritics, expand common abbreviations (e.g., “GLU” → “glucoză”).
+
+extract analyte, specimen, method if possible using regex/keywords.
+
+Cluster using string similarity (e.g., Jaccard or cosine on character n‑grams). Aim for high precision; leave ambiguity for later.
+
+Generate the canonical catalog as a list of clusters, each with:
+
+representative name (most common or most descriptive).
+
+all vendor offers linked.
+
+sample type (if consistent; otherwise mark as “multiple”).
+
+Output static JSON that Astro consumes at build time. No database needed initially.
+
+This is a radical simplification of the previous three‑layer model. You can always add panel decomposition or more sophisticated identity resolution later.
+
+3. Catalog Accuracy: Continuous Improvement Loop
+Accuracy is not a one‑time fix; it’s an ongoing process. In the new system, bake in an autonomous review loop from day one, but keep it lightweight.
+
+Every scrape triggers a re‑clustering pass. New or changed vendor rows are compared against existing clusters.
+
+Low‑confidence matches go to a review queue (a simple JSON file or a lightweight admin UI).
+
+Human (or LLM) review accepts, rejects, or merges clusters. Each decision is stored as a rule (e.g., “IgE and IgG never merge”) that the clusterer can use next time.
+
+Over time, the clusterer learns from these rules, reducing manual work.
+
+This is the “agentic autoresearch loop” concept, but grounded in a deterministic baseline. Start with rule‑based clustering + occasional human review; later you can plug in an LLM for suggestion generation if needed.
+
+4. Customer Delight: Fast, Clear, Helpful
+Astro’s static pages give you near‑instant loads, which is the foundation of delight. On top of that:
+
+Intuitive search: full‑text search across test names, synonyms, and categories, with typo tolerance (use flexsearch or minisearch client‑side).
+
+Comparison tool: users can pick tests from multiple labs and see a side‑by‑side price/turnaround table. Persist selections in localStorage.
+
+Panels/bundles: if you later scrape panel components, show them in an expandable list with per‑component prices across labs.
+
+Clear lab profiles: include branch locations, hours, phone numbers, and a map link.
+
+Romanian/English i18n – Astro supports it well with astro-i18next or similar.
+
+SEO wins:
+
+Descriptive slugs based on normalized test names (e.g., /analize/glucoza-serica).
+
+Structured data (MedicalTest schema.org) on each test page – price, provider, sample type.
+
+Internal linking between related tests and panels.
+
+5. Phased Plan for the New System
+Phase 1 (MVP):
+
+Scrape 3 vendors (Synevo, Invitro, Alfa) into flat JSON.
+
+Simple clustering + static generation.
+
+Astro site with listing, detail, and lab pages.
+
+No panels, no genetics policy, no complex review – just price comparison.
+
+Phase 2 (Accuracy):
+
+Add the review queue and rule learning.
+
+Introduce Sante and MedExpert.
+
+Implement panel component scraping if feasible.
+
+Phase 3 (Delight):
+
+Comparison tool, saved lists, price history charts.
+
+LLM‑assisted review for ambiguous matches.
+
+Performance optimizations (image CDN, prefetching).
+
+6. Questions to Guide the Design
+What is the minimum viable set of labs and tests you need to launch? Start with fewer and expand.
+
+How will you handle scraping initially? Reuse the existing scrapers (they work) or write new lightweight ones? I’d reuse, but store output in the simpler flat format.
+
+Do you need dynamic features like user accounts or just anonymous list building? That affects whether you need any server.
+
+What’s your timeline and team size? A solo developer can ship a static MVP in 2–3 weeks.
+
+The key is to resist re‑implementing the old complexity. The new system’s elegance will come from its direct alignment with the actual data, not from an abstract layered architecture.
+
+If you’d like, I can sketch the exact data flow or help you design the clustering algorithm. Just let me know what you’re leaning toward.
+
+DeepThink
+
+AI-generated, for reference only
+
+Laborata Data — Granular Ground-Up Report for a Specialist Prepared 2026-08-26 from repo ~/coding-projects/Laborata (commit 6c18208 + untracked experiments), sibling ~/coding-projects/analize-md, and scripts/pipeline/reports/intake-report.json. All paths relative to repo root unless noted. ──────────────────────────────────────────────────────────────────────────────── 0. TL;DR for the specialist Product is not a catalog, it is a price-comparison market. 5 Moldovan labs (Synevo, Invitro, Sante, MedExpert, Alfa) sell the same clinical tests under different names/prices. Value = neutral MKT_* canonical + per-vendor price_mdl + turnaround + sampleType + branch + panel decomposition (N of M). Value is destroyed by two conflation classes: many raw names → one MKT (wrong price on page) and one bundle → wrong archetype (wrong N of M). Current snapshot (gated, green): canonical_tests 1,723 (+218 via CUR_ mints), archetypes 37, vendor_items 3,478 (panels 246 incl. 141 without evidence), branches 145, price_outliers 0 (whitelist 2: MKT_1618 HHV-6 4010, MKT_1077 RF IgM 563), conflation top-3 166/158/74, unmapped priced rows 3,422 (al 2,012 / iv 713 / sy 880 / sa 439 / me 185), coverage 0.35 sy, 0.36 iv, 0.42 al, 0.59 sa, 0.63 me, pending review 403 (399 test / 4 info). Why this is hard: The canonical universe (labri.catalog.json 1,554 rows + 1,498 empty category) is curated-once, not derived. Genesis mappings.json (4,559 raw→MKT) was a single LLM synthesis in analize-md (prompt in cli.py:68-96 + data/genesis_prompt.txt) with no human-in-loop, producing systematic overmerge (top magnet MKT_1108 166 names). Every downstream layer has been patching that decision for 8 weeks (REFRESH-FOLLOWUPS.md + plans 006→011). Any ground-up redesign must decide: keep labri as source-of-truth, or replace it with a living, audited synthesis. ──────────────────────────────────────────────────────────────────────────────── 1. Data types — the contract (apps/web/lib/schema/types.ts v1) Three-layer model (enforced in generated-integrity.test.ts:23 tests): ┌───────┬───────────────────┬─────────────────────────────────────────┬───────────────────────────┬────────────────────────────────────────────────────────────────────────┬────────────┐ │ Layer │ Type │ Id │ Example │ Key field │ Provenance │ ├───────┼───────────────────┼─────────────────────────────────────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────┼────────────┤ │ L1 │ CatalogItem │ MKT_* (emitted CUR_→MKT_ unified at │ MKT_1137 Glucoză serică │ offers: VendorOffer[] (priceMdl, priceAsOf, sourceUrl, code), │ urine │ │ │ │ intake.ts:unifyNamespaceId) │ │ `sampleType: blood │ │ ├───────┼───────────────────┼─────────────────────────────────────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────┼────────────┤ │ L2 │ PanelArchetype │ arch-* (DAG, acyclic) │ arch-trombofilie-genetica │ referenceComponentIds: MKT_*[], nestedArchetypeIds?: arch-*[] (≤1 │ imported │ │ │ │ │ │ level), notYetSold?: true for 4 orphans │ │ │ │ │ │ │ (ogtt-gestational/roma/hepatita-e/cardiac), category │ │ ├───────┼───────────────────┼─────────────────────────────────────────┼───────────────────────────┼────────────────────────────────────────────────────────────────────────┼────────────┤ │ L3 │ VendorCatalogItem │ `al │ iv │ me │ sa │ └───────┴───────────────────┴─────────────────────────────────────────┴───────────────────────────┴────────────────────────────────────────────────────────────────────────┴────────────┘ Supporting types: - TestCategory 17 labels + CATEGORY_SLUGS (ro-only, shared across ro/en), CATEGORY_MAPPING from analize.md taxonomy (labri category is empty for 1,498/1,554 rows → lib/classify.ts keyword classifier prioritized molecular > viral-markers > tumor-markers >... > chemistry via norm()). - SampleType 5 + SPECIMEN_TO_SAMPLE_TYPE map (Serum/Plasma→blood, *Swab/Secretions→swab, 24h Urine→urine, Saliva→saliva, else other). sampleTypeOf(specimen) uses it; lib/locations.ts:canonicalCity normalizes Bălți/Chisinau etc. - SlugRegistry (SlugEntry {curated, status current|redirect, redirectsTo}) — RESERVED_SLUGS (16 route words + ro/en/api), EXCLUDED_COLLECTION_ITEMS (7 MKT_1405..1413) venipuncture fees filtered at both sinks to avoid "Prelevarea sângelui" as a test (QA finding), NOT_YET_SOLD_ARCHETYPES (4), PUNCTURE_FEES_WHITELIST (11 of 132) — gems_vendor_fees.json 121 are noise (alfa injections, me Coagulograma 465). - LabBranch (id slugify vendor-name, city canonical, geo, phoneNumbers, schedule: LabScheduleEntry[] days mon-fri|sat|sun intervals HH:MM, mapsUrl, provenance). - TurnaroundDays, PriceRange, VendorOffer.priceAsOf: string|null (fresh = snapshot date, kept = previous date, visible as muted "as of"). Committed generated artifacts (apps/web/lib/data/generated/ ~4.0 MB, ADR 001 offline-build): canonical-tests.ts 2.3 MB, vendor-catalogs.ts 1.8 MB, archetypes.ts, slugs.ts 386 KB, branches.ts 91 KB, item-summaries.ts 617 KB, vendor-meta.ts, manifest.ts (generatedAt 2026-08-21T08:16:06Z, pricesAsOf 2026-08-24). ──────────────────────────────────────────────────────────────────────────────── 2. Vendor quirks — why one scraper never fits all ┌───────────┬───────────┬──────────────────────┬───────────────────────────────────┬────────────────────────────┬──────────────────────────────────┬────────────────────────────────────┐ │ Vendor │ Vendored │ Raw shape │ Price locus │ Dropped by filters │ Scraper mode │ Quirks / loss │ │ │ rows │ │ │ │ │ │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ synevo │ 11,785 │ {name, price, tat, │ Typesense API │ — │ html (vendors.ts:sitemaps │ No retry, no backoff; │ │ │ │ url} (V2_FIELDS sy) │ synevo.md/ts/collections/posts/do │ │ sitemap-analize.xml+sitemap-pach │ synevo_unmapped_candidates.json │ │ │ │ │ cuments/search │ │ ete.xml, urlFilter /shop/) — │ only signal; labri already │ │ │ │ │ (TYPESENSE_API_KEY, 30s timeout, │ │ RefreshClient plain fetch │ synevo-centric, so coverage 0.354 │ │ │ │ │ 250/page, 0.3s gap) + HTTP TAT │ │ │ lowest but still "seed" vendor for │ │ │ │ │ fetch 15s; 6 known duplicates by │ │ │ archetype attribution; synthesis │ │ │ │ │ norm(name) │ │ │ bail at 250/500 rows (dense │ │ │ │ │ │ │ │ allergen fx/gx ~30% density) │ │ │ │ │ │ │ │ triggered LLM refusal in │ │ │ │ │ │ │ │ single-pass — required │ │ │ │ │ │ │ │ fallback-source.ts HEAD injection │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ invitro │ 9,274 │ {vendor_raw_name, │ Sitemap sitemap_ro.xml → per-page │ /consult..., /category/, │ excizia │ terapia │ │ │ │ price_mdl, │.../services/{slug} → │ `punctie │ │ │ │ │ │ turnaround_time, │ analyzes-price div │ │ │ │ │ │ │ code, url} │ (\.analyzes-price.*(MDL|lei)) │ │ │ │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ sante │ 10,233 │ same as invitro + │ Browser JS (priceSelectors │ /analiza/ only (1135→824 │ browser (BrowserClient │ Sitemap shrink without notice → │ │ │ │ breadcrumb_category │ ["s.detail-price-full","[class*=' │ shrinkage observed, 311 │ Playwright, concurrency 4) or │ extra-urls.json; browser flake → │ │ │ │ │ price']"] — <s> is list, bold is │ lost) │ firecrawl-crawl.ts (remote │ Firecrawl bridge built │ │ │ │ │ -15% promo; we publish list) │ │ render, concurrency 6, 120s │ specifically for medexpert/sante; │ │ │ │ │ │ │ timeout, 15s×attempt backoff, │ │ │ │ │ │ │ │ markdown # first h1 + matchPrice │ │ │ │ │ │ │ │ ) │ │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ medexpert │ 4,842 │ same │.price selector │ /product/ only, skip │ browser / Firecrawl │ Tagline "tehnologie avansata, │ │ │ │ │ │ /consultatii-specialisti/, │ │ diagnostic sigur" appears as <h1> │ │ │ │ │ │ /servicii-imagistice-, │ │ on failed loads → badNames │ │ │ │ │ │ /uncategorized/ │ │ denylist (norm compare); │ ├───────────┼───────────┼──────────────────────┼───────────────────────────────────┼────────────────────────────┼──────────────────────────────────┼────────────────────────────────────┤ │ alfa │ 31,407 │ same + │ AJAX index │ n_price≤0 (services), code │ alfa.ts A-Z loop 26× pag until │ Discovery vendor — 31,407 raw │ │ │ │ ms_ServiceCode, │ alfalab.md/analyse/analysepage_tp │ CEG/SYS (genetic/system) │ 0, parseAlfaPage htmlUnescape, │ includes ~1,900 single-gene │ │ │ │ n_price, │ l?&letter=A-Z&pag=N&rt=ajax │ │ absoluteUrl │ genetics (MTTP, Achromatopsia) │ │ │ │ duration_text, │ X-Requested-With: XMLHttpRequest │ │ │ that labri never had → unmapped │ │ │ │ specialfields │ → <textarea js_component> JSON │ │ │ 2,012 + coverage 0.419; URLs are │ │ │ │ │ data.objects[] │ │ │ template component_analyseaz_tpl │ │ │ │ │ │ │ │ repeated → nameOnly:true identity │ │ │ │ │ │ │ │ (URL useless); │ └───────────┴───────────┴──────────────────────┴───────────────────────────────────┴────────────────────────────┴──────────────────────────────────┴────────────────────────────────────┘ Shared refresh hygiene (REFRESH-FOLLOWUPS.md): norm() cedilla ş↔ș, ţ↔ț unify, stripStrikethrough(html) (<del>/<s>), extra-urls.json seed, identity.ts mergeKey(url:normalized)+rowName with nameOnly for alfa, parse.ts PRICE_TOKEN_RE + parsePriceToken locale 1.500,00 tolerant, price-sanity.ts consensus MIN 3 / SPREAD 3× / OUTLIER 5×. ──────────────────────────────────────────────────────────────────────────────── 3. Scrapers & refresh — tried, kept, dropped - Analize-md scrapers (scrapers/scrape_*_http.py): Python urllib, 30s Typesense / 15s HTTP, no retry, no price_as_of. Synevo paginates 250, Alfa paginates letter×page until empty, others fetch HTML and regex. All emit _v2.json flat list {name, price, tat, url, category, code}. Freshness: none — file mtime only. - Laborata refresh (scripts/pipeline/refresh/*, not in CI): run.ts <vendor|all> [--fresh] [--limit N] → vendors.ts:refreshVendor (cache CACHE_DIR, sitemaps + extra-urls, crawlHtml vs crawlBrowser batch 4) + alfa.ts:scrapeAlfa + invitro.ts:scrapeInvitro + firecrawl-crawl.ts bridge. run.ts:diffVsBaseline (name-or-URL key) prints matched/changed/unmatched and drift.json. apply.ts <date> [--vendors a,b] price-only merge (identity.ts:mergeRowsPriceOnly) — snapshot price adopted, existing name/url/code/tat kept (propagating h1 renames broke genesis_mappings coverage collapse 2026-08-24), unmatched = discovery for adjudication, kept-stale count persisted, price-snapshot.json {date} bumped, manifest/inputs.json {sha256,size} re-hashed, then intake.ts re-run. Deterministic, git diff review step before apply. - Dropped paths: Playwright for medexpert/sante → Firecrawl CLI (scrapeViaCli retry 3×, scrapeOnce maxBuffer 64MB), still browser for sante full-price <s> handling. Unknown MODEL_API_KEY retry for LLM scrapes — now bounded LLM_MAX_RETRIES 3 + LLM_TIMEOUT_MS 600k (experiment llm-first-run.log timeout cascade). Friction inventory (scrape layer): no retries / no schedule / no timestamp in DB (vendor_offerings/canonical_tests have no scraped_at; vendor_locations does), vendor-coupled HTML/selectors, sitemap size volatility (Sante 311/1135), template URLs (Alfa), duplicate h1s (Synevo Proteina tau LCR 2520 vs 1020). ──────────────────────────────────────────────────────────────────────────────── 4. Intake — deterministic core that absorbed 5 plans intake.ts 2,216 + lib/intake-core.ts:loadLabri/loadMappings/loadVendorScrapes/loadPanelScrapes/loadLocations/parseTatDays/sampleTypeOf/isPanelish/bundleIdFor/buildBundleList + lib/classify.ts + lib/locations.ts:buildBranches + lib/normalize.ts:norm/slugify/tokenOverlap + lib/panel-components.ts:resolvePanelComponents + lib/emit.ts + lib/review.ts. Stages (invariants in check-report.ts + generated-integrity.test.ts): 1. Load & validate vendored (zod labriTestSchema, mappingSchema, V2_FIELDS remap vendor_raw_name/price_mdl/turnaround_time vs synevo legacy, readCategory(breadcrumb_category|category), firstNonEmpty for TAT). 2. Curated overlay (data/curated-tests.json merged into labri map, id-collision warn, CUR_111… → MKT_ via unifyNamespaceId) — removed sibling-repo edit ritual (plan 011 A; first mint CUR_GLU_URINA urine glucose, 2 vendors). 3. Curated mapping veto (data/curated-mappings.json 628 with mktId:null semantics — curatedOwner:null deletes stale genesis offers; sweep deletes 22+ imitators). 4. EXCLUSIVE_TARGETS (MKT_1108 BRCA, MKT_1302 HER2, MKT_1495 neonatal + later EXCLUDED_COLLECTION_ITEMS 7) — rest of 166/158/74 riders drop via keptStale without per-row entry. 5. Genesis/curated owner resolution (applyCuratedBundleArchetypes stable vendor|norm(name) key wins over mergeLlmSynthesis positional B0000 → now hash B<sha256(vendor|name)[:10]> after drift disproved positional. 6. Panel evidence (buildVendorPanelEvidence + resolvePanelComponents exact norm(name_ro)|analyte|code — never invent, unresolved reported, panel_evidence_pending 39). 7. Attribution (assignIntentArchetypes coarseIntent tiroida-baza/extins/mini, lipid-baza/extins, torch-baza etc. grouped by intentKey(name+category), LLM archetypes.json 37 stable, synevo seed, mappingConfidence verified|proposed). 8. Slug registry (curated-slugs.json + deterministic slugify + RESERVED_SLUGS guard + redirect map). 9. Branches (buildBranches deduped slugify vendor-name, canonicalCity, parseTextSchedule/hoursRowsToSchedule, phone split, geo finite check → 145 ). 10. Emit (emitGenerated header Generated at from manifest generated_at not wall-clock, generatedAt/priceAsOf byte-idempotent). 11. Reports (reports/intake-report.json: counts.{canonical 1723, vendor_items 3478, archetypes 37, attribution_changes 12, curated 493, panels_with_evidence 102/without 141}, conflation_audit (>10 names), unmapped_items, vendor_coverage, price_outliers, review_items 19, mapped_but_not_surfaced 1,116 (not yet committed metric)). Reasoning of past fixes (why not alternatives): - Committed generated (ADR 001) vs generate-at-build: offline CI/preview, 4 MB < LFS, vendor.ts --check guards vendored. Cost: regen diffs large — pay with byte-ideterminism. - URL-keyed identity vs name-keyed: names drift (diacritics, renames), URLs stable (except alfa) — collapse same-price variants (keep existing name mappings reference), flag same-URL+different-price collisions, keep stale. - Price-only merge vs full replace: full replace renamed products → genesis mapping miss → coverage collapse 2026-08-24 — price-only keeps identity, discovery goes via adjudication queue. - Winner-preference (resolveMappings labri-informed: single-target=non-panelish, panel-target=panelish) — stopped Pachete medicale 465 / cardiac CK mispricing, unmasked MKT_0518 900 etc. - Whitelist MKT_1618/1077 — live-checked 4010/563 are market spread, not misparse; heuristic bounded. ──────────────────────────────────────────────────────────────────────────────── 5. What was tried with LLMs — granular outcomes ### 5.1 Single-pass whole-corpus synthesis (experiments/single-pass/RESULTS.md:v2, lib/prompt.ts) Setup: harness build-corpus.ts [vendors] [--rows N] distills rows (VENDOR|ROWIDX|name|price|code|tat|category + labri 1,554 + mappings 4,559 + panels) → chunk.ts → synthesize(-chunks).ts (Meta muse-spark-1.2, 1.0 temp, json_schema, maxTokens 64k → max_completion_tokens 131k after probe, llm.ts now sends documented field, LLM_PROVIDER pin). Prices/codes never emitted — copied by index. Calibrated scorer score.ts vs HEAD: 99.7% agreement, Jaccard 1.0, 0 structural (17/5,057 unresolved stale genesis → accepted). Result table (decisive axis = OUTPUT, not input): ┌───────┬────────┬───────────┬────────────┬────────────┬───────────────────────────────────────────────────────────────────────────────┐ │ Rows │ Budget │ In tokens │ Out tokens │ Referenced │ Verdict │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 60 │ 64k │ 16.6k │ 5.0k │ 60/60 │ ✓ │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 150 │ 64k │ 132k │ 12.4k │ 150/150 │ ✓ 83% agree, 0 name mismatches │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 300 │ 64k │ 138k │ 20.4k │ 300/300 │ ✓ 68% exact, 49 invented genetics are wins (pipeline drops alfa single-genes) │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 500 │ 64k │ 145k │ 8.7k │ 81/500 │ ✗ sample │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 500 │ 131k │ 145k │ 8.4k │ 99/500 │ ✗ sample, flat │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 5,057 │ 64k │ 294k │ 2.4-3.6k │ 30-94 │ ✗ 2/2 runs │ ├───────┼────────┼───────────┼────────────┼────────────┼───────────────────────────────────────────────────────────────────────────────┤ │ 5,057 │ 131k │ 294k │ 1.5k │ 51 │ ✗ smaller │ └───────┴────────┴───────────┴────────────┴────────────┴───────────────────────────────────────────────────────────────────────────────┘ Finding falsified: Strict-A single-pass (≈1,400 tests + 5k refs, 294k in) is behaviorally refused beyond ~300-500 objects regardless of budget (verified max_completion_tokens:131072 accepted, probe max_tokens alias). Model samples schema shapes. DeepSeek chapter (deepseek/deepseek-v4-flash-0731 OpenRouter, 393k out): Pinned LLM_PROVIDER=DeepSeek → 495/500 ✓ (~50k out); unpinned (= dynamic provider) → ~1 test bail. Whole 5,057 still impossible (~600k out >393k). Alfa-500 completes, Synevo-500 bails at 500→250 even with lenient schema + allergen rule (0 tests, 121 tokens) — data-dependent bail on synevo dense allergen fx/gx near-duplicates (30% density, zero codes). 17-chunk E2E proof abandoned after ~8 retries. Takeaway: chunked 300-500 × 17-34 parallel + trivial merge is viable (+ provider pin mandatory), synevo needs per-vendor fallback. Open product Q: alfa's ~1,900 single-gene genetics — pipeline drops, model surfaces. Catalog policy, not harness. ### 5.2 LLM-first sandbox (experiments/llm-first/REPORT.md 2026-08-19, lib/review-prompt.ts) Pretends labri is intact; replaces only the mapping layer. ``` [A] 500-row chunks (17×8079) — batched ingest coverage≥99% (re-batch halves →.escalated.json) [B] merge + invariants (HEAD-keyed ids: exact HEAD name→ fuzzy ≥0.7→ labri mkt_id→ mint; 4-tuple (name,specimen) dedup, 0 collisions) — id-preservation 100% overlap (334 exact+28 fuzzy of 495), 133 genuinely-new mints [C] reviewer — batch 500: MISSED planted alfa|20 Acid uric→allergen + 7 noisy (spelling/acetonă specimen); per-test (1 canonical+its rows, ~8/call): CAUGHT (high, MKT_0057) + 2 real (fx70 vs fx4, cuișoare vs ienibahar) [C'] precision 30→80-90% after "spelling/diacritic = SAME" rule; 62 batches 61k in/36.7k out → 10 findings (bean f15→beech t5, IgG vs IgE, f14 vs f259, fungus species) [D] fix loop high-confidence only, revalidated 100% queue: review-queue.ts findings→pending.json kind:test source:llm-review-per-test 605→615 idempotent ``` Synevo bail Track B fallback-source.ts: inject HEAD committed vendor-catalogs+canonical+archetypes via existing genesis→curated links for bailing vendor; 1,393 rows → 428 tests, 100% HEAD-id, 18 arch, 599 unmapped (HEAD-faithful), 88.5% agreement, 0 name mismatches. Cost: Track A 2 calls ~$0.2, Track B no extra LLM. Verdict: deterministic core + per-test review + escalation-only fix is migration candidate; batch reviewer never sufficient. ### 5.3 Production adjudication (plans/011, adjudicate/run.ts Shadow/Eval, validators.ts, lib/llm.ts a0287c7) Prompt per row: sibling canonicals (name/specimen/price) + similar adjudicated examples + breadcrumb + catalog context. specimenConsistent blood↔urine fails, NON_TEST_RE services, tokenOverlap Jaccard + STOP list, nameTokens 3-char filter, price band 3× (tighter than consensus 5×), near-duplicate≥0.9 before policy gate. Validators invert model confidence: ┌──────────┬──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────┐ │ Decision │ Gates │ Status │ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────┤ │ remap │ target exists + specimen consistent + ambiguity guard (otherScore > chosen OR ≥chosen×0.85 & diff<0.34 → demote hs-CRP vs CRP trap) + │ accept/demote/fail │ │ │ price within 3× band │ │ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────┤ │ mint │ bilingual name_ro+name_en + overlap<0.9 vs all canons + single-vendor only if high │ accept/demote/fail │ ├──────────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────┤ │ reject │ service signal in `raw_name │ breadcrumborevidence` mentions │ │ │ │ it │ └──────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────┘ Shadow engine (run.ts shadow: 60→ 38 accept/22 demote/0 fail ~26k tokens $0.1 + one false reject "Screening Hepatite B și C" caught). **Holdout `eval`:** `CUR_/MKT_` unified + 113 stale-target pins excluded → `reject 100% (10/10)` autonomous, `remap 33% exact (~65% effective)` misses = near-duplicate variant picks + specificity mints (remap stays shadow), `mint 16/22` single-vendor demoted pending rarity policy. Migration a0287c7 after Meta block: stealth/ox-alpha via OpenRouter — llm.ts bare-root → /chat/completions, body-read-once retry on unparseable 200 HTML, decisionEnvelope normalizer (decisions|dispositions|results + bare object), eval n=40 parse-fail 26→0, remap 78% exact +17 validator saves/4 wrong-lands (specificity mints duplicating canons) — still under 90% bar. Landings: 417 backlog adjudicated (~280k tokens) → 64 accept/342 demote/8 fail, 2 apply batches → 46 vetoes (canonical 1,359→1,523, invitro 67→78%, me 64→75.6%, sa 54→60.4%), queue 448→395 (276 single-vendor mints parked). apply subcommand writes ordinary curated-mappings.json vetoes — intake unchanged, gates own. ──────────────────────────────────────────────────────────────────────────────── 6. Info architecture — how the app consumes the data Stack: bun 1.3.14 + turbo + Next 16.3 App Router (proxy.ts rewrites /→/ro, canonicalizes NEXT_PUBLIC_SITE_URL), packages/ui shadcn, server-only mock-data.ts. Generated at build (apps/web/lib/data/generated/* is the only data source): catalogMap (id→CatalogItem), vendorCatalogs (vendor→VendorCatalogItem[] cached Map), labProfiles (getVendorCatalog+getVendorMeta → LabStats {categories minPrice popularItems testCount turnaroundDays}), slugRegistry. Routes (app/[lang]/(app)/* thin components/pages/*-route.tsx re-exports Option A): ┌─────────────────────────────────────────┬───────────────────────────────────────────────────────────────────────────────┬─────────────────────────────────────────────────────────────┐ │ URL (ro ↔ en) │ Data read │ Client state │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /analize ↔ /tests (listing) │ getFilteredWithoutSort (keyword from normalize("NFD")+romanian cedilla + │ — │ │ │ classifyCategory fallback) + searchCatalog linear filter(...includes) (5k) — │ │ │ │ N-01 server trie deferred │ │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /analize/[slug] ↔ /tests/[slug] │ unifiedItemId→CatalogItem + offers[] │ use-lists.ts Zustand+localStorage (10 lists, activeListId, │ │ │ │ VendorSavedItem hostile __proto__ guard, │ │ │ │ parseVendorRefsParam safe), storage sync │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /profiluri/[slug] ↔ /panels/[slug] │ panelArchetype.referenceComponentIds + panelComponents per vendor │ PanelCarousel, ConcernGrid │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /laboratoare/[id] ↔ /labs/[id] │ labProfiles.stats + branches (city, geo, schedule, phoneNumbers) │ — │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /laboratoare/[id]/analize/[itemId]/orde │ VendorCatalogItem + collection fee (`EXTRACTION_SAMPLE_TYPES blood │ swab, COLLECTION_FEES invitro blood 30 swab 75`) │ │ r ↔... │ │ │ ├─────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────────────┼─────────────────────────────────────────────────────────────┤ │ /compare, /categorii/[slug], │ compare.test.ts, getBestBundle │ use-lists-mutations │ │ /profiluri, /liste, /ordine │ │ │ └─────────────────────────────────────────┴───────────────────────────────────────────────────────────────────────────────┴─────────────────────────────────────────────────────────────┘ i18n: next-intl, URL skeletons ro/en, messages apps/web/messages/{en,ro}.json 680 leaves + parity.test.ts leaf-key gate (plan 018), client-messages.ts safe. SEO: sitemap.ts / opengraph-image.tsx bake SITE_URL, hreflang alternates, slug is SEO surface (ids never in URL, redirects via registry). Gates: verify (vendor.ts --check + pipeline tests + check-report.ts + typecheck + test 256 + ultracite + build + check:size 620/100 KB + lighthouserc 0.70/0.95/0.95/0.95), verify:quick, /health {"ok":true} proxy-excluded, PostHog opt_out_capturing_by_default + capture_exceptions, CSP/HSTS headers. ──────────────────────────────────────────────────────────────────────────────── 7. Decisions & reasoning — why we kept what we kept ┌────────────────────────────────────────────────────────────┬────────────────────────┬───────────────────────────────────────────┬─────────────────────────────────────────────────────┐ │ Decision │ Alternative rejected │ Reason kept │ Evidence │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Committed 4 MB (ADR 001 D-02) │ generate at build / │ Offline CI/preview, deterministic │ emit.ts + vendor.ts --check │ │ │ LFS │ │ │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ intake.ts god-module slice by slice (019) not rewrite │ big-bang refactor │ Byte-idempotency must hold each slice │ locations.ts extracted 251 lines, git diff │ │ │ │ │ branches.ts 0 │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Byte-idempotency via SOURCE_DATE_EPOCH else manifest │ wall-clock │ git diff freshness gate would never pass │ Plan 006 C │ │ generated_at │ │ │ │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ URL-keyed merge │ name-keyed │ Names drift, URLs stable │ Collapse experiment 2026-08-12/13, identity.ts │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Price-only apply │ full snapshot replace │ Rename broke genesis_mappings coverage │ Observed 2026-08-24 collapse │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Hash B<sha…> vs sequential B0000 │ stable? no │ Insertion drift dangled every tail │ One-mapping-fix displaced all later ids │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Consensus outlier 3/3×/5× ratchet │ bounds only │ Order-of-magnitude on commoditized test │ generated-integrity BASELINE 11 │ │ │ │ is bug │ │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ LLM adjudication shadow + validator outrank + gate revert │ LLM at crawl time │ Data is batch, gates cheap │ Plan 011 C thresholds reject 95/remap 90/mint 85 │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ Meta→ox-alpha via OpenRouter │ fix Meta filter │ Medical-content filter on account │ Holdout 26→0 parse fails │ ├────────────────────────────────────────────────────────────┼────────────────────────┼───────────────────────────────────────────┼─────────────────────────────────────────────────────┤ │ 11-entry puncture whitelist │ raw 132 │ 121 noise (injections, panels) │ types.ts:PUNCTURE_FEES_WHITELIST │ └────────────────────────────────────────────────────────────┴────────────────────────┴───────────────────────────────────────────┴─────────────────────────────────────────────────────┘ Deferred / intentional debt: 005 deduped 16 files Option A (keep dirs, thin re-exports) — helpers in components/pages/*. 002 hono/js-yaml/nanoid overrides, headers. 003 1.9 MB leak guard server-only. 021-023 static-first (ƒ 76%→● generateStaticParams per slug), monorepo @workspace/* (move generated/schema/catalog), bundle <550 KB + Suspense + cacheComponents readiness — planned on 3c331a6. ──────────────────────────────────────────────────────────────────────────────── 8. What the specialist should solve ground-up — prompts 1. Is labri.catalog.json the right primitive? It encodes 4-tuple identity (analyte|fraction|specimen|immunoglobulin) + is_panel but category empty and lore is implicit. Ground-up alternative: event-sourced canonical with provenance (imported vs minted vs split from MKT_x at date y) + explicit tuple_key UNIQUE + audit trail (vendor_offerings.offering_key content-hash exists but no history). Current overlay curated-tests.json is already event-sourced handmint — formalize it or replace it. 2. Genetics breadth policy: Should alfa's ~1,900 single-gene CEG-nonfiltered genetics be catalog citizens? If yes, model a genetics-panel family (cheaper than per-gene MKT) vs per-gene MKT (current labri per-gene). This single product decision explains alfa unmapped 2,012 and coverage 0.42. 3. Conflation as learning, not vetting: Genesis LLM taught us labri is already contaminated (MKT_1108 lists Stargardt synonym, MKT_1495 fuse, MKT_0016 vitamins). A ground-up synthesis should learn canonical set from raw + labri jointly (as llm-first does), not map into labri and veto afterwards. The specialist can design the chunk(300)×17 + merge(HEAD-keyed) + per-test review tenure. 4. Panel model mismatch: labri.component_ids (13 archetypes only) vs vendor bundle pages (authoritative) vs archetype.referenceComponentIds (curated typical). Who is source? Propose source-of-truth = vendor page components per archetype majority vote + validator that referenceComponentIds quorum ≥2 vendors. 5. Freshness contract: Today priceAsOf per-offer + price_snapshot.json date + keptStale count, but no offering.created_at/updated_at DB columns (analize-md had them only for vendor_locations) and no cron. Specialist to design retention: keep N snapshots, GC policy, sitemap size monotonic alarm (Sante 311 drop would alert), and whether Firecrawl is durable vs lab price API hunt (Alfa AJAX index is already an API — others may have one). All prior tries are reproducible via: bun run scripts/pipeline/vendor.ts --check, bun run scripts/pipeline/intake.ts (byte-idempotent), bunx vitest -p generated-integrity, bun run scripts/pipeline/adjudicate/run.ts shadow|eval, bun run scripts/pipeline/experiments/single-pass/* (scratch, gitignored), bun --cwd apps/web build (prints ○/●/ƒ). --- This is the shit I am dealing with. Let's solve it gracefully and simply. Ask questions or any input if you need.
+
+What if we reframe the problem? What if we use agentic autoresearch loops?
+
+But how might we avoid the bias of already tried things and figure the most elegant solution from ground up? E.g. looking and inspecting the live vendor website or looking at the raw scrape output?
+
+Also, I will start fresh in a Astro + Shadcn monorepo; I prioritize SEO, catalog accuracy and customer delight.
+
