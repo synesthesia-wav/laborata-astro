@@ -14,7 +14,7 @@
     "format": "turbo format",
     "postinstall": "node scripts/patch-astro-cookie.mjs || true",
     "lint": "turbo lint",
-    "prepare": "lefthook install",
+    "prepare": "lefthook install || true",
     "typecheck": "turbo typecheck"
   },
   "dependencies": {
