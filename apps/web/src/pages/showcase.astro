@@ -1,9 +1,18 @@
 ---
+import { TestCard } from "@workspace/blocks/test-card";
+import { TestCarouselCard } from "@workspace/blocks/test-carousel-card";
+import { TestsCarousel } from "@workspace/blocks/tests-carousel";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
 import { Skeleton } from "@workspace/ui/components/skeleton";
-import { TestCard } from "@workspace/blocks/test-card";
 import StateFrame from "../components/playground/StateFrame.astro";
 import PlaygroundLayout from "../layouts/playground.astro";
 
@@ -13,53 +22,198 @@ const longTitle =
   "Analiză completă a sângelui cu 47 de parametri, inclusiv profilul lipidic extins și raport detaliat — hemoleucogramă, VSH, protrombină, fibrinogen și markeri inflamatori cronici";
 const longDescription =
   "Rezultatele sunt disponibile în 24–48 ore lucrătoare, cu interpretare clinică și recomandări personalizate. Proba: sânge venos à jeun.";
+
+const demoImage = "https://picsum.photos/seed/laborata-test/600/600";
+const demoImages = [
+  "https://picsum.photos/seed/labo1/600/600",
+  "https://picsum.photos/seed/labo2/600/600",
+  "https://picsum.photos/seed/labo3/600/600",
+  "https://picsum.photos/seed/labo4/600/600",
+  "https://picsum.photos/seed/labo5/600/600",
+  "https://picsum.photos/seed/labo6/600/600",
+];
+
+const carouselItems = demoImages.map((src, i) => ({
+  description:
+    i % 2 === 0 ? "Sânge venos • 24h • 47 parametri" : longDescription,
+  imageSrc: src,
+  key: `demo-${i}`,
+  priceMdl: 120 + i * 85,
+  title: i === 1 ? longTitle : `Hemoleucogramă completă ${i + 1}`,
+}));
+
+const carouselLongItems = [
+  {
+    description: longDescription,
+    imageSrc: demoImage,
+    key: "long-0",
+    priceMdl: 1250,
+    title: longTitle,
+  },
+  {
+    description: longDescription,
+    imageSrc: demoImage,
+    key: "long-1",
+    priceMdl: 290,
+    title: "Vitamina D 25-OH",
+  },
+  {
+    description:
+      "link-ul nu trebuie să împingă butonul în afara ecranului la 320px",
+    imageSrc: demoImage,
+    key: "long-2",
+    priceMdl: 120,
+    title: unbreakable,
+  },
+];
 ---
 
-<PlaygroundLayout title="Laborata — Single Test Card" description="Showcase for TestCard — light only. Every state side-by-side with unique ids.">
+<PlaygroundLayout
+  description="Showcase for TestCard + TestCarouselCard + TestsCarousel — light only. Every state side-by-side with unique ids."
+  title="Laborata — Cards & Carousel"
+>
   <div class="flex min-w-0 flex-col gap-8">
     <div class="flex flex-col gap-2 rounded-xl border bg-card p-5 shadow-sm">
-      <h2 class="font-heading text-lg font-semibold tracking-tight">Single Test Card — showcase</h2>
+      <h2 class="font-heading text-lg font-semibold tracking-tight">
+        Cards & Tests Carousel — showcase
+      </h2>
       <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
-        One real component — <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">TestCard</code> from
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">@workspace/blocks/test-card</code>
-        — with real tokens via <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">globals.css</code>.
-        Light only. Each frame has a unique <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">id</code>. Test at <strong>320px</strong> and desktop.
+        Real components —
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >TestCard</code
+        >
+        from
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >@workspace/blocks/test-card</code
+        >
+        and
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >TestCarouselCard</code
+        >
+        /
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >TestsCarousel</code
+        >
+        — with real tokens via
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >globals.css</code
+        >. Light only. Each frame has a unique
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">id</code>.
+        Test at <strong>320px</strong> and desktop. Carousel uses
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >embla</code
+        >
+        via
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >@workspace/ui/components/carousel</code
+        >.
+      </p>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- TestCard — existing matrix (kept for regression) -->
+    <!-- ===================================================== -->
+    <div class="flex flex-col gap-1.5 rounded-xl border bg-card p-3">
+      <h2 class="font-heading text-sm font-semibold tracking-tight">
+        TestCard — regression matrix (avatar-style)
+      </h2>
+      <p class="text-xs text-muted-foreground">
+        Kept to ensure existing component still passes after carousel addition.
       </p>
     </div>
 
     <div class="flex min-w-0 flex-col gap-2">
-      <h2 class="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground">320px + breakpoints</h2>
+      <h2
+        class="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground"
+      >
+        TestCard — 320px + breakpoints
+      </h2>
       <div class="grid min-w-0 gap-4 md:grid-cols-3">
-        <StateFrame description="If this overflows, fails shadscan --check-ui at 320x820." id="testcard-bp-320" title="320px clamped" width="320px">
-          <TestCard id="testcard-bp-320-card" title={longTitle} description={longDescription} priceMdl={1250} vendor="Synevo" />
+        <StateFrame
+          description="If this overflows, fails shadscan --check-ui at 320x820."
+          id="testcard-bp-320"
+          title="320px clamped"
+          width="320px"
+        >
+          <TestCard
+            description={longDescription}
+            id="testcard-bp-320-card"
+            priceMdl={1250}
+            title={longTitle}
+            vendor="Synevo"
+          />
         </StateFrame>
-        <StateFrame description="Mid breakpoint — grid reflows." id="testcard-bp-768" title="768px card" width="768px">
+        <StateFrame
+          description="Mid breakpoint — grid reflows."
+          id="testcard-bp-768"
+          title="768px card"
+          width="768px"
+        >
           <div class="grid grid-cols-2 gap-3">
-            <TestCard id="testcard-bp-768-a" title="Hemoleucogramă" description="47 parametri" priceMdl={320} vendor="Synevo" />
-            <TestCard id="testcard-bp-768-b" title="Profil lipidic" description="8 parametri" priceMdl={480} vendor="Invitro" />
+            <TestCard
+              description="47 parametri"
+              id="testcard-bp-768-a"
+              priceMdl={320}
+              title="Hemoleucogramă"
+              vendor="Synevo"
+            />
+            <TestCard
+              description="8 parametri"
+              id="testcard-bp-768-b"
+              priceMdl={480}
+              title="Profil lipidic"
+              vendor="Invitro"
+            />
           </div>
         </StateFrame>
-        <StateFrame description="Desktop — no document horizontal scroll." id="testcard-bp-1440" title="1440px wide" width="100%">
-          <div class="flex items-center justify-between gap-4 rounded-lg border bg-muted/50 p-3">
-            <span class="text-sm font-medium">1440px shell is max-w-[1600px] + px-6.</span><Badge variant="secondary">OK</Badge>
+        <StateFrame
+          description="Desktop — no document horizontal scroll."
+          id="testcard-bp-1440"
+          title="1440px wide"
+          width="100%"
+        >
+          <div
+            class="flex items-center justify-between gap-4 rounded-lg border bg-muted/50 p-3"
+          >
+            <span class="text-sm font-medium"
+              >1440px shell is max-w-[1600px] + px-6.</span
+            ><Badge variant="secondary">OK</Badge>
           </div>
         </StateFrame>
       </div>
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">No data / One / Many</h2>
+      <h2 class="font-heading text-sm font-semibold">
+        TestCard — No data / One / Many
+      </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame description="Empty — no test to show." id="testcard-empty-none" title="No data — Empty">
-          <div class="flex flex-col items-center gap-3 rounded-xl border border-dashed p-6 text-center">
-            <div class="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">⌕</div>
+        <StateFrame
+          description="Empty — no test to show."
+          id="testcard-empty-none"
+          title="No data — Empty"
+        >
+          <div
+            class="flex flex-col items-center gap-3 rounded-xl border border-dashed p-6 text-center"
+          >
+            <div
+              class="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground"
+            >
+              ⌕
+            </div>
             <p class="text-sm font-medium">Nu există analize</p>
             <p class="text-xs text-muted-foreground">Lista ta este goală.</p>
             <Button size="sm" client:load>Adaugă analiză</Button>
           </div>
         </StateFrame>
         <StateFrame id="testcard-one" title="One — TestCard">
-          <TestCard id="testcard-one-card" title="Vitamina D 25-OH" description="Sânge venos • 1 zi" priceMdl={290} vendor="Synevo" />
+          <TestCard
+            description="Sânge venos • 1 zi"
+            id="testcard-one-card"
+            priceMdl={290}
+            title="Vitamina D 25-OH"
+            vendor="Synevo"
+          />
         </StateFrame>
         <StateFrame id="testcard-many" title="Many — 6 cards, gap-based">
           <div class="grid gap-3 sm:grid-cols-2">
@@ -72,82 +226,570 @@ const longDescription =
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">Loading / Error / Disabled / Permission-denied</h2>
+      <h2 class="font-heading text-sm font-semibold">
+        TestCard — Loading / Error / Disabled / Permission-denied
+      </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-4">
         <StateFrame id="testcard-loading" title="Loading — Skeleton">
-          <TestCard id="testcard-loading-card" title="Se încarcă" loading />
+          <TestCard id="testcard-loading-card" loading title="Se încarcă" />
         </StateFrame>
         <StateFrame id="testcard-error" title="Error — retry present">
-          <TestCard id="testcard-error-card" title="TSH" error="Nu am putut încărca prețurile" onRetry={() => {}} />
+          <TestCard
+            error="Nu am putut încărca prețurile"
+            id="testcard-error-card"
+            onRetry={() => {}}
+            title="TSH"
+          />
         </StateFrame>
-        <StateFrame id="testcard-disabled" title="Disabled — no duplicate submit">
-          <TestCard id="testcard-disabled-card" title="Glucoză serică" description="Sânge venos" priceMdl={120} disabled />
+        <StateFrame
+          id="testcard-disabled"
+          title="Disabled — no duplicate submit"
+        >
+          <TestCard
+            description="Sânge venos"
+            disabled
+            id="testcard-disabled-card"
+            priceMdl={120}
+            title="Glucoză serică"
+          />
         </StateFrame>
         <StateFrame id="testcard-permission-denied" title="Permission-denied">
-          <TestCard id="testcard-permission-card" title="Hemoleucogramă" permissionDenied />
+          <TestCard
+            id="testcard-permission-card"
+            permissionDenied
+            title="Hemoleucogramă"
+          />
         </StateFrame>
       </div>
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">Text stress — normal / very long / unbreakable</h2>
+      <h2 class="font-heading text-sm font-semibold">
+        TestCard — Text stress — normal / very long / unbreakable
+      </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame id="testcard-text-normal" title="Normal">
-          <TestCard id="testcard-text-normal-card" title="Glucoză serică" description={longDescription} priceMdl={120} vendor="Synevo" />
+          <TestCard
+            description={longDescription}
+            id="testcard-text-normal-card"
+            priceMdl={120}
+            title="Glucoză serică"
+            vendor="Synevo"
+          />
         </StateFrame>
-        <StateFrame id="testcard-text-very-long" title="Very long — truncates, button stays">
-          <TestCard id="testcard-text-very-long-card" title={longTitle} description="Hemoleucograma completă cu formulă leucocitară detaliată, interpretare hematologică și corelare cu tabloul clinic al pacientului în contextul investigațiilor de rutină." priceMdl={1250} vendor="Synevo" />
+        <StateFrame
+          id="testcard-text-very-long"
+          title="Very long — truncates, button stays"
+        >
+          <TestCard
+            description="Hemoleucograma completă cu formulă leucocitară detaliată, interpretare hematologică și corelare cu tabloul clinic al pacientului în contextul investigațiilor de rutină."
+            id="testcard-text-very-long-card"
+            priceMdl={1250}
+            title={longTitle}
+            vendor="Synevo"
+          />
         </StateFrame>
-        <StateFrame id="testcard-text-unbreakable" title="Unbreakable — break-all, no overflow">
-          <TestCard id="testcard-text-unbreakable-card" title={unbreakable} description="link-ul nu trebuie să împingă butonul în afara ecranului la 320px" priceMdl={120} vendor="Synevo" />
+        <StateFrame
+          id="testcard-text-unbreakable"
+          title="Unbreakable — break-all, no overflow"
+        >
+          <TestCard
+            description="link-ul nu trebuie să împingă butonul în afara ecranului la 320px"
+            id="testcard-text-unbreakable-card"
+            priceMdl={120}
+            title={unbreakable}
+            vendor="Synevo"
+          />
         </StateFrame>
       </div>
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">Missing image / Very large number / Incomplete data</h2>
+      <h2 class="font-heading text-sm font-semibold">
+        TestCard — Missing image / Very large number / Incomplete data
+      </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame id="testcard-missing-image" title="Missing image — fallback">
-          <TestCard id="testcard-missing-image-card" title="Synevo" description="Logo lipsă → fallback vizibil" priceMdl={290} vendor="Synevo" />
+        <StateFrame
+          id="testcard-missing-image"
+          title="Missing image — fallback"
+        >
+          <TestCard
+            description="Logo lipsă → fallback vizibil"
+            id="testcard-missing-image-card"
+            priceMdl={290}
+            title="Synevo"
+            vendor="Synevo"
+          />
         </StateFrame>
-        <StateFrame id="testcard-missing-image-empty" title="Missing image — src empty">
-          <TestCard id="testcard-missing-image-empty-card" title="Invitro" description="src gol" priceMdl={310} vendor="Invitro" imageSrc="" />
+        <StateFrame
+          id="testcard-missing-image-empty"
+          title="Missing image — src empty"
+        >
+          <TestCard
+            description="src gol"
+            id="testcard-missing-image-empty-card"
+            imageSrc=""
+            priceMdl={310}
+            title="Invitro"
+            vendor="Invitro"
+          />
         </StateFrame>
-        <StateFrame id="testcard-large-number" title="Very large number — Badge, no raw color">
-          <TestCard id="testcard-large-number-card" title="Total coș" description="1 234 567 MDL nu sparge layout-ul" priceMdl={1234567} vendor="Alfa" />
+        <StateFrame
+          id="testcard-large-number"
+          title="Very large number — Badge, no raw color"
+        >
+          <TestCard
+            description="1 234 567 MDL nu sparge layout-ul"
+            id="testcard-large-number-card"
+            priceMdl={1234567}
+            title="Total coș"
+            vendor="Alfa"
+          />
         </StateFrame>
       </div>
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">Incomplete data</h2>
+      <h2 class="font-heading text-sm font-semibold">
+        TestCard — Incomplete data
+      </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-2">
         <StateFrame id="testcard-incomplete" title="Incomplete — graceful">
-          <TestCard id="testcard-incomplete-card" title="TSH" description="Proba: — • Termen: necunoscut" priceMdl={null} vendor="Synevo" />
+          <TestCard
+            description="Proba: — • Termen: necunoscut"
+            id="testcard-incomplete-card"
+            priceMdl={null}
+            title="TSH"
+            vendor="Synevo"
+          />
         </StateFrame>
-        <StateFrame id="testcard-incomplete-no-vendor" title="Incomplete — no vendor">
-          <TestCard id="testcard-incomplete-no-vendor-card" title="TSH" description="Fără laborator" priceMdl={null} />
+        <StateFrame
+          id="testcard-incomplete-no-vendor"
+          title="Incomplete — no vendor"
+        >
+          <TestCard
+            description="Fără laborator"
+            id="testcard-incomplete-no-vendor-card"
+            priceMdl={null}
+            title="TSH"
+          />
+        </StateFrame>
+      </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- TestCarouselCard — 1:1 image card -->
+    <!-- ===================================================== -->
+    <div class="flex flex-col gap-1.5 rounded-xl border bg-card p-3">
+      <h2 class="font-heading text-sm font-semibold tracking-tight">
+        TestCarouselCard — 1:1 image, title/body/price + 2 buttons (Add to cart
+        + Compare)
+      </h2>
+      <p class="text-xs leading-relaxed text-muted-foreground">
+        Uses
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">Card</code>
+        +
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >AspectRatio ratio=1</code
+        >
+        +
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >Badge secondary</code
+        >
+        +
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >Button default+outline</code
+        >. Tokens only:
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >bg-card</code
+        >
+        /
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >text-muted-foreground</code
+        >
+        /
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >bg-muted</code
+        >
+        fallback /
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >ring-foreground/5</code
+        >. Icons
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >RiShoppingCartLine</code
+        >
+        +
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >RiScalesLine</code
+        >
+        via
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >data-icon=inline-start</code
+        >.
+      </p>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-2">
+      <h2
+        class="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground"
+      >
+        CarouselCard — 320px + breakpoints
+      </h2>
+      <div class="grid min-w-0 gap-4 md:grid-cols-3">
+        <StateFrame
+          description="320px — clamped, image 1:1, two buttons fit, no overflow."
+          id="ccard-bp-320"
+          title="320px clamped"
+          width="320px"
+        >
+          <TestCarouselCard
+            description={longDescription}
+            id="ccard-bp-320-card"
+            imageSrc={demoImage}
+            priceMdl={1250}
+            title={longTitle}
+          />
+        </StateFrame>
+        <StateFrame
+          description="768px — two cards side-by-side."
+          id="ccard-bp-768"
+          title="768px grid"
+          width="768px"
+        >
+          <div class="grid grid-cols-2 gap-3">
+            <TestCarouselCard
+              description="47 parametri • 24h"
+              id="ccard-bp-768-a"
+              imageSrc={demoImages[0]}
+              priceMdl={320}
+              title="Hemoleucogramă"
+            />
+            <TestCarouselCard
+              description="8 parametri"
+              id="ccard-bp-768-b"
+              imageSrc={demoImages[1]}
+              priceMdl={480}
+              title="Profil lipidic extins"
+            />
+          </div>
+        </StateFrame>
+        <StateFrame
+          description="Desktop — single card in wide shell."
+          id="ccard-bp-1440"
+          title="1440px wide"
+          width="100%"
+        >
+          <div
+            class="flex items-center justify-between gap-4 rounded-lg border bg-muted/50 p-3"
+          >
+            <span class="text-sm font-medium"
+              >Card max-width handled by carousel basis at 1440px.</span
+            ><Badge variant="secondary">OK</Badge>
+          </div>
         </StateFrame>
       </div>
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">Skeleton & Badge checks</h2>
+      <h2 class="font-heading text-sm font-semibold">
+        CarouselCard — No data / One / Many (static grid)
+      </h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
+        <StateFrame
+          description="Empty — no test to show inside carousel."
+          id="ccard-empty-none"
+          title="No data — Empty"
+        >
+          <TestsCarousel
+            description="Nu există analize pentru acest filtru."
+            idPrefix="ccard-empty-carousel"
+            items={[]}
+            title="Teste populare"
+          />
+        </StateFrame>
+        <StateFrame id="ccard-one" title="One — single 1:1 card">
+          <TestCarouselCard
+            description="Sânge venos • 1 zi • 25-OH"
+            id="ccard-one-card"
+            imageSrc={demoImage}
+            priceMdl={290}
+            title="Vitamina D 25-OH"
+          />
+        </StateFrame>
+        <StateFrame id="ccard-many" title="Many — 6 cards static grid">
+          <div class="grid gap-3 sm:grid-cols-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <TestCarouselCard id={`ccard-many-${i}`} title={`Analiză ${i + 1}`} description="Descriere scurtă • probă sânge" priceMdl={120 + i * 40} imageSrc={demoImages[i % demoImages.length]} />
+            ))}
+          </div>
+        </StateFrame>
+      </div>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        CarouselCard — Loading / Error / Disabled / Permission-denied
+      </h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-4">
+        <StateFrame id="ccard-loading" title="Loading — Skeleton 1:1">
+          <TestCarouselCard
+            id="ccard-loading-card"
+            loading
+            title="Se încarcă"
+          />
+        </StateFrame>
+        <StateFrame id="ccard-error" title="Error — retry present">
+          <TestCarouselCard
+            error="Nu am putut încărca prețurile"
+            id="ccard-error-card"
+            onRetry={() => {}}
+            title="TSH"
+          />
+        </StateFrame>
+        <StateFrame id="ccard-disabled" title="Disabled — no duplicate submit">
+          <TestCarouselCard
+            description="Sânge venos • à jeun"
+            disabled
+            id="ccard-disabled-card"
+            imageSrc={demoImage}
+            priceMdl={120}
+            title="Glucoză serică"
+          />
+        </StateFrame>
+        <StateFrame id="ccard-permission-denied" title="Permission-denied">
+          <TestCarouselCard
+            id="ccard-permission-card"
+            permissionDenied
+            title="Hemoleucogramă"
+          />
+        </StateFrame>
+      </div>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        CarouselCard — Text stress — normal / very long / unbreakable
+      </h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
+        <StateFrame id="ccard-text-normal" title="Normal">
+          <TestCarouselCard
+            description={longDescription}
+            id="ccard-text-normal-card"
+            imageSrc={demoImage}
+            priceMdl={120}
+            title="Glucoză serică"
+          />
+        </StateFrame>
+        <StateFrame
+          id="ccard-text-very-long"
+          title="Very long — line-clamp-2, buttons stay"
+        >
+          <TestCarouselCard
+            description="Hemoleucograma completă cu formulă leucocitară detaliată, interpretare hematologică și corelare cu tabloul clinic al pacientului în contextul investigațiilor de rutină."
+            id="ccard-text-very-long-card"
+            imageSrc={demoImage}
+            priceMdl={1250}
+            title={longTitle}
+          />
+        </StateFrame>
+        <StateFrame
+          id="ccard-text-unbreakable"
+          title="Unbreakable — break-all, no overflow"
+        >
+          <TestCarouselCard
+            description="link-ul nu trebuie să împingă butonul în afara ecranului la 320px"
+            id="ccard-text-unbreakable-card"
+            imageSrc={demoImage}
+            priceMdl={120}
+            title={unbreakable}
+          />
+        </StateFrame>
+      </div>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        CarouselCard — Missing image / Very large number / Incomplete + Compare
+        states
+      </h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-4">
+        <StateFrame
+          id="ccard-missing-image"
+          title="Missing image — fallback initials"
+        >
+          <TestCarouselCard
+            description="Logo lipsă → fallback vizibil cu inițiale"
+            id="ccard-missing-image-card"
+            priceMdl={290}
+            title="Synevo Hemoleucogramă"
+          />
+        </StateFrame>
+        <StateFrame
+          id="ccard-missing-image-empty"
+          title="Missing image — src empty"
+        >
+          <TestCarouselCard
+            description="src gol → fallback"
+            id="ccard-missing-image-empty-card"
+            imageSrc=""
+            priceMdl={310}
+            title="Invitro"
+          />
+        </StateFrame>
+        <StateFrame
+          id="ccard-large-number"
+          title="Very large number — Badge, no raw color"
+        >
+          <TestCarouselCard
+            description="1 234 567 MDL nu sparge layout-ul"
+            id="ccard-large-number-card"
+            imageSrc={demoImage}
+            priceMdl={1234567}
+            title="Total coș"
+          />
+        </StateFrame>
+        <StateFrame
+          id="ccard-compare-active"
+          title="Compare — active secondary"
+        >
+          <TestCarouselCard
+            description="Comparat → variant secondary"
+            id="ccard-compare-active-card"
+            imageSrc={demoImage}
+            isComparing
+            priceMdl={210}
+            title="TSH"
+          />
+        </StateFrame>
+      </div>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        CarouselCard — Incomplete data
+      </h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-2">
-        <StateFrame id="testcard-skeleton-detail" title="Skeleton detail">
-          <Card className="min-w-0">
-            <CardHeader>
-              <div class="flex items-center gap-3">
-                <Skeleton className="size-10 rounded-full" />
-                <div class="flex flex-col gap-2"><Skeleton className="h-3 w-24" /><Skeleton className="h-3 w-32" /></div>
-              </div>
-            </CardHeader>
-            <CardContent><Skeleton className="h-8 w-full rounded-lg" /></CardContent>
+        <StateFrame
+          id="ccard-incomplete"
+          title="Incomplete — price null → disabled Add"
+        >
+          <TestCarouselCard
+            description="Proba: — • Termen: necunoscut"
+            id="ccard-incomplete-card"
+            imageSrc={demoImage}
+            priceMdl={null}
+            title="TSH"
+          />
+        </StateFrame>
+        <StateFrame
+          id="ccard-incomplete-no-image"
+          title="Incomplete — no image + no price"
+        >
+          <TestCarouselCard
+            description="Fără laborator, fără preț"
+            id="ccard-incomplete-no-image-card"
+            priceMdl={null}
+            title="TSH"
+          />
+        </StateFrame>
+      </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- TestsCarousel — full carousel with many slides -->
+    <!-- ===================================================== -->
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        TestsCarousel — live carousel (embla)
+      </h2>
+      <StateFrame
+        id="carousel-live-many"
+        title="Many — 6 slides, swipe + arrows (320px safe)"
+      >
+        <TestsCarousel idPrefix="carousel-live-many" items={carouselItems} />
+      </StateFrame>
+      <StateFrame
+        id="carousel-live-long-text"
+        title="Carousel — very long + unbreakable inside carousel"
+      >
+        <TestsCarousel
+          idPrefix="carousel-live-long"
+          items={carouselLongItems}
+          title="Teste cu denumiri lungi"
+        />
+      </StateFrame>
+      <StateFrame id="carousel-live-one" title="Carousel — single slide">
+        <TestsCarousel
+          idPrefix="carousel-live-one"
+          items={[carouselItems[0]]}
+          title="Un singur test"
+        />
+      </StateFrame>
+      <StateFrame id="carousel-live-empty" title="Carousel — empty">
+        <TestsCarousel
+          idPrefix="carousel-live-empty"
+          items={[]}
+          title="Teste populare"
+        />
+      </StateFrame>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        Carousel — 320px clamped carousel
+      </h2>
+      <StateFrame
+        description="Carousel must not overflow document at 320px; inner swipe, not page scroll."
+        id="carousel-bp-320"
+        title="320px carousel"
+        width="320px"
+      >
+        <TestsCarousel
+          description="Swipe or use arrows."
+          idPrefix="carousel-bp-320"
+          items={carouselItems.slice(0, 3)}
+          title="Teste"
+        />
+      </StateFrame>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">
+        Skeleton & Badge checks (carousel card)
+      </h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-2">
+        <StateFrame
+          id="ccard-skeleton-detail"
+          title="Skeleton detail — 1:1 + footer"
+        >
+          <Card className="min-w-0 pt-0">
+            <Skeleton
+              className="aspect-square w-full rounded-t-[min(var(--radius-4xl),24px)] rounded-b-none"
+            />
+            <CardHeader className="gap-2"
+              ><Skeleton className="h-3 w-24" />
+              <Skeleton className="h-3 w-32" /></CardHeader
+            >
+            <CardContent
+              ><Skeleton className="h-5 w-24 rounded-full" /></CardContent
+            >
+            <CardFooter className="flex gap-2"
+              ><Skeleton className="h-7 flex-1 rounded-2xl" />
+              <Skeleton className="h-7 flex-1 rounded-2xl" /></CardFooter
+            >
           </Card>
         </StateFrame>
-        <StateFrame id="testcard-badge-large" title="Badge large number">
-          <div class="flex items-center justify-between gap-2">
-            <span class="text-sm text-muted-foreground">Economie</span><Badge variant="secondary">+ 89 432 MDL</Badge>
+        <StateFrame
+          id="ccard-badge-large"
+          title="Badge large number + price row"
+        >
+          <div class="flex items-center justify-between gap-3">
+            <span class="text-xs text-muted-foreground">De la</span
+            ><Badge variant="secondary">1 234 567 MDL</Badge>
+          </div>
+          <div class="mt-3 flex items-center justify-between gap-2">
+            <span class="text-sm text-muted-foreground">Economie</span
+            ><Badge variant="secondary">+ 89 432 MDL</Badge>
           </div>
         </StateFrame>
       </div>

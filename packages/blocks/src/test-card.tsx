@@ -47,7 +47,7 @@ export function TestCard({
 }: TestCardProps) {
   if (loading) {
     return (
-      <Card id={id} className="min-w-0">
+      <Card className="min-w-0" id={id}>
         <CardHeader>
           <div className="flex items-center gap-3">
             <Skeleton className="size-10 rounded-full" />
@@ -70,13 +70,17 @@ export function TestCard({
 
   if (error) {
     return (
-      <Card id={id} className="min-w-0">
+      <Card className="min-w-0" id={id}>
         <CardContent className="flex flex-col items-center gap-3 p-6 text-center">
-          <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10 text-destructive">!</div>
-          <p className="text-sm font-medium">{error}</p>
-          <p className="text-xs text-muted-foreground">Verifică conexiunea și încearcă din nou.</p>
+          <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+            !
+          </div>
+          <p className="font-medium text-sm">{error}</p>
+          <p className="text-muted-foreground text-xs">
+            Verifică conexiunea și încearcă din nou.
+          </p>
           {onRetry && (
-            <Button size="sm" variant="outline" onClick={onRetry}>
+            <Button onClick={onRetry} size="sm" variant="outline">
               Reîncearcă
             </Button>
           )}
@@ -87,11 +91,15 @@ export function TestCard({
 
   if (permissionDenied) {
     return (
-      <Card id={id} className="min-w-0">
+      <Card className="min-w-0" id={id}>
         <CardContent className="flex flex-col gap-3 p-6">
-          <p className="text-sm font-medium">Acces restricționat</p>
-          <p className="text-xs text-muted-foreground">Doar personalul de laborator poate edita prețurile.</p>
-          <Button size="sm" variant="outline">Solicită acces</Button>
+          <p className="font-medium text-sm">Acces restricționat</p>
+          <p className="text-muted-foreground text-xs">
+            Doar personalul de laborator poate edita prețurile.
+          </p>
+          <Button size="sm" variant="outline">
+            Solicită acces
+          </Button>
         </CardContent>
       </Card>
     );
@@ -99,22 +107,37 @@ export function TestCard({
 
   const initials = title.slice(0, 2).toUpperCase();
   const isUnbreakable = !title.includes(" ") && title.length > 20;
-  const priceLabel = priceMdl === null || priceMdl === undefined ? "Preț indisponibil" : formatPrice(priceMdl);
+  const priceLabel =
+    priceMdl === null || priceMdl === undefined
+      ? "Preț indisponibil"
+      : formatPrice(priceMdl);
   const hasImage = Boolean(imageSrc);
 
   return (
-    <Card id={id} className="min-w-0">
+    <Card className="min-w-0" id={id}>
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             {hasImage ? (
-              <img alt={`${title} — imagine analiză`} className="size-10 shrink-0 rounded-full object-cover" src={imageSrc} />
+              <img
+                alt={`${title} — imagine analiză`}
+                className="size-10 shrink-0 rounded-full object-cover"
+                src={imageSrc}
+              />
             ) : (
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium">{initials}</div>
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted font-medium text-xs">
+                {initials}
+              </div>
             )}
             <div className="min-w-0">
-              <CardTitle className={`text-sm ${isUnbreakable ? "break-all" : "truncate"}`}>{title}</CardTitle>
-              <CardDescription className={`flex items-center gap-1.5 ${isUnbreakable ? "break-all" : "truncate"}`}>
+              <CardTitle
+                className={`text-sm ${isUnbreakable ? "break-all" : "truncate"}`}
+              >
+                {title}
+              </CardTitle>
+              <CardDescription
+                className={`flex items-center gap-1.5 ${isUnbreakable ? "break-all" : "truncate"}`}
+              >
                 <span className="truncate">{sampleType}</span>
                 {vendor && (
                   <>
@@ -125,27 +148,44 @@ export function TestCard({
               </CardDescription>
             </div>
           </div>
-          {priceMdl !== null && priceMdl !== undefined && <Badge className="shrink-0">{priceLabel}</Badge>}
+          {priceMdl !== null && priceMdl !== undefined && (
+            <Badge className="shrink-0">{priceLabel}</Badge>
+          )}
         </div>
-        {description && <CardDescription className={isUnbreakable ? "break-all" : "line-clamp-2"}>{description}</CardDescription>}
+        {description && (
+          <CardDescription
+            className={isUnbreakable ? "break-all" : "line-clamp-2"}
+          >
+            {description}
+          </CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         {priceMdl === null || priceMdl === undefined ? (
-          <p className="text-sm text-muted-foreground">Preț indisponibil temporar</p>
+          <p className="text-muted-foreground text-sm">
+            Preț indisponibil temporar
+          </p>
         ) : (
           <div className="flex items-center justify-between gap-3">
-            <span className="text-sm text-muted-foreground">De la</span>
-            <Badge variant="secondary" className="shrink-0">
+            <span className="text-muted-foreground text-sm">De la</span>
+            <Badge className="shrink-0" variant="secondary">
               {priceLabel}
             </Badge>
           </div>
         )}
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Button size="sm" disabled={disabled} onClick={onAdd} aria-label={`Adaugă ${title} în listă`}>
+        <Button
+          aria-label={`Adaugă ${title} în listă`}
+          disabled={disabled}
+          onClick={onAdd}
+          size="sm"
+        >
           {disabled ? "Indisponibil" : "Adaugă"}
         </Button>
-        <Button size="sm" variant="outline" disabled={disabled}>Detalii</Button>
+        <Button disabled={disabled} size="sm" variant="outline">
+          Detalii
+        </Button>
       </CardFooter>
     </Card>
   );

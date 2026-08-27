@@ -5,13 +5,16 @@
   "type": "module",
   "exports": {
     "./stat-card": "./src/stat-card.tsx",
-    "./test-card": "./src/test-card.tsx"
+    "./test-card": "./src/test-card.tsx",
+    "./test-carousel-card": "./src/test-carousel-card.tsx",
+    "./tests-carousel": "./src/tests-carousel.tsx"
   },
   "scripts": {
     "lint": "eslint",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@remixicon/react": "^4.9.0",
     "@workspace/ui": "workspace:*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"

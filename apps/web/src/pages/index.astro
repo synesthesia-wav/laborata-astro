@@ -1,25 +1,105 @@
 ---
 import "@workspace/ui/globals.css";
-import { Button } from "@workspace/ui/components/button";
+import { TestsCarousel } from "@workspace/blocks/tests-carousel";
+
+const homeTests = [
+  {
+    description: "Sânge venos • 1 zi • 25-OH, interpretare inclusă",
+    imageSrc: "https://picsum.photos/seed/laborata-home1/600/600",
+    key: "vit-d",
+    priceMdl: 290,
+    title: "Vitamina D 25-OH",
+  },
+  {
+    description: "47 parametri • 24h • formulă leucocitară detaliată",
+    imageSrc: "https://picsum.photos/seed/laborata-home2/600/600",
+    key: "hemoleuco",
+    priceMdl: 320,
+    title: "Hemoleucogramă completă",
+  },
+  {
+    description: "Colesterol total, HDL, LDL, trigliceride — 8 parametri",
+    imageSrc: "https://picsum.photos/seed/laborata-home3/600/600",
+    key: "lipidic",
+    priceMdl: 480,
+    title: "Profil lipidic extins",
+  },
+  {
+    description: "Proba sânge venos • rezultat în 24h",
+    imageSrc: "https://picsum.photos/seed/laborata-home4/600/600",
+    key: "tsh",
+    priceMdl: 210,
+    title: "TSH — hormon tireotrop",
+  },
+  {
+    description: "Screening diabet • probă à jeun",
+    imageSrc: "https://picsum.photos/seed/laborata-home5/600/600",
+    key: "glucoza",
+    priceMdl: 120,
+    title: "Glucoză serică à jeun",
+  },
+  {
+    description: "Rezervă de fier • anemie",
+    imageSrc: "https://picsum.photos/seed/laborata-home6/600/600",
+    key: "feritina",
+    priceMdl: 250,
+    title: "Feritină",
+  },
+];
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta content="width=device-width" name="viewport">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="/favicon.svg" rel="icon" type="image/svg+xml">
-    <title>Astro App</title>
+    <title>Laborata — Teste de laborator</title>
   </head>
-  <body>
-    <div class="flex min-h-svh p-6">
-      <div class="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 class="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We've already added the button component for you.</p>
-          <Button className="mt-2" client:load>Button</Button>
-        </div>
+  <body class="bg-background text-foreground antialiased">
+    <header class="sticky top-0 z-10 border-b bg-background/80 backdrop-blur">
+      <div
+        class="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6"
+      >
+        <h1 class="font-heading text-sm font-semibold tracking-tight">
+          Laborata
+        </h1>
+        <span class="text-xs text-muted-foreground"
+          >MDL • Laboratoare acreditate</span
+        >
       </div>
-    </div>
+    </header>
+
+    <main
+      class="mx-auto flex w-full max-w-[1600px] min-w-0 flex-col gap-10 p-4 sm:p-6"
+    >
+      <section
+        class="flex flex-col gap-3 rounded-xl border bg-card p-5 shadow-sm"
+      >
+        <h2 class="font-heading text-xl font-semibold tracking-tight">
+          Analize de laborator — rezultate rapide
+        </h2>
+        <p class="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Alege testul, compară prețuri între laboratoare și adaugă în coș.
+          Card: imagine <span class="font-medium text-foreground">1:1</span> +
+          titlu + descriere + preț +
+          <span class="font-medium text-foreground"
+            >Adaugă în coș / Compară</span
+          >. Vezi toate stările în
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="/showcase"
+            >/showcase</a
+          >.
+        </p>
+      </section>
+
+      <TestsCarousel
+        description="Cele mai solicitate analize — swipe pe mobil, săgeți pe desktop. 1:1 imagine, preț în Badge secondary, două acțiuni per card."
+        idPrefix="home-tests"
+        items={homeTests}
+        title="Teste populare"
+        client:load
+      />
+    </main>
   </body>
 </html>
