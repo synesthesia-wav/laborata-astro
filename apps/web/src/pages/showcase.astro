@@ -1,40 +1,9 @@
 ---
-import { StatCard } from "@workspace/blocks/stat-card";
 import { Badge } from "@workspace/ui/components/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@workspace/ui/components/breadcrumb";
 import { Button } from "@workspace/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card";
-import { Checkbox } from "@workspace/ui/components/checkbox";
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@workspace/ui/components/empty";
-import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
-import { Separator } from "@workspace/ui/components/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card";
 import { Skeleton } from "@workspace/ui/components/skeleton";
-import { Switch } from "@workspace/ui/components/switch";
-import { Textarea } from "@workspace/ui/components/textarea";
-import { AdvancedShowcase } from "../components/playground/AdvancedShowcase";
-import { LaborataShowcase } from "../components/playground/LaborataShowcase";
+import { TestCard } from "@workspace/blocks/test-card";
 import StateFrame from "../components/playground/StateFrame.astro";
 import PlaygroundLayout from "../layouts/playground.astro";
 
@@ -46,186 +15,56 @@ const longDescription =
   "Rezultatele sunt disponibile în 24–48 ore lucrătoare, cu interpretare clinică și recomandări personalizate. Proba: sânge venos à jeun.";
 ---
 
-<PlaygroundLayout>
+<PlaygroundLayout title="Laborata — Single Test Card" description="Showcase for TestCard — light only. Every state side-by-side with unique ids.">
   <div class="flex min-w-0 flex-col gap-8">
     <div class="flex flex-col gap-2 rounded-xl border bg-card p-5 shadow-sm">
-      <h2 class="font-heading text-lg font-semibold tracking-tight">
-        Showcase — single grid stress matrix
-      </h2>
+      <h2 class="font-heading text-lg font-semibold tracking-tight">Single Test Card — showcase</h2>
       <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
-        Every stress case from
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
-          >design_tools/codex-tip.txt</code
-        >
-        rendered side-by-side on one page. Real components via
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
-          >@workspace/ui</code
-        >, real tokens via
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
-          >globals.css</code
-        >. Each frame has a unique
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">id</code>
-        to avoid ARIA/focus collisions. Test at <strong>320px</strong>, then
-        768/1440 + light/dark.
+        One real component — <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">TestCard</code> from
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">@workspace/blocks/test-card</code>
+        — with real tokens via <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">globals.css</code>.
+        Light only. Each frame has a unique <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs">id</code>. Test at <strong>320px</strong> and desktop.
       </p>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem
-            ><BreadcrumbLink href="#"
-              >Playground</BreadcrumbLink
-            ></BreadcrumbItem
-          >
-          <BreadcrumbSeparator />
-          <BreadcrumbItem
-            ><BreadcrumbPage>Showcase</BreadcrumbPage></BreadcrumbItem
-          >
-        </BreadcrumbList>
-      </Breadcrumb>
     </div>
 
     <div class="flex min-w-0 flex-col gap-2">
-      <h2
-        class="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground"
-      >
-        320px sentinel + breakpoints
-      </h2>
+      <h2 class="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground">320px + breakpoints</h2>
       <div class="grid min-w-0 gap-4 md:grid-cols-3">
-        <StateFrame
-          description="If this frame overflows, the page fails shadscan --check-ui at 320×820."
-          id="playground-bp-320"
-          title="320px clamped"
-          width="320px"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <div class="flex min-w-0 items-center gap-2">
-              <div
-                class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
-              >
-                JD
-              </div>
-              <span class="min-w-0 truncate text-sm font-medium"
-                >{longTitle}</span
-              >
-            </div>
-            <div class="flex gap-2">
-              <Button size="sm" client:load>Primary action</Button
-              ><Button size="sm" variant="outline" client:load
-                >Secondary</Button
-              >
-            </div>
-            <p class="break-all text-xs text-muted-foreground">{unbreakable}</p>
+        <StateFrame description="If this overflows, fails shadscan --check-ui at 320x820." id="testcard-bp-320" title="320px clamped" width="320px">
+          <TestCard id="testcard-bp-320-card" title={longTitle} description={longDescription} priceMdl={1250} vendor="Synevo" />
+        </StateFrame>
+        <StateFrame description="Mid breakpoint — grid reflows." id="testcard-bp-768" title="768px card" width="768px">
+          <div class="grid grid-cols-2 gap-3">
+            <TestCard id="testcard-bp-768-a" title="Hemoleucogramă" description="47 parametri" priceMdl={320} vendor="Synevo" />
+            <TestCard id="testcard-bp-768-b" title="Profil lipidic" description="8 parametri" priceMdl={480} vendor="Invitro" />
           </div>
         </StateFrame>
-        <StateFrame
-          description="Mid breakpoint — grid should reflow, not overflow."
-          id="playground-bp-768"
-          title="768px card"
-          width="768px"
-        >
-          <div class="grid min-w-0 grid-cols-2 gap-3">
-            <Card className="min-w-0"
-              ><CardHeader
-                ><CardTitle className="text-sm">Hemoleucogramă</CardTitle
-                ><CardDescription>47 parametri</CardDescription></CardHeader
-              ><CardContent
-                ><p class="text-sm font-semibold">320 MDL</p></CardContent
-              ><CardFooter
-                ><Button size="sm" client:load>Adaugă</Button></CardFooter
-              ></Card
-            >
-            <Card className="min-w-0"
-              ><CardHeader
-                ><CardTitle className="text-sm">Profil lipidic</CardTitle
-                ><CardDescription>8 parametri</CardDescription></CardHeader
-              ><CardContent
-                ><p class="text-sm font-semibold">480 MDL</p></CardContent
-              ><CardFooter
-                ><Button size="sm" client:load>Adaugă</Button></CardFooter
-              ></Card
-            >
-          </div>
-        </StateFrame>
-        <StateFrame
-          description="Desktop sentinel — no document-level horizontal scroll."
-          id="playground-bp-1440"
-          title="1440px wide"
-          width="100%"
-        >
-          <div
-            class="flex items-center justify-between gap-4 rounded-lg border bg-muted/50 p-3"
-          >
-            <span class="text-sm font-medium"
-              >1440px shell is constrained by max-w-[1600px] + px-6.</span
-            >
-            <Badge variant="secondary">OK</Badge>
+        <StateFrame description="Desktop — no document horizontal scroll." id="testcard-bp-1440" title="1440px wide" width="100%">
+          <div class="flex items-center justify-between gap-4 rounded-lg border bg-muted/50 p-3">
+            <span class="text-sm font-medium">1440px shell is max-w-[1600px] + px-6.</span><Badge variant="secondary">OK</Badge>
           </div>
         </StateFrame>
       </div>
     </div>
 
-    <Separator />
-
     <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">No data / One / Many</h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame
-          description="Empty with EmptyMedia icon variant, title, description, action."
-          id="playground-empty-none"
-          title="No data — Empty"
-        >
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">⌕</EmptyMedia>
-              <EmptyTitle>Nu există analize</EmptyTitle>
-              <EmptyDescription
-                >Începe prin a adăuga analizele de care ai nevoie. Lista ta este
-                goală.</EmptyDescription
-              >
-            </EmptyHeader>
-            <EmptyContent>
-              <Button client:load>Adaugă analiză</Button>
-            </EmptyContent>
-          </Empty>
+        <StateFrame description="Empty — no test to show." id="testcard-empty-none" title="No data — Empty">
+          <div class="flex flex-col items-center gap-3 rounded-xl border border-dashed p-6 text-center">
+            <div class="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground">⌕</div>
+            <p class="text-sm font-medium">Nu există analize</p>
+            <p class="text-xs text-muted-foreground">Lista ta este goală.</p>
+            <Button size="sm" client:load>Adaugă analiză</Button>
+          </div>
         </StateFrame>
-
-        <StateFrame
-          id="playground-one-card"
-          title="One item — correct Card composition"
-        >
-          <Card className="min-w-0">
-            <CardHeader>
-              <CardTitle>Vitamina D 25-OH</CardTitle>
-              <CardDescription>Sânge venos · 1 zi</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div
-                    class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
-                  >
-                    VD
-                  </div>
-                  <span class="text-sm text-muted-foreground">Synevo</span>
-                </div>
-                <Badge>290 MDL</Badge>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button size="sm" client:load>Adaugă</Button>
-            </CardFooter>
-          </Card>
+        <StateFrame id="testcard-one" title="One — TestCard">
+          <TestCard id="testcard-one-card" title="Vitamina D 25-OH" description="Sânge venos • 1 zi" priceMdl={290} vendor="Synevo" />
         </StateFrame>
-
-        <StateFrame id="playground-many-grid" title="Many — 6 cards, gap-based">
+        <StateFrame id="testcard-many" title="Many — 6 cards, gap-based">
           <div class="grid gap-3 sm:grid-cols-2">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Card className="min-w-0">
-                <CardHeader className="pb-3">
-                  <CardTitle className="truncate text-sm">Analiză {i + 1}</CardTitle>
-                  <CardDescription className="truncate">Descriere scurtă</CardDescription>
-                </CardHeader>
-                <CardContent><Badge variant="secondary">{120 + i * 40} MDL</Badge></CardContent>
-              </Card>
+              <TestCard id={`testcard-many-${i}`} title={`Analiză ${i + 1}`} description="Descriere scurtă" priceMdl={120 + i * 40} vendor="Synevo" />
             ))}
           </div>
         </StateFrame>
@@ -233,492 +72,85 @@ const longDescription =
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Loading / Error / Disabled / Permission-denied
-      </h2>
+      <h2 class="font-heading text-sm font-semibold">Loading / Error / Disabled / Permission-denied</h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-4">
-        <StateFrame id="playground-loading-skeleton" title="Loading — Skeleton">
-          <div class="flex min-w-0 flex-col gap-3">
-            <div class="flex items-center gap-3">
-              <Skeleton className="size-10 rounded-full" />
-              <div class="flex flex-col gap-2">
-                <Skeleton className="h-3 w-24" />
-                <Skeleton className="h-3 w-32" />
-              </div>
-            </div>
-            <Skeleton className="h-8 w-full rounded-lg" />
-            <div class="grid grid-cols-2 gap-2">
-              <Skeleton className="h-16 rounded-xl" />
-              <Skeleton className="h-16 rounded-xl" />
-            </div>
-          </div>
+        <StateFrame id="testcard-loading" title="Loading — Skeleton">
+          <TestCard id="testcard-loading-card" title="Se încarcă" loading />
         </StateFrame>
-
-        <StateFrame id="playground-error-retry" title="Error — retry present">
-          <div class="flex flex-col items-center gap-3 text-center">
-            <div
-              class="flex size-10 items-center justify-center rounded-full bg-destructive/10 text-destructive"
-            >
-              !
-            </div>
-            <p class="text-sm font-medium">Nu am putut încărca prețurile</p>
-            <p class="text-xs text-muted-foreground">
-              Verifică conexiunea și încearcă din nou.
-            </p>
-            <Button size="sm" variant="outline" client:load>Reîncearcă</Button>
-          </div>
+        <StateFrame id="testcard-error" title="Error — retry present">
+          <TestCard id="testcard-error-card" title="TSH" error="Nu am putut încărca prețurile" onRetry={() => {}} />
         </StateFrame>
-
-        <StateFrame
-          id="playground-disabled-actions"
-          title="Disabled — no duplicate submit"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <Button disabled client:load>
-              <span
-                aria-hidden="true"
-                class="size-4 animate-pulse rounded-full bg-current opacity-50"
-              ></span>
-              Se salvează…
-            </Button>
-            <Button disabled variant="outline" client:load>Indisponibil</Button>
-            <div class="flex items-center gap-2">
-              <Switch
-                checked
-                disabled
-                id="playground-disabled-switch"
-                client:load
-              />
-              <Label
-                className="text-muted-foreground"
-                htmlFor="playground-disabled-switch"
-                >Notificări (dezactivate)</Label
-              >
-            </div>
-          </div>
+        <StateFrame id="testcard-disabled" title="Disabled — no duplicate submit">
+          <TestCard id="testcard-disabled-card" title="Glucoză serică" description="Sânge venos" priceMdl={120} disabled />
         </StateFrame>
-
-        <StateFrame id="playground-permission-denied" title="Permission-denied">
-          <div class="flex min-w-0 flex-col gap-3">
-            <p class="text-sm font-medium">Acces restricționat</p>
-            <p class="text-xs text-muted-foreground">
-              Doar personalul de laborator poate edita prețurile. Solicită
-              acces.
-            </p>
-            <Button size="sm" variant="outline" client:load
-              >Solicită acces</Button
-            >
-          </div>
+        <StateFrame id="testcard-permission-denied" title="Permission-denied">
+          <TestCard id="testcard-permission-card" title="Hemoleucogramă" permissionDenied />
         </StateFrame>
       </div>
     </div>
 
     <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Text stress — normal / very long / unbreakable
-      </h2>
+      <h2 class="font-heading text-sm font-semibold">Text stress — normal / very long / unbreakable</h2>
       <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame id="playground-text-normal" title="Normal">
-          <Card className="min-w-0">
-            <CardHeader
-              ><CardTitle className="text-sm">Glucoză serică</CardTitle
-              ><CardDescription>{longDescription}</CardDescription></CardHeader
-            >
-            <CardContent
-              ><Button size="sm" client:load>Adaugă</Button></CardContent
-            >
-          </Card>
+        <StateFrame id="testcard-text-normal" title="Normal">
+          <TestCard id="testcard-text-normal-card" title="Glucoză serică" description={longDescription} priceMdl={120} vendor="Synevo" />
         </StateFrame>
+        <StateFrame id="testcard-text-very-long" title="Very long — truncates, button stays">
+          <TestCard id="testcard-text-very-long-card" title={longTitle} description="Hemoleucograma completă cu formulă leucocitară detaliată, interpretare hematologică și corelare cu tabloul clinic al pacientului în contextul investigațiilor de rutină." priceMdl={1250} vendor="Synevo" />
+        </StateFrame>
+        <StateFrame id="testcard-text-unbreakable" title="Unbreakable — break-all, no overflow">
+          <TestCard id="testcard-text-unbreakable-card" title={unbreakable} description="link-ul nu trebuie să împingă butonul în afara ecranului la 320px" priceMdl={120} vendor="Synevo" />
+        </StateFrame>
+      </div>
+    </div>
 
-        <StateFrame
-          id="playground-text-very-long"
-          title="Very long — truncates, button stays"
-        >
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">Missing image / Very large number / Incomplete data</h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
+        <StateFrame id="testcard-missing-image" title="Missing image — fallback">
+          <TestCard id="testcard-missing-image-card" title="Synevo" description="Logo lipsă → fallback vizibil" priceMdl={290} vendor="Synevo" />
+        </StateFrame>
+        <StateFrame id="testcard-missing-image-empty" title="Missing image — src empty">
+          <TestCard id="testcard-missing-image-empty-card" title="Invitro" description="src gol" priceMdl={310} vendor="Invitro" imageSrc="" />
+        </StateFrame>
+        <StateFrame id="testcard-large-number" title="Very large number — Badge, no raw color">
+          <TestCard id="testcard-large-number-card" title="Total coș" description="1 234 567 MDL nu sparge layout-ul" priceMdl={1234567} vendor="Alfa" />
+        </StateFrame>
+      </div>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">Incomplete data</h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-2">
+        <StateFrame id="testcard-incomplete" title="Incomplete — graceful">
+          <TestCard id="testcard-incomplete-card" title="TSH" description="Proba: — • Termen: necunoscut" priceMdl={null} vendor="Synevo" />
+        </StateFrame>
+        <StateFrame id="testcard-incomplete-no-vendor" title="Incomplete — no vendor">
+          <TestCard id="testcard-incomplete-no-vendor-card" title="TSH" description="Fără laborator" priceMdl={null} />
+        </StateFrame>
+      </div>
+    </div>
+
+    <div class="flex min-w-0 flex-col gap-3">
+      <h2 class="font-heading text-sm font-semibold">Skeleton & Badge checks</h2>
+      <div class="grid min-w-0 gap-4 lg:grid-cols-2">
+        <StateFrame id="testcard-skeleton-detail" title="Skeleton detail">
           <Card className="min-w-0">
             <CardHeader>
-              <CardTitle className="line-clamp-2 text-sm leading-snug"
-                >{longTitle}</CardTitle
-              >
-              <CardDescription className="line-clamp-2"
-                >Hemoleucograma completă cu formulă leucocitară detaliată,
-                interpretare hematologică și corelare cu tabloul clinic al
-                pacientului în contextul investigațiilor de
-                rutină.</CardDescription
-              >
-            </CardHeader>
-            <CardContent>
-              <div class="flex items-center justify-between gap-3">
-                <Badge className="shrink-0" variant="secondary"
-                  >1 250 MDL</Badge
-                >
-                <Button className="shrink-0" size="sm" client:load
-                  >Adaugă</Button
-                >
+              <div class="flex items-center gap-3">
+                <Skeleton className="size-10 rounded-full" />
+                <div class="flex flex-col gap-2"><Skeleton className="h-3 w-24" /><Skeleton className="h-3 w-32" /></div>
               </div>
-            </CardContent>
+            </CardHeader>
+            <CardContent><Skeleton className="h-8 w-full rounded-lg" /></CardContent>
           </Card>
         </StateFrame>
-
-        <StateFrame
-          id="playground-text-unbreakable"
-          title="Unbreakable — break-all, no overflow"
-        >
-          <div class="flex min-w-0 flex-col gap-3 rounded-lg border p-3">
-            <p class="break-all text-xs font-mono text-muted-foreground">
-              {unbreakable}
-            </p>
-            <div class="flex gap-2">
-              <Button className="shrink-0" size="sm" client:load
-                >Deschide</Button
-              >
-              <span class="truncate text-xs text-muted-foreground"
-                >link-ul nu trebuie să împingă butonul în afara ecranului la
-                320px</span
-              >
-            </div>
+        <StateFrame id="testcard-badge-large" title="Badge large number">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-sm text-muted-foreground">Economie</span><Badge variant="secondary">+ 89 432 MDL</Badge>
           </div>
         </StateFrame>
       </div>
-    </div>
-
-    <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Missing image / Very large numbers / Incomplete data
-      </h2>
-      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame
-          id="playground-missing-image"
-          title="Missing image — fallback"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <div class="flex items-center gap-3">
-              <div
-                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
-              >
-                SY
-              </div>
-              <div class="min-w-0">
-                <p class="truncate text-sm font-medium">Synevo</p>
-                <p class="truncate text-xs text-muted-foreground">
-                  Logo lipsă → fallback vizibil
-                </p>
-              </div>
-            </div>
-            <div class="flex items-center gap-3">
-              <div
-                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
-              >
-                IN
-              </div>
-              <span class="text-sm">Invitro — src gol</span>
-            </div>
-          </div>
-        </StateFrame>
-
-        <StateFrame
-          id="playground-large-number"
-          title="Very large number — Badge, no raw color"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-sm text-muted-foreground">Total coș</span>
-              <Badge>1 234 567 MDL</Badge>
-            </div>
-            <div class="flex items-center justify-between gap-2">
-              <span class="text-sm text-muted-foreground">Economie</span>
-              <Badge variant="secondary">+ 89 432 MDL</Badge>
-            </div>
-            <p class="text-xs text-muted-foreground">
-              Numerele mari nu sparg layout-ul; virgulele/spațiile nu creează
-              overflow la 320px.
-            </p>
-          </div>
-        </StateFrame>
-
-        <StateFrame
-          id="playground-incomplete-data"
-          title="Incomplete data — graceful"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <Card className="min-w-0">
-              <CardHeader
-                ><CardTitle className="text-sm">TSH</CardTitle
-                ><CardDescription
-                  >Proba: — · Termen: necunoscut</CardDescription
-                ></CardHeader
-              >
-              <CardContent
-                ><p class="text-sm text-muted-foreground">
-                  Preț indisponibil temporar
-                </p></CardContent
-              >
-              <CardFooter
-                ><Button disabled size="sm" variant="outline" client:load
-                  >În curând</Button
-                ></CardFooter
-              >
-            </Card>
-            <p class="text-xs text-muted-foreground">
-              Date incomplete nu ascund acțiunile primare; cardul rămâne
-              lizibil.
-            </p>
-          </div>
-        </StateFrame>
-      </div>
-    </div>
-
-    <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Forms — Field labels, validation, explicit button types
-      </h2>
-      <div class="grid min-w-0 gap-4 lg:grid-cols-2">
-        <StateFrame
-          id="playground-form-valid"
-          title="Valid form — labels + types"
-        >
-          <form class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-              <Label htmlFor="playground-email">Email</Label>
-              <Input
-                autoComplete="email"
-                id="playground-email"
-                placeholder="ana@exemplu.md"
-                type="email"
-              />
-            </div>
-            <div class="flex flex-col gap-2">
-              <Label htmlFor="playground-bio">Bio</Label>
-              <Textarea
-                id="playground-bio"
-                placeholder="Scrie câteva cuvinte…"
-                rows={3}
-              />
-            </div>
-            <div class="flex items-center gap-2">
-              <Checkbox id="playground-terms" client:load />
-              <Label className="font-normal" htmlFor="playground-terms"
-                >Accept termenii</Label
-              >
-            </div>
-            <div class="flex gap-2">
-              <Button type="submit" client:load>Salvează</Button>
-              <Button type="button" variant="outline" client:load
-                >Anulează</Button
-              >
-            </div>
-          </form>
-        </StateFrame>
-
-        <StateFrame
-          id="playground-form-invalid"
-          title="Invalid — aria-invalid + error text"
-        >
-          <form class="flex flex-col gap-4">
-            <div class="flex flex-col gap-2">
-              <Label htmlFor="playground-email-err">Email</Label>
-              <Input
-                aria-describedby="playground-email-err-msg"
-                aria-invalid="true"
-                id="playground-email-err"
-                type="email"
-                value="not-an-email"
-              />
-              <p class="text-xs text-destructive" id="playground-email-err-msg">
-                Adresa de email nu este validă.
-              </p>
-            </div>
-            <div class="flex items-center gap-2">
-              <Switch id="playground-notify" client:load />
-              <Label htmlFor="playground-notify">Notificări email</Label>
-            </div>
-            <Button disabled type="submit" client:load>Salvează</Button>
-          </form>
-        </StateFrame>
-      </div>
-    </div>
-
-    <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Accessibility spot checks
-      </h2>
-      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame
-          id="playground-a11y-icon-button"
-          title="Icon button — must have label"
-        >
-          <div class="flex gap-2">
-            <Button aria-label="Caută" size="icon" client:load
-              ><span aria-hidden="true">⌕</span></Button
-            >
-            <Button
-              aria-label="Închide"
-              size="icon"
-              variant="outline"
-              client:load
-              ><span aria-hidden="true">✕</span></Button
-            >
-          </div>
-        </StateFrame>
-        <StateFrame
-          id="playground-a11y-focus"
-          title="Focus — no suppressed outline without replacement"
-        >
-          <div class="flex flex-col gap-2">
-            <Input placeholder="Tab focus must show ring" />
-            <Button client:load>Focusable button with ring</Button>
-          </div>
-        </StateFrame>
-        <StateFrame
-          id="playground-a11y-img-alt"
-          title="Images — alt text present"
-        >
-          <div class="flex items-center gap-3">
-            <img
-              alt="Laborata logo"
-              class="size-8 rounded"
-              height="32"
-              src="/favicon.svg"
-              width="32"
-            >
-            <span class="text-sm text-muted-foreground"
-              >Logo has alt text — not decorative.</span
-            >
-          </div>
-        </StateFrame>
-      </div>
-    </div>
-
-    <Separator />
-
-    <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Blocks — composition over markup
-      </h2>
-      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
-        <StateFrame
-          id="playground-blocks-statcard"
-          title="StatCard — Card + Badge + Skeleton"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <StatCard
-              change="+12 săptămâna asta"
-              description="Catalog complet"
-              title="Teste disponibile"
-              value="1 723"
-              client:load
-            />
-            <StatCard
-              change="toate active"
-              changeVariant="outline"
-              title="Laboratoare"
-              value="5"
-              client:load
-            />
-            <StatCard loading title="Se încarcă" client:load />
-          </div>
-        </StateFrame>
-        <StateFrame
-          id="playground-blocks-statcard-many"
-          title="StatCard — many (grid)"
-        >
-          <div class="grid gap-3 sm:grid-cols-2">
-            <StatCard
-              change="cel mai ieftin"
-              description="880 mapate"
-              title="Synevo"
-              value="320 MDL"
-              client:load
-            />
-            <StatCard
-              description="713 mapate"
-              title="Invitro"
-              value="340 MDL"
-              client:load
-            />
-            <StatCard
-              description="2 012 mapate"
-              title="Alfa"
-              value="310 MDL"
-              client:load
-            />
-            <StatCard
-              description="439 mapate"
-              title="Sante"
-              value="330 MDL"
-              client:load
-            />
-          </div>
-        </StateFrame>
-        <StateFrame
-          id="playground-blocks-statcard-states"
-          title="StatCard — states"
-        >
-          <div class="flex min-w-0 flex-col gap-3">
-            <StatCard
-              change="-5% vs luna trecută"
-              title="Glicemie"
-              value="120 MDL"
-              client:load
-            />
-            <StatCard
-              change="indisponibil"
-              changeVariant="destructive"
-              description="HbA1c"
-              title="Hemoglobină glicată"
-              value="—"
-              client:load
-            />
-          </div>
-        </StateFrame>
-      </div>
-    </div>
-
-    <Separator />
-
-    <LaborataShowcase client:load />
-
-    <Separator />
-
-    <div class="flex min-w-0 flex-col gap-3">
-      <h2 class="font-heading text-sm font-semibold">
-        Advanced primitives — client islands
-      </h2>
-      <p class="text-xs text-muted-foreground">
-        Avatar, Tabs, Select, Accordion, Item, ScrollArea, Pagination — rendered
-        as a single
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-[10px]"
-          >client:only=&quot;react&quot;</code
-        >
-        island to avoid SSR context duplication while keeping isolation (unique
-        ids per frame).
-      </p>
-      <AdvancedShowcase client:only="react" />
-    </div>
-
-    <Separator />
-
-    <div
-      class="rounded-lg border bg-muted/30 p-4 text-xs leading-relaxed text-muted-foreground"
-    >
-      <p class="font-medium text-foreground">
-        How to use this page (Pi/OpenCode `/goal`):
-      </p>
-      <ol class="list-decimal pl-5">
-        <li>
-          Open at 320px and at desktop; toggle dark mode with
-          <kbd class="rounded border bg-background px-1 py-0.5 font-mono">d</kbd
-          >. Look for overflow, clipped text, or buttons pushed off-screen.
-        </li>
-        <li>Tab through every frame — focus must be visible.</li>
-        <li>
-          Record only what you can see. Fix one frame at a time, rerender that
-          exact frame, then re-run
-          <code class="rounded bg-background px-1 py-0.5 font-mono"
-            >node_modules/.bin/shadscan --json</code
-          >
-          — score must stay ≥ 43.
-        </li>
-      </ol>
     </div>
   </div>
 </PlaygroundLayout>

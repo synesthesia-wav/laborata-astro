@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./stat-card": "./src/stat-card.tsx"
+    "./stat-card": "./src/stat-card.tsx",
+    "./test-card": "./src/test-card.tsx"
   },
   "scripts": {
     "lint": "eslint",
