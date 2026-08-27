@@ -61,9 +61,9 @@ export function TestCarouselCard({
         <CardContent>
           <Skeleton className="h-5 w-24 rounded-full" />
         </CardContent>
-        <CardFooter className="flex gap-2">
-          <Skeleton className="h-7 flex-1 rounded-2xl" />
-          <Skeleton className="h-7 flex-1 rounded-2xl" />
+        <CardFooter className="flex flex-col gap-2">
+          <Skeleton className="h-7 w-full rounded-full" />
+          <Skeleton className="h-7 w-full rounded-full" />
         </CardFooter>
       </Card>
     );
@@ -197,10 +197,10 @@ export function TestCarouselCard({
         )}
       </CardContent>
 
-      <CardFooter className="flex gap-2">
+      <CardFooter className="flex flex-col gap-2">
         <Button
           aria-label={`Adaugă ${title} în coș`}
-          className="min-w-0 flex-1"
+          className="w-full rounded-full"
           disabled={disabled || !hasPrice}
           onClick={onAddToCart}
           size="sm"
@@ -213,7 +213,7 @@ export function TestCarouselCard({
         <Button
           aria-label={`${isComparing ? "Scoate" : "Compară"} ${title}`}
           aria-pressed={isComparing}
-          className="min-w-0 flex-1"
+          className="w-full rounded-full"
           disabled={disabled}
           onClick={onCompare}
           size="sm"
