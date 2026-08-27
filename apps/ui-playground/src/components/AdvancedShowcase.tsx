@@ -47,8 +47,8 @@ import {
 
 export function AdvancedShowcase() {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid gap-4 lg:grid-cols-2">
+    <div className="flex min-w-0 flex-col gap-4">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-2">
         {/* Avatar — missing image fallback */}
         <div
           className="flex flex-col gap-3 rounded-xl border bg-card p-4 shadow-sm"

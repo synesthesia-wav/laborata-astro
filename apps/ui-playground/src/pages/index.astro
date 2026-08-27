@@ -46,7 +46,7 @@ const longDescription =
 ---
 
 <PlaygroundLayout>
-  <div class="flex flex-col gap-8">
+  <div class="flex min-w-0 flex-col gap-8">
     <div class="flex flex-col gap-2 rounded-xl border bg-card p-5 shadow-sm">
       <h2 class="font-heading text-lg font-semibold tracking-tight">
         Showcase — single grid stress matrix
@@ -82,20 +82,20 @@ const longDescription =
       </Breadcrumb>
     </div>
 
-    <div class="flex flex-col gap-2">
+    <div class="flex min-w-0 flex-col gap-2">
       <h2
         class="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground"
       >
         320px sentinel + breakpoints
       </h2>
-      <div class="grid gap-4 md:grid-cols-3">
+      <div class="grid min-w-0 gap-4 md:grid-cols-3">
         <StateFrame
           description="If this frame overflows, the page fails shadscan --check-ui at 320×820."
           id="playground-bp-320"
           title="320px clamped"
           width="320px"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <div class="flex items-center gap-2">
               <div
                 class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
@@ -162,9 +162,9 @@ const longDescription =
 
     <Separator />
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">No data / One / Many</h2>
-      <div class="grid gap-4 lg:grid-cols-3">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame
           description="Empty with EmptyMedia icon variant, title, description, action."
           id="playground-empty-none"
@@ -229,13 +229,13 @@ const longDescription =
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Loading / Error / Disabled / Permission-denied
       </h2>
-      <div class="grid gap-4 lg:grid-cols-4">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-4">
         <StateFrame id="playground-loading-skeleton" title="Loading — Skeleton">
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <div class="flex items-center gap-3">
               <Skeleton className="size-10 rounded-full" />
               <div class="flex flex-col gap-2">
@@ -270,7 +270,7 @@ const longDescription =
           id="playground-disabled-actions"
           title="Disabled — no duplicate submit"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <Button disabled client:load>
               <span
                 aria-hidden="true"
@@ -296,7 +296,7 @@ const longDescription =
         </StateFrame>
 
         <StateFrame id="playground-permission-denied" title="Permission-denied">
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <p class="text-sm font-medium">Acces restricționat</p>
             <p class="text-xs text-muted-foreground">
               Doar personalul de laborator poate edita prețurile. Solicită
@@ -310,11 +310,11 @@ const longDescription =
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Text stress — normal / very long / unbreakable
       </h2>
-      <div class="grid gap-4 lg:grid-cols-3">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame id="playground-text-normal" title="Normal">
           <Card>
             <CardHeader
@@ -378,16 +378,16 @@ const longDescription =
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Missing image / Very large numbers / Incomplete data
       </h2>
-      <div class="grid gap-4 lg:grid-cols-3">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame
           id="playground-missing-image"
           title="Missing image — fallback"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <div class="flex items-center gap-3">
               <div
                 class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium"
@@ -416,7 +416,7 @@ const longDescription =
           id="playground-large-number"
           title="Very large number — Badge, no raw color"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <div class="flex items-center justify-between gap-2">
               <span class="text-sm text-muted-foreground">Total coș</span>
               <Badge>1 234 567 MDL</Badge>
@@ -436,7 +436,7 @@ const longDescription =
           id="playground-incomplete-data"
           title="Incomplete data — graceful"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <Card>
               <CardHeader
                 ><CardTitle className="text-sm">TSH</CardTitle
@@ -464,11 +464,11 @@ const longDescription =
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Forms — Field labels, validation, explicit button types
       </h2>
-      <div class="grid gap-4 lg:grid-cols-2">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-2">
         <StateFrame
           id="playground-form-valid"
           title="Valid form — labels + types"
@@ -534,11 +534,11 @@ const longDescription =
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Accessibility spot checks
       </h2>
-      <div class="grid gap-4 lg:grid-cols-3">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame
           id="playground-a11y-icon-button"
           title="Icon button — must have label"
@@ -587,16 +587,16 @@ const longDescription =
 
     <Separator />
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Blocks — composition over markup
       </h2>
-      <div class="grid gap-4 lg:grid-cols-3">
+      <div class="grid min-w-0 gap-4 lg:grid-cols-3">
         <StateFrame
           id="playground-blocks-statcard"
           title="StatCard — Card + Badge + Skeleton"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <StatCard
               change="+12 săptămâna asta"
               description="Catalog complet"
@@ -650,7 +650,7 @@ const longDescription =
           id="playground-blocks-statcard-states"
           title="StatCard — states"
         >
-          <div class="flex flex-col gap-3">
+          <div class="flex min-w-0 flex-col gap-3">
             <StatCard
               change="-5% vs luna trecută"
               title="Glicemie"
@@ -672,7 +672,7 @@ const longDescription =
 
     <Separator />
 
-    <div class="flex flex-col gap-3">
+    <div class="flex min-w-0 flex-col gap-3">
       <h2 class="font-heading text-sm font-semibold">
         Advanced primitives — client islands
       </h2>
