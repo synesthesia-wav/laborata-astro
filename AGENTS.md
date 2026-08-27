@@ -159,3 +159,14 @@ When hardening a component (the `design_tools/codex-tip.txt` `/goal` loop, adapt
 4. **Record only reproducible failures.** Open the page, list problems you can actually see. Do not predict from code or report taste as bug.
 5. **Fix only confirmed problems, one at a time.** After each fix rerender the *same* failing state and verify: content no longer overflows/disappears, primary actions still work, keyboard/focus not regressed, already-passing states not broken. Do not redesign the component, change its public API, or touch outside the test page.
 6. **Return:** states tested, before/after screenshots, fixes, still-unresolved items, test+build results. Done when every applicable state has been rendered, every confirmed problem fixed+retested, existing tests pass, build succeeds, and `node_modules/.bin/shadscan --json` score is ≥ task floor.
+
+## Frontend / Backend split — preview deploys (Ref #5)
+
+From `design_tools/matt-dailey-how-i-design-with-ai.md:81-84`: for any feature touching both frontend and backend, separate the PRs. Backend is verifiable with tests; frontend requires human verification via preview deploys. Also: iterate design in a design tool / `/showcase` first — never in the product (`:52-54` prototype gravity), separate views and logic into reusable components (`:68`), and remove agent litter (`:38-41`).
+
+This repo:
+
+- **Backend** = data pipeline (`packages/data`, `scripts/`, generated `dist/*.json`, event log). Verification = `bun run typecheck` + unit/integration tests on `normalize`/`cluster`/replay — no preview needed. PR label `backend`.
+- **Frontend** = `apps/web` + `packages/ui` + `packages/blocks` + `apps/ui-playground` (`/showcase`). Verification = **Vercel preview deploy** per PR (Astro 7.2.7 `output: static`) + `node_modules/.bin/shadscan --check-ui <preview-url> --route /` + manual 320px/desktop check on the preview link. Every component must first be added to `apps/ui-playground/src/pages/index.astro` matrix before wiring to `apps/web`.
+- **PR rule:** Never mix data-generation changes with visual changes in one PR. If both are needed, open `feat(data-…)` and `feat(web-…)` stacked on the same branch but reviewed/deployed separately. `lefthook.yml` `pre-commit: ultracite fix + shadscan --fail-under 43` and `pre-push: typecheck` plus CI (`shadscan.yml` + future `preview.yml` with `shadscan --check-ui`) enforce the gate.
+- **Design iteration:** Use `apps/ui-playground` (or Figma) for 3–4 variants before touching `apps/web` — do not graft directly onto the real page.
