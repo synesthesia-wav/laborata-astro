@@ -10,11 +10,15 @@ import { ProductHeader } from "../../components/product/product-header";
 import { ProductSpecs } from "../../components/product/product-specs";
 import Layout from "../../layouts/Layout.astro";
 
-type GraphItem = { id: string; role: string; tuple_key: string };
+interface GraphItem {
+  id: string;
+  role: string;
+  tuple_key: string;
+}
 
 export function getStaticPaths() {
   const items = (graph as { items: GraphItem[] }).items.filter(
-    (i) => i.role === "comparison"
+    (i) => i.role === "comparison" || i.role === "catalog_only"
   );
   return items.map((it) => ({ params: { slug: it.id } }));
 }

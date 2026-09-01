@@ -127,6 +127,7 @@ export function BranchesExplorer({
   const [lab, setLab] = useState(initialLab);
   const [sample, setSample] = useState("all");
   const [street, setStreet] = useState("all");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filtered: Branch[] = useMemo(
     () =>
@@ -141,6 +142,11 @@ export function BranchesExplorer({
   );
 
   const count = filtered.length;
+  const selectedBranch = useMemo(
+    () => filtered.find((b) => b.id === selectedId) ?? null,
+    [filtered, selectedId]
+  );
+  const mapBranch: Branch | null = selectedBranch ?? filtered[0] ?? null;
 
   return (
     <Card className="min-w-0" id={`branches-explorer-${idSuffix}`}>
@@ -246,6 +252,24 @@ export function BranchesExplorer({
           {BRANCHES.filter((b) => b.labId === "invitro").length} invitro ·{" "}
           {BRANCHES.filter((b) => b.labId === "medexpert").length} medexpert
         </div>
+        {mapBranch ? (
+          <iframe
+            allowFullScreen={false}
+            className="h-[280px] w-full rounded-xl border"
+            id={`branches-map-${idSuffix}`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            src={`https://www.google.com/maps?q=${mapBranch.geo.lat},${mapBranch.geo.lng}&z=15&output=embed`}
+            title={mapBranch.address}
+          />
+        ) : (
+          <div
+            className="flex h-[280px] w-full items-center justify-center rounded-xl border bg-muted p-4 text-center text-muted-foreground text-xs"
+            id={`branches-map-${idSuffix}`}
+          >
+            No branch to show on map — try All sectors
+          </div>
+        )}
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
           <ScrollArea className="h-[340px] rounded-xl border">
             <ItemGroup>
@@ -269,11 +293,25 @@ export function BranchesExplorer({
                   const hoursLabel = formatNextOpen(
                     b.hours as Record<string, string[] | null>
                   );
+                  const isSelected = selectedId === b.id;
                   return (
                     <Item
+                      aria-selected={isSelected}
+                      className="cursor-pointer hover:bg-accent/50"
                       key={b.id}
+                      onClick={() => setSelectedId(b.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedId(b.id);
+                        }
+                      }}
+                      role="button"
                       size="sm"
-                      variant={open ? "muted" : "outline"}
+                      tabIndex={0}
+                      variant={
+                        isSelected ? "default" : open ? "muted" : "outline"
+                      }
                     >
                       <ItemMedia variant="icon">🏥</ItemMedia>
                       <ItemContent>

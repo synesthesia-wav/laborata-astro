@@ -8,18 +8,18 @@ import archetypes from "../../../../../packages/data/data/panel-archetypes-final
 import { BundleDetail } from "../../components/profil/BundleDetail";
 import Layout from "../../layouts/Layout.astro";
 
-type GraphItem = {
+interface GraphItem {
   id: string;
-  type: string;
+  member_count?: number;
+  provenance?: { quorum?: number; total?: number }[];
+  quorum_size?: number;
+  referenceComponentIds?: string[];
   role: string;
   tuple_key: string;
+  type: string;
   vendor_count: number;
   vendors: string[];
-  member_count?: number;
-  referenceComponentIds?: string[];
-  quorum_size?: number;
-  provenance?: { quorum?: number; total?: number }[];
-};
+}
 
 export function getStaticPaths() {
   const items = (graph as { items: GraphItem[] }).items.filter(

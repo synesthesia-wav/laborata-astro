@@ -3,7 +3,10 @@ import graph from "../../../../../packages/data/data/canonical-graph.json" with 
   type: "json",
 };
 
-type GraphItem = { id: string; role: string };
+interface GraphItem {
+  id: string;
+  role: string;
+}
 
 export function getStaticPaths() {
   const items = (graph as { items: GraphItem[] }).items.filter(

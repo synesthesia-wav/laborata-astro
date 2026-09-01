@@ -16,10 +16,14 @@ export const GENERATED_AT = g.generated_at;
 
 export const ALL_ITEMS: CanonicalItem[] = g.items;
 
+// Truth: catalog_count === items.length === 7033 (417 comparison + 6616 catalog_only).
+// Historical 7450 claim was inaccurate — do not invent 7450, keep 7033 as written in canonical-graph.json.
+// CATALOG_ITEMS is the full catalog (comparison + catalog_only) for /analize and /tests routing;
+// COMPARISON_ITEMS is the 417 subset for hero-search / showcase fast path.
 export const COMPARISON_ITEMS: CanonicalItem[] = g.items.filter(
   (i) => i.role === "comparison"
 );
-export const CATALOG_ITEMS: CanonicalItem[] = g.items; // catalog_count is total (417+6616)
+export const CATALOG_ITEMS: CanonicalItem[] = g.items;
 
 export const SINGLE_COMPARISON: CanonicalItem[] = COMPARISON_ITEMS.filter(
   (i) => i.type === "single"

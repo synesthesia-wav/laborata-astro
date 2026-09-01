@@ -4,5 +4,141 @@
     "ultracite/biome/core",
     "ultracite/biome/astro",
     "ultracite/biome/react"
+  ],
+  "files": {
+    "includes": []
+  },
+  "overrides": [
+    {
+      "includes": ["apps/web/src/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noJsxPropsBind": "off"
+          },
+          "suspicious": {
+            "noUnnecessaryConditions": "off",
+            "noLeakedRender": "off",
+            "noReturnAssign": "off",
+            "noReactSpecificProps": "off",
+            "noDoubleEquals": "off"
+          },
+          "style": {
+            "noNestedTernary": "off",
+            "useFilenamingConvention": "off"
+          },
+          "a11y": {
+            "useSemanticElements": "off",
+            "noNoninteractiveElementToInteractiveRole": "off"
+          },
+          "correctness": {
+            "noUnknownProperty": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.tsx", "**/*.ts", "**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/web/public/favicon.svg", "**/*.svg"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noSvgWithoutTitle": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**", "packages/data/**", "packages/ui/**"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off"
+          },
+          "suspicious": {
+            "noUnnecessaryConditions": "off",
+            "noLeakedRender": "off"
+          },
+          "style": {
+            "useDestructuring": "off",
+            "useFilenamingConvention": "off"
+          },
+          "correctness": {
+            "noUnknownProperty": "off"
+          },
+          "a11y": {
+            "useSemanticElements": "off"
+          },
+          "performance": {
+            "noNamespaceImport": "off",
+            "noJsxPropsBind": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noReactSpecificProps": "off",
+            "noUnknownAttribute": "off",
+            "noArrayIndexKey": "off",
+            "noExplicitAny": "off",
+            "useIterableCallbackReturn": "off",
+            "noAlert": "off"
+          },
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+            "noForEach": "off"
+          },
+          "correctness": {
+            "noUnknownProperty": "off"
+          },
+          "performance": {
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "noIncrementDecrement": "off",
+            "useFilenamingConvention": "off"
+          }
+        }
+      },
+      "assist": {
+        "actions": {
+          "source": {
+            "useSortedAttributes": "off",
+            "useSortedKeys": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "**/search.json",
+        "**/search-light.json",
+        "**/canonical-graph.json",
+        "**/dist/**",
+        "**/.turbo/**"
+      ],
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": false
+      },
+      "assist": {
+        "enabled": false
+      }
+    }
   ]
 }

@@ -75,7 +75,7 @@ export function computeCheapestSingleLab(
   let best: { labId: LabId; total: number } | null = null;
   for (const lab of labs) {
     const total = labTotalForTests(lab, testIds, priceMap, sampleMap);
-    if (total == null) {
+    if (total === null) {
       continue;
     }
     if (!best || total < best.total) {

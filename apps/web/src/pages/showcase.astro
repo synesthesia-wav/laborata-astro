@@ -54,6 +54,7 @@ import { ProductSpecs } from "../components/product/product-specs";
       content="Showcase — stări Laborata PDP Vitamina B12"
       name="description"
     >
+    <meta content="noindex, nofollow" name="robots">
     <link href="/favicon.svg" rel="icon" type="image/svg+xml">
     <title>Laborata — Showcase</title>
   </head>
@@ -70,7 +71,8 @@ import { ProductSpecs } from "../components/product/product-specs";
           </h1>
           <p class="truncate text-xs text-muted-foreground">
             PDP Vitamina B12 — minimal · 5 secțiuni · Paper assets · price truth
-            W2
+            W2 · 7033 routes (417 comparison + 6616 catalog_only) + 33 panels +
+            145 branches
           </p>
         </div>
         <div class="flex gap-2">
@@ -857,10 +859,13 @@ import { ProductSpecs } from "../components/product/product-specs";
         <Card id="showcase-branches">
           <CardHeader
             ><CardTitle className="text-sm"
-              >Branches — 12 branches match</CardTitle
+              >Branches — 145 branches (10 Alfa + 33 Synevo + 25 Sante + 47
+              Invitro + 30 MedExpert)</CardTitle
             ><CardDescription
               >Filter lab×sample×streetKey botanica/centru • Open now • phone •
-              sampleTypes • geo lat/lng</CardDescription
+              sampleTypes • geo lat/lng ·
+              {BRANCHES.length}
+              total</CardDescription
             ></CardHeader
           >
           <CardContent className="flex flex-col gap-2 text-xs">
@@ -868,19 +873,154 @@ import { ProductSpecs } from "../components/product/product-specs";
               <Badge>botanica</Badge><Badge variant="outline">centru</Badge
               ><Badge variant="secondary">Sânge</Badge
               ><Badge variant="outline">Urină</Badge>
+              <Badge variant="outline">Open now</Badge>
             </div>
             <div class="text-muted-foreground">
-              12 branches match •
+              {BRANCHES.length}
+              branches total •
               {BRANCHES.filter(b=>b.streetKey==="botanica").length}
               botanica •
               {BRANCHES.filter(b=>b.streetKey==="centru").length}
-              centru
+              centru •
+              {BRANCHES.filter(b=>b.streetKey==="riscani").length}
+              riscani •
+              {BRANCHES.filter(b=>b.streetKey==="buiucani").length}
+              buiucani
             </div>
-            <div class="font-mono">
+            <div class="font-mono break-all">
               Example: {BRANCHES[0]?.address ?? "—"} •
               {BRANCHES[0]?.phone ?? "—"}
               •
               {BRANCHES[0]?.sampleTypes.join(", ")}
+              •
+              {`${BRANCHES[0]?.geo.lat.toFixed(3) ?? "—"},${BRANCHES[0]?.geo.lng.toFixed(3) ?? "—"}`}
+              •
+              {BRANCHES[0]?.labId ?? "—"}
+            </div>
+            <div class="text-muted-foreground">
+              Phone format per lab, hours Mon–Sun parsed, streetKey derived from
+              address, sampleTypes Sânge/Urină.
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
+      <!-- Branches — dedicated matrix (145 total) · lab×sample×streetKey · Open now · phone · sampleTypes · geo -->
+      <section class="flex flex-col gap-4" id="showcase-branches-matrix">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-heading text-sm font-semibold tracking-tight">
+            Branches — 145 total · lab×sample×streetKey · Open now · phone · geo
+          </h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            10 Alfa + 33 Synevo + 25 Sante + 47 Invitro + 30 MedExpert = 145.
+            Filtre: lab, sampleTypes, streetKey
+            (botanica/centru/riscani/buiucani/ciocana/telecentru), Open now din
+            hours Mon–Sun. Fiecare instanță idSuffix izolat.
+          </p>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-3">
+          <Card id="showcase-branches-loading">
+            <CardHeader
+              ><CardTitle className="text-sm">Loading Skeleton</CardTitle
+              ><CardDescription>branches loading</CardDescription></CardHeader
+            >
+            <CardContent><Skeleton className="h-24 w-full" /></CardContent>
+          </Card>
+          <Card className="border-destructive/50" id="showcase-branches-error">
+            <CardHeader
+              ><CardTitle className="text-sm text-destructive"
+                >Error + retry</CardTitle
+              ><CardDescription
+                >Could not load branches</CardDescription
+              ></CardHeader
+            >
+            <CardContent className="flex flex-col gap-2"
+              ><Alert variant="destructive"
+                ><AlertTitle>Eroare la încărcarea filialelor</AlertTitle
+                ><AlertDescription>Reîncearcă.</AlertDescription></Alert
+              ><Button size="sm" variant="outline"
+                >Reîncearcă</Button
+              ></CardContent
+            >
+          </Card>
+          <Card id="showcase-branches-empty">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Empty — 0 rezultate filtru</CardTitle
+              ><CardDescription
+                >lab×streetKey fără match</CardDescription
+              ></CardHeader
+            >
+            <CardContent
+              ><Empty className="border border-dashed"
+                ><EmptyHeader
+                  ><EmptyMedia variant="icon">📍</EmptyMedia
+                  ><EmptyTitle>Nicio filială găsită</EmptyTitle
+                  ><EmptyDescription
+                    >Încearcă alt filtru — lab sau streetKey.</EmptyDescription
+                  ></EmptyHeader
+                ></Empty
+              ></CardContent
+            >
+          </Card>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-2">
+          <Card id="showcase-branches-one">
+            <CardHeader
+              ><CardTitle className="text-sm">One — 1 branch</CardTitle
+              ><CardDescription
+                >single result cu phone + geo</CardDescription
+              ></CardHeader
+            >
+            <CardContent className="flex flex-col gap-2 text-xs">
+              <div class="rounded border bg-card px-3 py-2">
+                <div class="font-medium">{BRANCHES[0]?.address ?? "—"}</div>
+                <div class="text-muted-foreground">
+                  {BRANCHES[0]?.labId ?? "—"}
+                  • {BRANCHES[0]?.phone ?? "—"} •
+                  {BRANCHES[0]?.sampleTypes.join(", ") ?? "—"}
+                </div>
+                <div class="font-mono">
+                  {BRANCHES[0]?.geo.lat.toFixed(4) ?? "—"},
+                  {BRANCHES[0]?.geo.lng.toFixed(4) ?? "—"}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card id="showcase-branches-disabled">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Disabled • permission denied</CardTitle
+              ><CardDescription>W4 missing state</CardDescription></CardHeader
+            >
+            <CardContent
+              ><Button disabled size="sm" variant="outline"
+                >Vezi pe hartă — disabled</Button
+              ></CardContent
+            >
+          </Card>
+        </div>
+        <Card id="showcase-branches-many">
+          <CardHeader
+            ><CardTitle className="text-sm"
+              >Many — 145 branches • primul 6</CardTitle
+            ><CardDescription
+              >overflow list + streetKey badges</CardDescription
+            ></CardHeader
+          >
+          <CardContent className="flex flex-col gap-2">
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {BRANCHES.slice(0,6).map((b) => (
+                <div id={`showcase-branches-many-${b.id}`} class="truncate rounded border bg-muted/20 px-2 py-1.5 text-xs">
+                  <span class="font-medium">{b.labId}</span> • {b.streetKey} • {b.phone} • {b.geo.lat.toFixed(2)},{b.geo.lng.toFixed(2)}
+                </div>
+              ))}
+            </div>
+            <div class="text-xs text-muted-foreground">
+              + {BRANCHES.length - 6} more • total {BRANCHES.length} • . . .
+              streetKey derived, hours Mon–Sun parsed
             </div>
           </CardContent>
         </Card>
@@ -917,7 +1057,8 @@ import { ProductSpecs } from "../components/product/product-specs";
     >
       Showcase minimal —
       <code class="rounded bg-muted px-1 py-0.5 font-mono">@workspace/ui</code>
-      + 1:1 + useState · W2 price truth · 417 routes
+      + 1:1 + useState · W2 price truth · 7033 routes (417 comparison + 6616
+      catalog_only) + 33 panels + 145 branches
     </footer>
   </body>
 </html>
