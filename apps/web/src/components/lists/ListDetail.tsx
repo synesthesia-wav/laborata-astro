@@ -501,7 +501,7 @@ export function ListDetail({ id: propId }: { id: string }) {
                     </TableCell>
                     {LABS.map((lab) => (
                       <TableCell className="px-3 font-mono text-xs" key={lab}>
-                        {priceMap[tid]?.[lab] == null
+                        {priceMap[tid]?.[lab] === null
                           ? "—"
                           : `${priceMap[tid]?.[lab]} lei`}
                       </TableCell>
@@ -522,7 +522,7 @@ export function ListDetail({ id: propId }: { id: string }) {
                       );
                       // add fee once if all present
                       const hasAll = list.items.every(
-                        (tid) => priceMap[tid]?.[lab] != null
+                        (tid) => priceMap[tid]?.[lab] !== null
                       );
                       const display = hasAll
                         ? `${sum + (lab === "sante" || lab === "medexpert" ? 0 : lab === "alfa" ? 25 : 30)} lei`

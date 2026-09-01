@@ -7,6 +7,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@workspace/ui/components/alert";
+import { AspectRatio } from "@workspace/ui/components/aspect-ratio";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -33,6 +34,11 @@ import {
   TableHeader,
   TableRow,
 } from "@workspace/ui/components/table";
+import { BundlesShelf } from "../components/home/bundles-shelf";
+import { CatalogShelf } from "../components/home/catalog-shelf";
+import { ConcernsRow } from "../components/home/concerns-row";
+import { HeroSearch } from "../components/home/hero-search";
+import { LabsTeaser } from "../components/home/labs-teaser";
 import {
   PRICE_OFFERS_LARGE,
   PRICE_OFFERS_SINGLE,
@@ -1024,6 +1030,711 @@ import { ProductSpecs } from "../components/product/product-specs";
             </div>
           </CardContent>
         </Card>
+      </section>
+
+      <Separator />
+
+      <!-- Home matrix — append-only: HeroSearch + CatalogShelf + BundlesShelf + ConcernsRow + LabsTeaser -->
+      <section class="flex flex-col gap-8" id="showcase-home">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-heading text-sm font-semibold tracking-tight">
+            Home — HeroSearch · CatalogShelf · BundlesShelf · ConcernsRow ·
+            LabsTeaser
+          </h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Matrix side-by-side light+dark · 320px · idSuffix izolat · gap-6 ·
+            semantic tokens · size vs h/w correct · Breadcrumb Laboratoare &gt;
+            Botanica · Mito static map fallback
+          </p>
+        </div>
+
+        <!-- HeroSearch -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-heading text-xs font-semibold tracking-tight">
+            HeroSearch — loading / empty / one / many / error / disabled / long
+            / variant / 320px + lg light/dark
+          </h3>
+          <div class="grid gap-4 lg:grid-cols-3">
+            <Card id="showcase-home-hero-loading">
+              <CardHeader
+                ><CardTitle className="text-sm">Loading Skeleton h-12</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-loading</CardDescription
+                ></CardHeader
+              >
+              <CardContent><Skeleton className="h-12 w-full" /></CardContent>
+            </Card>
+            <Card id="showcase-home-hero-empty">
+              <CardHeader
+                ><CardTitle className="text-sm">Empty — No match</CardTitle
+                ><CardDescription
+                  >CommandEmpty · idSuffix home-hero-empty</CardDescription
+                ></CardHeader
+              >
+              <CardContent>
+                <div class="rounded-xl border bg-card p-4">
+                  <p class="text-sm">No match for “xyz”.</p>
+                  <p class="text-muted-foreground text-xs">
+                    Kindly widen — try tsh, feritina (without diacritics), or
+                    glicemie≡glucoza.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card id="showcase-home-hero-error">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Error Alert destructive + Retry</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-error</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <Alert variant="destructive"
+                  ><AlertTitle>Could not load search</AlertTitle
+                  ><AlertDescription>Reîncearcă.</AlertDescription></Alert
+                >
+                <Button size="sm" variant="outline">Retry</Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div class="grid gap-4 lg:grid-cols-2">
+            <Card id="showcase-home-hero-one">
+              <CardHeader
+                ><CardTitle className="text-sm">One — 1 result</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-one</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <HeroSearch idSuffix="home-hero-one" client:load />
+                <div class="rounded-xl border bg-card">
+                  <ul class="p-1" role="listbox">
+                    <li>
+                      <a
+                        class="flex min-w-0 items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-muted"
+                        href="/analize/tsh"
+                        ><span class="truncate font-medium">TSH — Tiroida</span
+                        ><span
+                          class="break-all font-mono text-[11px] text-muted-foreground"
+                          >tsh</span
+                        ></a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+            <Card id="showcase-home-hero-many">
+              <CardHeader
+                ><CardTitle className="text-sm">Many — 8 results</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-many · MiniSearch 8</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <HeroSearch idSuffix="home-hero-many" client:load />
+                <div class="rounded-xl border bg-card">
+                  <ul class="p-1" role="listbox">
+                    {TESTS.slice(0,8).map((t) => (
+                      <li><a class="flex min-w-0 items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-muted" href={`/analize/${t.slug_ro ?? t.id}`}><span class="truncate font-medium">{t.name_ro ?? t.id}</span><span class="break-all font-mono text-[11px] text-muted-foreground">{t.slug_ro ?? t.id}</span></a></li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div class="grid gap-4 lg:grid-cols-3">
+            <Card id="showcase-home-hero-disabled">
+              <CardHeader
+                ><CardTitle className="text-sm">Disabled</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-disabled · opacity 50</CardDescription
+                ></CardHeader
+              >
+              <CardContent>
+                <div class="opacity-50 pointer-events-none">
+                  <HeroSearch idSuffix="home-hero-disabled" client:load />
+                </div>
+                <Button disabled className="mt-3" size="sm" variant="outline"
+                  >Search — disabled</Button
+                >
+              </CardContent>
+            </Card>
+            <Card id="showcase-home-hero-long" className="overflow-hidden">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Long / unbreakable break-all slug + 1.250.000 lei</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-long</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <HeroSearch idSuffix="home-hero-long" client:load />
+                <div
+                  class="break-all rounded border bg-card px-3 py-2 text-xs font-mono"
+                >
+                  supercalifragilisticexpialidociousvitaminab12cobalaminacutantitativ24ore-foarte-lung-fara-spatii
+                </div>
+                <Badge variant="outline">1.250.000 lei</Badge>
+                <div class="break-all text-xs text-muted-foreground">
+                  1.250.000 lei — wrapping preț (ro-RO grouping)
+                </div>
+              </CardContent>
+            </Card>
+            <Card id="showcase-home-hero-variant">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Variant — feritina folded</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-variant · feritina →
+                  Feritină</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <HeroSearch idSuffix="home-hero-variant" client:load />
+                <div class="rounded border bg-muted/20 p-3 text-xs">
+                  <span class="font-mono">feritina</span>
+                  <span class="text-muted-foreground">→</span>
+                  <span class="font-medium">Feritină</span>
+                  <span class="text-muted-foreground">· foldDiacritics</span>
+                  <div class="mt-2 break-all font-mono text-[11px]">
+                    normalized: feritina
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div class="grid gap-4 lg:grid-cols-2">
+            <Card id="showcase-home-hero-320">
+              <CardHeader
+                ><CardTitle className="text-sm">320px wrapper</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-320 · 320px verified</CardDescription
+                ></CardHeader
+              >
+              <CardContent>
+                <div class="mx-auto w-[320px] max-w-full rounded-xl border p-3">
+                  <HeroSearch idSuffix="home-hero-320" client:load />
+                </div>
+              </CardContent>
+            </Card>
+            <Card id="showcase-home-hero-lg">
+              <CardHeader
+                ><CardTitle className="text-sm">lg + dark preview</CardTitle
+                ><CardDescription
+                  >idSuffix home-hero-lg · light/dark</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <HeroSearch idSuffix="home-hero-lg" client:load />
+                <div class="dark rounded-xl border bg-background p-3">
+                  <p class="text-xs text-muted-foreground">
+                    Dark preview — class dark on wrapper
+                  </p>
+                  <div class="mt-2 rounded-lg border bg-card p-3">
+                    <span class="text-sm font-medium">TSH</span>
+                    <span class="text-muted-foreground text-xs"
+                      >· dark token</span
+                    >
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <Separator />
+
+        <!-- CatalogShelf -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-heading text-xs font-semibold tracking-tight">
+            CatalogShelf — loading 8 Skeleton AspectRatio · empty · error ·
+            disabled · one · many 8 · long · missing image · large price
+          </h3>
+          <div class="grid gap-4 lg:grid-cols-3">
+            <Card id="showcase-home-catalog-loading">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Loading — 8 Skeleton AspectRatio</CardTitle
+                ><CardDescription
+                  >idSuffix home-catalog-loading</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><CatalogShelf
+                  idSuffix="home-catalog-loading"
+                  loading={true}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-catalog-empty">
+              <CardHeader
+                ><CardTitle className="text-sm">Empty — 0 tests</CardTitle
+                ><CardDescription
+                  >idSuffix home-catalog-empty</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><CatalogShelf
+                  idSuffix="home-catalog-empty"
+                  tests={[]}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-catalog-error">
+              <CardHeader
+                ><CardTitle className="text-sm">Error Alert + Retry</CardTitle
+                ><CardDescription
+                  >idSuffix home-catalog-error</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><CatalogShelf
+                  idSuffix="home-catalog-error"
+                  error="Could not load tests"
+                  client:load
+                /></CardContent
+              >
+            </Card>
+          </div>
+          <div class="grid gap-4 lg:grid-cols-3">
+            <Card id="showcase-home-catalog-one">
+              <CardHeader
+                ><CardTitle className="text-sm">One — 1 card</CardTitle
+                ><CardDescription
+                  >tests=[TESTS[0]] · idSuffix home-catalog-one</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><CatalogShelf
+                  idSuffix="home-catalog-one"
+                  tests={[TESTS[0]]}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-catalog-disabled">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Disabled — button disabled</CardTitle
+                ><CardDescription
+                  >idSuffix home-catalog-disabled</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><CatalogShelf
+                  idSuffix="home-catalog-disabled"
+                  disabled={true}
+                  tests={[TESTS[0]]}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-catalog-many">
+              <CardHeader
+                ><CardTitle className="text-sm">Many — 8 cards</CardTitle
+                ><CardDescription
+                  >idSuffix home-catalog-many</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><CatalogShelf
+                  idSuffix="home-catalog-many"
+                  tests={TESTS.slice(0,8)}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+          </div>
+          <Card id="showcase-home-catalog-long" className="overflow-hidden">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Long truncate vs break-all + missing image + large
+                price</CardTitle
+              ><CardDescription
+                >idSuffix home-catalog-long</CardDescription
+              ></CardHeader
+            >
+            <CardContent className="flex flex-col gap-4">
+              <CatalogShelf
+                idSuffix="home-catalog-long"
+                tests={[{...TESTS[0], name_ro: "SupercalifragilisticexpialidociousVitaminaB12CobalaminăTestDeSângeCuNumeFoarteLungSiFaraSpatiiPentruOverflow320px", slug_ro: "supercalifragilisticexpialidociousvitaminab12cobalaminacutantitativ24ore-foarte-lung-fara-spatii", oneSentenceWatcher: "SupercalifragilisticexpialidociousVitaminaB12CobalaminăTestDeSângeCuNumeFoarteLungSiFaraSpatiiPentruOverflow320px · break-all"}]}
+                client:load
+              />
+              <div class="flex flex-wrap gap-2">
+                <Badge>1.250.000 lei</Badge
+                ><Badge variant="outline">missing image — No image</Badge
+                ><Badge variant="secondary">truncate vs break-all</Badge>
+              </div>
+              <div class="flex gap-2">
+                <div class="w-1/2">
+                  <AspectRatio
+                    ratio={4/3}
+                    className="flex items-center justify-center border bg-muted rounded-lg"
+                    ><span class="text-xs text-muted-foreground"
+                      >No image</span
+                    ></AspectRatio
+                  >
+                </div>
+                <div class="w-1/2 break-all text-xs">
+                  SupercalifragilisticexpialidociousVitaminaB12CobalaminăTestDeSângeCuNumeFoarteLungSiFaraSpatiiPentruOverflow320px
+                  — 1.250.000 lei wrapping
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card id="showcase-home-catalog-large">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Large price 1.250.000 lei</CardTitle
+              ><CardDescription
+                >idSuffix home-catalog-large</CardDescription
+              ></CardHeader
+            >
+            <CardContent className="flex flex-col gap-2">
+              <div class="break-all font-mono text-sm font-medium">
+                1.250.000 lei
+              </div>
+              <div class="break-all text-xs text-muted-foreground">
+                Wrapping preț mare — ro-RO grouping verificat
+              </div>
+              <CatalogShelf
+                idSuffix="home-catalog-large"
+                tests={[TESTS[0], TESTS[1]]}
+                client:load
+              />
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        <!-- BundlesShelf -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-heading text-xs font-semibold tracking-tight">
+            BundlesShelf — many 2 real · empty 0/4 gray · long member list
+          </h3>
+          <Card id="showcase-home-bundles-many">
+            <CardHeader
+              ><CardTitle className="text-sm">Many — 2 bundles real</CardTitle
+              ><CardDescription
+                >idSuffix home-bundles-many</CardDescription
+              ></CardHeader
+            >
+            <CardContent
+              ><BundlesShelf
+                idSuffix="home-bundles-many"
+                client:load
+              /></CardContent
+            >
+          </Card>
+          <Card id="showcase-home-bundles-empty" className="border-dashed">
+            <CardHeader
+              ><CardTitle className="text-sm">Empty — 0/4 gray</CardTitle
+              ><CardDescription
+                >idSuffix home-bundles-empty · honest null</CardDescription
+              ></CardHeader
+            >
+            <CardContent>
+              <BundlesShelf
+                idSuffix="home-bundles-empty"
+                bundles={[{
+                  id: "arch-bundle-empty-0-4",
+                  name: "Profil demonstrativ — 0/4 analize disponibile (gray)",
+                  members: ["TSH", "FT4", "FT3", "Anti-TPO"],
+                  slug: "profil-empty",
+                  watcher: "Honest gaps — not yet sold as bundle here",
+                  whoFor: "Often for screening — compare labs plainly",
+                  readNext: "0/4 archetype — gray muted, not invented.",
+                  coverage: [
+                    { lab: "Sante", covered: 0, total: 4, notSold: true },
+                    { lab: "Synevo", covered: 0, total: 4, notSold: true },
+                    { lab: "Invitro", covered: 1, total: 4, missing: ["FT3", "Anti-TPO"] },
+                    { lab: "Alfa", covered: 0, total: 4, notSold: true },
+                  ]
+                }]}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card id="showcase-home-bundles-long" className="overflow-hidden">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Long member list — break-all</CardTitle
+              ><CardDescription
+                >idSuffix home-bundles-long</CardDescription
+              ></CardHeader
+            >
+            <CardContent>
+              <BundlesShelf
+                idSuffix="home-bundles-long"
+                bundles={[{
+                  id: "arch-long-members",
+                  name: "Profil cu nume foarte lung pentru wrapping pe 320px și listă membri extensivă cu break-all și overflow controlat pe card",
+                  members: ["SupercalifragilisticexpialidociousVitaminaB12CobalaminăTest", "Hemoleucogramă completă 5 diff cu formulă leucocitară extinsă", "Colesterol total + HDL + LDL + trigliceride + raporturi", "Vitamina D 25-OH cu variantă cantitativă și interpretare sezonieră"],
+                  slug: "profil-long",
+                  watcher: "Panel coverage — market archetype cu nume lung break-all pe 320px",
+                  whoFor: "Often for broad screening — compare labs plainly cu membri mulți",
+                  readNext: "Members join · break-words · gap-6 verified.",
+                  coverage: [
+                    { lab: "Sante", covered: 4, total: 4 },
+                    { lab: "Synevo", covered: 2, total: 4, missing: ["Vitamina D", "Hemoleucograma"] },
+                    { lab: "Invitro", covered: 0, total: 4, notSold: true },
+                    { lab: "Alfa", covered: 0, total: 4, notSold: true },
+                  ]
+                }]}
+                client:load
+              />
+              <div class="mt-3 break-all text-xs text-muted-foreground">
+                SupercalifragilisticexpialidociousVitaminaB12CobalaminăTestDeSângeCuNumeFoarteLungSiFaraSpatiiCaSaTestamOverflow320px
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        <!-- ConcernsRow -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-heading text-xs font-semibold tracking-tight">
+            ConcernsRow — many 6 · one selected · disabled
+          </h3>
+          <div class="grid gap-4 lg:grid-cols-3">
+            <Card id="showcase-home-concerns-many">
+              <CardHeader
+                ><CardTitle className="text-sm">Many — 6 concerns</CardTitle
+                ><CardDescription
+                  >idSuffix home-concerns-many</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><ConcernsRow
+                  idSuffix="home-concerns-many"
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-concerns-one">
+              <CardHeader
+                ><CardTitle className="text-sm">One selected — heart</CardTitle
+                ><CardDescription
+                  >idSuffix home-concerns-one · value heart</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><ConcernsRow
+                  idSuffix="home-concerns-one"
+                  value="heart"
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-concerns-disabled">
+              <CardHeader
+                ><CardTitle className="text-sm">Disabled</CardTitle
+                ><CardDescription
+                  >idSuffix home-concerns-disabled</CardDescription
+                ></CardHeader
+              >
+              <CardContent>
+                <div class="opacity-50 pointer-events-none">
+                  <ConcernsRow idSuffix="home-concerns-disabled" client:load />
+                </div>
+                <p class="mt-2 text-xs text-muted-foreground">
+                  ToggleGroup disabled — pointer-events-none + opacity-50
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <Separator />
+
+        <!-- LabsTeaser -->
+        <div class="flex flex-col gap-4">
+          <h3 class="font-heading text-xs font-semibold tracking-tight">
+            LabsTeaser — many 12 · empty kindly widen · one · loading · error ·
+            Open now vs Closed · large 145 · 320px + Breadcrumb
+          </h3>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <Card id="showcase-home-labs-many">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Many — 12 filtered (slice 0-12)</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-many · 12 match demo</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><LabsTeaser
+                  idSuffix="home-labs-many"
+                  branches={BRANCHES.slice(0,12)}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-labs-empty">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Empty — kindly widen (Frotiu → 0)</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-empty · No branch matches</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><LabsTeaser
+                  idSuffix="home-labs-empty"
+                  initialSample="Frotiu"
+                  client:load
+                /></CardContent
+              >
+            </Card>
+          </div>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <Card id="showcase-home-labs-one">
+              <CardHeader
+                ><CardTitle className="text-sm">One — single branch</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-one · branches [0]</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><LabsTeaser
+                  idSuffix="home-labs-one"
+                  branches={[BRANCHES[0]]}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-labs-loading">
+              <CardHeader
+                ><CardTitle className="text-sm">Loading Skeleton</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-loading</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><LabsTeaser
+                  idSuffix="home-labs-loading"
+                  loading={true}
+                  client:load
+                /></CardContent
+              >
+            </Card>
+          </div>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <Card id="showcase-home-labs-error">
+              <CardHeader
+                ><CardTitle className="text-sm">Error Alert + Retry</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-error</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><LabsTeaser
+                  idSuffix="home-labs-error"
+                  error="Could not load branches"
+                  client:load
+                /></CardContent
+              >
+            </Card>
+            <Card id="showcase-home-labs-openclosed">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Open now vs Closed — Badge</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-openclosed · isOpenNow</CardDescription
+                ></CardHeader
+              >
+              <CardContent className="flex flex-col gap-3">
+                <LabsTeaser idSuffix="home-labs-openclosed" client:load />
+                <div class="flex flex-wrap gap-2">
+                  <Badge>Open now</Badge
+                  ><Badge variant="outline">Closed · Opens at 8:00</Badge
+                  ><Badge variant="secondary">145 total</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          <Card id="showcase-home-labs-large">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Large — 145 branches total</CardTitle
+              ><CardDescription
+                >idSuffix home-labs-large · grid many</CardDescription
+              ></CardHeader
+            >
+            <CardContent
+              ><LabsTeaser
+                idSuffix="home-labs-large"
+                client:load
+              /></CardContent
+            >
+          </Card>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <Card id="showcase-home-labs-320">
+              <CardHeader
+                ><CardTitle className="text-sm">320px wrapper</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-320 · w-[320px] verified</CardDescription
+                ></CardHeader
+              >
+              <CardContent>
+                <div class="mx-auto w-[320px] max-w-full">
+                  <LabsTeaser idSuffix="home-labs-320" client:load />
+                </div>
+              </CardContent>
+            </Card>
+            <Card id="showcase-home-labs-breadcrumb">
+              <CardHeader
+                ><CardTitle className="text-sm"
+                  >Breadcrumb — Laboratoare &gt; Botanica</CardTitle
+                ><CardDescription
+                  >idSuffix home-labs-breadcrumb · street botanica
+                  filtered</CardDescription
+                ></CardHeader
+              >
+              <CardContent
+                ><LabsTeaser
+                  idSuffix="home-labs-breadcrumb"
+                  initialStreet="botanica"
+                  client:load
+                /></CardContent
+              >
+            </Card>
+          </div>
+          <Card id="showcase-home-labs-breadcrumb-lab">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Breadcrumb — Laboratoare &gt; Synevo &gt; Harta</CardTitle
+              ><CardDescription
+                >idSuffix home-labs-breadcrumb-lab · lab synevo
+                filtered</CardDescription
+              ></CardHeader
+            >
+            <CardContent
+              ><LabsTeaser
+                idSuffix="home-labs-breadcrumb-lab"
+                initialLab="synevo"
+                client:load
+              /></CardContent
+            >
+          </Card>
+          <div class="dark rounded-xl border bg-background p-4">
+            <p class="text-xs text-muted-foreground">
+              Dark preview — class dark wrapper around LabsTeaser
+            </p>
+            <div class="mt-3">
+              <LabsTeaser idSuffix="home-labs-dark" client:load />
+            </div>
+          </div>
+        </div>
       </section>
 
       <Separator />

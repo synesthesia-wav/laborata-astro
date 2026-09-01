@@ -47,7 +47,7 @@ function labTotalForTests(
   let missing = 0;
   for (const tid of testIds) {
     const price = priceMap[tid]?.[labId];
-    if (price == null) {
+    if (price === null) {
       missing++;
     } else {
       sum += price;

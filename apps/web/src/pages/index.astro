@@ -1,10 +1,49 @@
 ---
+import { TESTS } from "@workspace/data/canonical";
 import { BundlesShelf } from "../components/home/bundles-shelf";
 import { CatalogShelf } from "../components/home/catalog-shelf";
 import { ConcernsRow } from "../components/home/concerns-row";
 import { HeroSearch } from "../components/home/hero-search";
 import { LabsTeaser } from "../components/home/labs-teaser";
 import Layout from "../layouts/Layout.astro";
+
+const site = "https://laborata.md";
+const itemListLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Common tests — Laborata",
+  itemListElement: TESTS.slice(0, 8).map((t, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${site}/analize/${t.slug_ro ?? t.id}`,
+    name: t.name_ro ?? t.name_en ?? t.id,
+  })),
+};
+const orgLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Laborata",
+  url: site,
+  logo: `${site}/favicon.svg`,
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Laboratoare",
+      item: `${site}/laboratoare`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Harta",
+      item: `${site}/harta`,
+    },
+  ],
+};
 ---
 
 <Layout
@@ -12,6 +51,24 @@ import Layout from "../layouts/Layout.astro";
   lang="ro"
   title="Găsește analizele potrivite, la preț corect — Laborata"
 >
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(orgLd)}
+  />
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(itemListLd)}
+  />
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbLd)}
+  />
   <main class="flex w-full flex-col">
     <!-- Hero full-bleed -->
     <section class="w-full px-4 py-10 sm:px-6">

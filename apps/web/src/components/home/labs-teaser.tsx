@@ -1,7 +1,22 @@
 "use client";
 
 import { BRANCHES } from "@workspace/data/branches";
+import type { Branch } from "@workspace/data/types";
+import { LABS } from "@workspace/data/types";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@workspace/ui/components/breadcrumb";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -29,6 +44,14 @@ import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@workspace/ui/components/table";
+import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@workspace/ui/components/toggle-group";
@@ -48,7 +71,6 @@ function isOpenNow(
   for (const iv of intervals) {
     const [a, b] = iv.split("-").map((s) => s.trim());
     const toMin = (t: string): number => {
-      // hours are 07:30-15:00 format (RO), no AM/PM
       const [h, m] = t.split(":").map(Number);
       return h * 60 + m;
     };
@@ -59,34 +81,149 @@ function isOpenNow(
   return false;
 }
 
-interface Props {
-  idSuffix?: string;
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function LabsTeaser({ idSuffix = "home" }: Props) {
-  const [lab, setLab] = useState("all");
-  const [sample, setSample] = useState("all");
-  const [street, setStreet] = useState("all");
+function telHref(phone: string): string {
+  const cleaned = phone.replaceAll(/[^+\d]/g, "");
+  return `tel:${cleaned}`;
+}
+
+interface Props {
+  branches?: Branch[];
+  disabled?: boolean;
+  error?: string;
+  idSuffix?: string;
+  initialLab?: string;
+  initialSample?: string;
+  initialStreet?: string;
+  loading?: boolean;
+  onRetry?: () => void;
+}
+
+export function LabsTeaser({
+  idSuffix = "home",
+  disabled = false,
+  loading = false,
+  error,
+  onRetry,
+  initialLab = "all",
+  initialSample = "all",
+  initialStreet = "all",
+  branches,
+}: Props) {
+  const [lab, setLab] = useState(initialLab);
+  const [sample, setSample] = useState(initialSample);
+  const [street, setStreet] = useState(initialStreet);
+
+  const sourceBranches = branches ?? BRANCHES;
 
   const filtered = useMemo(
     () =>
-      BRANCHES.filter(
+      sourceBranches.filter(
         (b) =>
           (lab === "all" || b.labId === lab) &&
           (sample === "all" ||
             b.sampleTypes.includes(sample as (typeof b.sampleTypes)[number])) &&
           (street === "all" || b.streetKey === street)
       ),
-    [lab, sample, street]
+    [lab, sample, street, sourceBranches]
   );
 
   const count = filtered.length;
+  const mapBranch: Branch | null = filtered[0] ?? sourceBranches[0] ?? null;
+  const streetLabel = street === "all" ? "Harta" : capitalize(street);
+  const labLabel = lab === "all" ? "" : capitalize(lab);
+  const isLabFiltered = lab !== "all";
+
+  if (loading) {
+    return <LabsTeaserSkeleton idSuffix={idSuffix} />;
+  }
+
+  if (error) {
+    return (
+      <Card className="min-w-0" id={`labs-teaser-${idSuffix}`}>
+        <CardHeader>
+          <CardTitle className="text-base">
+            Partner network — branches
+          </CardTitle>
+          <CardDescription>Could not load branches</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <Alert variant="destructive">
+            <AlertTitle>Could not load branches</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          <Button onClick={onRetry} size="sm" variant="outline">
+            Retry
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const selectedOpen = mapBranch
+    ? isOpenNow(mapBranch.hours as Record<string, string[] | null>)
+    : false;
+  const selectedLabMeta = mapBranch
+    ? LABS.find((l) => l.id === mapBranch.labId)
+    : undefined;
+  const directionsHref = mapBranch
+    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapBranch.address)}`
+    : "#";
+  const mapsSearchHref = mapBranch
+    ? `https://www.google.com/maps/search/?api=1&query=${mapBranch.geo.lat},${mapBranch.geo.lng}`
+    : "#";
+  const embedSrc = mapBranch
+    ? `https://www.google.com/maps?q=${mapBranch.geo.lat},${mapBranch.geo.lng}&z=15&output=embed`
+    : "";
+
+  const weekdayOrder: Array<keyof Branch["hours"]> = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun",
+  ];
+  const weekdayLabel: Record<string, string> = {
+    Mon: "Mon",
+    Tue: "Tue",
+    Wed: "Wed",
+    Thu: "Thu",
+    Fri: "Fri",
+    Sat: "Sat",
+    Sun: "Sun",
+  };
 
   return (
     <Card className="min-w-0" id={`labs-teaser-${idSuffix}`}>
       <CardHeader>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/laboratoare">Laboratoare</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            {isLabFiltered ? (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href={`/laboratoare/${lab}`}>
+                    {labLabel}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            ) : null}
+            <BreadcrumbItem>
+              <BreadcrumbPage>{streetLabel}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <CardTitle className="text-base">
-          Partner network — 5 labs, {BRANCHES.length} branches
+          Partner network — 5 labs, {sourceBranches.length} branches
         </CardTitle>
         <CardDescription>
           Filter by lab × sample × sector. Map on /harta. Real hours{" "}
@@ -96,13 +233,15 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
           </span>
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex flex-col gap-6">
         <ToggleGroup
           aria-label="Filter by lab"
           className="flex flex-wrap gap-2"
           onValueChange={(v) => {
             const nv = (v as string[])[0] ?? "all";
-            setLab(nv);
+            if (!disabled) {
+              setLab(nv);
+            }
           }}
           size="sm"
           spacing={2}
@@ -114,6 +253,7 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
               <ToggleGroupItem
                 aria-label={v === "all" ? "All labs" : v}
                 className="rounded-full"
+                disabled={disabled}
                 key={v}
                 value={v}
               >
@@ -127,7 +267,9 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
           className="flex flex-wrap gap-2"
           onValueChange={(v) => {
             const nv = (v as string[])[0] ?? "all";
-            setSample(nv);
+            if (!disabled) {
+              setSample(nv);
+            }
           }}
           size="sm"
           spacing={2}
@@ -138,6 +280,7 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
             <ToggleGroupItem
               aria-label={v === "all" ? "All samples" : v}
               className="rounded-full"
+              disabled={disabled}
               key={v}
               value={String(v)}
             >
@@ -150,7 +293,9 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
           className="flex flex-wrap gap-2"
           onValueChange={(v) => {
             const nv = (v as string[])[0] ?? "all";
-            setStreet(nv);
+            if (!disabled) {
+              setStreet(nv);
+            }
           }}
           size="sm"
           spacing={2}
@@ -162,6 +307,7 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
               <ToggleGroupItem
                 aria-label={v === "all" ? "All sectors" : v}
                 className="rounded-full"
+                disabled={disabled}
                 key={v}
                 value={v}
               >
@@ -175,6 +321,7 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
           {street === "all" ? "" : ` • ${street}`}{" "}
           {sample === "all" ? "" : ` • ${sample}`}{" "}
           {count === 12 ? "• 12 match demo" : ""}
+          {count === 145 ? "• 145 total" : ""}
         </div>
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
           <ScrollArea className="h-[280px] rounded-xl border">
@@ -241,24 +388,110 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
               )}
             </ItemGroup>
           </ScrollArea>
-          <div className="flex aspect-[4/3] items-center justify-center rounded-xl border bg-cover bg-muted">
-            <span className="text-muted-foreground text-xs">
-              Map preview — {count} pins · geo lat/lng
-            </span>
+          <div className="flex flex-col gap-2">
+            {mapBranch ? (
+              <>
+                <iframe
+                  className="h-[280px] w-full rounded-xl border"
+                  loading="lazy"
+                  src={embedSrc}
+                  title={`Map — ${mapBranch.address}`}
+                />
+                <a
+                  className="text-xs underline underline-offset-4 hover:text-foreground"
+                  href={mapsSearchHref}
+                  rel="noopener"
+                  target="_blank"
+                >
+                  Open in Google Maps
+                </a>
+                <div className="flex flex-col gap-3 rounded-xl border bg-card p-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="outline">{mapBranch.labId}</Badge>
+                    {selectedLabMeta?.renar ? (
+                      <Badge variant="secondary">
+                        Renar • Operated by {capitalize(mapBranch.labId)}
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline">
+                        Operated by {capitalize(mapBranch.labId)}
+                      </Badge>
+                    )}
+                    <Badge variant="secondary">
+                      {mapBranch.sampleTypes[0] ?? "Sânge"}
+                    </Badge>
+                    {selectedOpen ? (
+                      <Badge variant="default">Open now</Badge>
+                    ) : (
+                      <Badge variant="outline">Closed</Badge>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-1 text-sm">
+                    <span className="break-words font-medium">
+                      {mapBranch.address}
+                    </span>
+                    <a
+                      className="w-fit break-all text-xs underline underline-offset-4 hover:text-foreground"
+                      href={telHref(mapBranch.phone)}
+                    >
+                      {mapBranch.phone}
+                    </a>
+                    <a
+                      className="w-fit text-xs underline underline-offset-4 hover:text-foreground"
+                      href={directionsHref}
+                      rel="noopener"
+                      target="_blank"
+                    >
+                      Directions
+                    </a>
+                    <span className="text-muted-foreground text-xs">
+                      {mapBranch.geo.lat.toFixed(5)},{" "}
+                      {mapBranch.geo.lng.toFixed(5)}
+                    </span>
+                  </div>
+                  <Separator />
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="px-2 text-xs">Day</TableHead>
+                          <TableHead className="px-2 text-xs">Hours</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {weekdayOrder.map((d) => {
+                          const v = mapBranch.hours[d];
+                          return (
+                            <TableRow key={d}>
+                              <TableCell className="px-2 py-1 font-medium text-xs">
+                                {weekdayLabel[d]}
+                              </TableCell>
+                              <TableCell className="px-2 py-1 font-mono text-xs">
+                                {v ? v.join(" • ") : "Closed"}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex aspect-[4/3] items-center justify-center rounded-xl border bg-muted">
+                <span className="text-muted-foreground text-xs">
+                  Map preview — {count} pins · geo lat/lng
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <Separator />
         <div className="flex gap-2">
-          <Button
-            onClick={() => (window.location.href = "/harta")}
-            variant="outline"
-          >
+          <Button render={<a href="/harta" />} variant="outline">
             View full map
           </Button>
-          <Button
-            onClick={() => (window.location.href = "/laboratoare")}
-            variant="ghost"
-          >
+          <Button render={<a href="/laboratoare" />} variant="ghost">
             All labs
           </Button>
         </div>
@@ -267,9 +500,13 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
   );
 }
 
-export function LabsTeaserSkeleton() {
+export function LabsTeaserSkeleton({
+  idSuffix = "skeleton",
+}: {
+  idSuffix?: string;
+}) {
   return (
-    <Card>
+    <Card id={`labs-teaser-${idSuffix}`}>
       <CardHeader>
         <Skeleton className="h-6 w-32" />
         <Skeleton className="h-4 w-full" />
