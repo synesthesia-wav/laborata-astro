@@ -53,7 +53,7 @@ const BUNDLES = [
 
 export function BundlesShelf() {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex min-w-0 flex-col gap-4">
       <div className="flex flex-col gap-1">
         <h2 className="font-heading font-semibold text-xl tracking-tight">
           Bundles — ready packs
@@ -96,7 +96,7 @@ export function BundlesShelf() {
                 </p>
               </div>
               <Separator />
-              <div className="-mx-5 overflow-x-auto px-5">
+              <div className="-mx-5 min-w-0 overflow-x-auto px-5">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50">

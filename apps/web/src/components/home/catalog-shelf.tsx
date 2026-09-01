@@ -83,7 +83,7 @@ export function CatalogShelf({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex min-w-0 flex-col gap-4">
       <div className="flex flex-col gap-1">
         <h2
           className="font-heading font-semibold text-xl tracking-tight"
@@ -121,9 +121,9 @@ export function CatalogShelf({
                 {t.oneSentenceWatcher ?? t.tuple_key}
               </CardDescription>
             </CardHeader>
-            <CardContent className="mt-auto">
+            <CardContent className="mt-auto min-w-0">
               <Button
-                className="w-full"
+                className="w-full min-w-0 truncate"
                 onClick={() =>
                   (window.location.href = `/tests/${t.slug_en ?? t.id}`)
                 }

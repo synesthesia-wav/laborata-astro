@@ -15,6 +15,7 @@ import {
   EmptyTitle,
 } from "@workspace/ui/components/empty";
 import { Input } from "@workspace/ui/components/input";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -242,10 +243,18 @@ export function AnalizeBrowse() {
   if (loading) {
     return (
       <div className="flex flex-col gap-4">
-        <div className="h-10 w-full animate-pulse rounded-xl bg-muted" />
+        <Skeleton className="h-10 w-full rounded-xl" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Card className="h-36 animate-pulse bg-muted" key={i} />
+            <Card className="overflow-hidden" key={i}>
+              <CardHeader className="gap-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-4 w-full" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-20 w-full" />
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
@@ -275,8 +284,8 @@ export function AnalizeBrowse() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3">
+    <div className="flex min-w-0 flex-col gap-6">
+      <div className="flex min-w-0 flex-col gap-3">
         <div className="flex flex-col gap-2">
           <label className="font-medium text-sm" htmlFor="analize-search">
             Caută analiză
@@ -340,46 +349,64 @@ export function AnalizeBrowse() {
           ) : null}
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="py-1 font-medium text-muted-foreground text-xs">
             Lab:
           </span>
-          {LABS.map((l) => (
-            <Button
-              className="h-7 rounded-full text-xs"
-              key={l}
-              onClick={() => {
-                const next = lab === l ? "" : l;
-                setLab(next);
-                updateUrl({ lab: next });
-              }}
-              size="sm"
-              variant={lab === l ? "default" : "outline"}
-            >
-              {l}
-            </Button>
-          ))}
+          <ToggleGroup
+            aria-label="Filter by lab"
+            className="flex flex-wrap gap-2"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "";
+              setLab(nv);
+              updateUrl({ lab: nv });
+            }}
+            size="sm"
+            spacing={2}
+            value={lab ? [lab] : []}
+            variant="outline"
+          >
+            {LABS.map((l) => (
+              <ToggleGroupItem
+                aria-label={l}
+                className="h-7 rounded-full text-xs"
+                key={l}
+                value={l}
+              >
+                {l}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="py-1 font-medium text-muted-foreground text-xs">
             Sample:
           </span>
-          {SAMPLES.map((s) => (
-            <Button
-              className="h-7 rounded-full text-xs"
-              key={s}
-              onClick={() => {
-                const next = sample === s ? "" : s;
-                setSample(next);
-                updateUrl({ sample: next });
-              }}
-              size="sm"
-              variant={sample === s ? "default" : "outline"}
-            >
-              {s}
-            </Button>
-          ))}
+          <ToggleGroup
+            aria-label="Filter by sample"
+            className="flex flex-wrap gap-2"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "";
+              setSample(nv);
+              updateUrl({ sample: nv });
+            }}
+            size="sm"
+            spacing={2}
+            value={sample ? [sample] : []}
+            variant="outline"
+          >
+            {SAMPLES.map((s) => (
+              <ToggleGroupItem
+                aria-label={String(s)}
+                className="h-7 rounded-full text-xs"
+                key={String(s)}
+                value={String(s)}
+              >
+                {String(s)}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
 
         <div aria-live="polite" className="text-muted-foreground text-xs">
@@ -444,7 +471,7 @@ export function AnalizeBrowse() {
                 <CardTitle className="line-clamp-2 text-sm leading-tight">
                   {d.title}
                 </CardTitle>
-                <p className="line-clamp-1 font-mono text-[11px] text-muted-foreground">
+                <p className="line-clamp-1 break-all font-mono text-[11px] text-muted-foreground">
                   {d.slug} • {d.vendors?.join(", ") || `${d.vendor_count} labs`}
                 </p>
               </CardHeader>

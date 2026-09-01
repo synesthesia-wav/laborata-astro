@@ -17,6 +17,8 @@ import {
   EmptyTitle,
 } from "@workspace/ui/components/empty";
 import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 import { useEffect, useState } from "react";
 import type { List } from "../../lib/lists";
 import {
@@ -131,14 +133,30 @@ export function ListIndex() {
   if (lists === null) {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card className="h-32 animate-pulse bg-muted" />
-        <Card className="h-32 animate-pulse bg-muted" />
+        <Card className="overflow-hidden">
+          <CardHeader>
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-full" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-16 w-full" />
+          </CardContent>
+        </Card>
+        <Card className="overflow-hidden">
+          <CardHeader>
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-full" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-16 w-full" />
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-6">
       {shareIncoming ? (
         <Card className="border-primary/50 bg-primary/5">
           <CardContent className="py-3 text-sm">
@@ -157,14 +175,21 @@ export function ListIndex() {
             account.
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex gap-2">
-          <Input
-            onChange={(e) => setNewName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleCreate()}
-            placeholder="Ex: Mama — control anual"
-            value={newName}
-          />
-          <Button onClick={handleCreate}>Crează</Button>
+        <CardContent className="flex flex-col gap-2">
+          <Label className="sr-only" htmlFor="new-list-name">
+            Nume listă nouă
+          </Label>
+          <div className="flex gap-2">
+            <Input
+              aria-label="Nume listă nouă"
+              id="new-list-name"
+              onChange={(e) => setNewName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleCreate()}
+              placeholder="Ex: Mama — control anual"
+              value={newName}
+            />
+            <Button onClick={handleCreate}>Crează</Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -216,9 +241,14 @@ export function ListIndex() {
                       {l.id.slice(0, 8)}
                     </span>
                   </div>
+                  <Label className="sr-only" htmlFor={`list-name-${l.id}`}>
+                    Nume listă {l.name}
+                  </Label>
                   <Input
+                    aria-label={`Nume listă ${l.name}`}
                     className="mt-1 font-medium"
                     defaultValue={l.name}
+                    id={`list-name-${l.id}`}
                     onBlur={(e) => handleRename(l.id, e.target.value)}
                     onKeyDown={(e) =>
                       e.key === "Enter" && (e.target as HTMLInputElement).blur()

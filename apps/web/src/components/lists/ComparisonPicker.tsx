@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 import {
   Table,
   TableBody,
@@ -132,7 +133,7 @@ export function ComparisonPicker() {
   const remove = (id: string) => setSelected((s) => s.filter((x) => x !== id));
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-6">
       <Card>
         <CardHeader>
           <CardTitle className="text-base">
@@ -144,7 +145,12 @@ export function ComparisonPicker() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
+          <Label className="sr-only" htmlFor="comparison-picker-search">
+            Caută analiză pentru comparație
+          </Label>
           <Input
+            aria-label="Caută analiză pentru comparație"
+            id="comparison-picker-search"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Adaugă: tsh / feritina / glicemie"
             value={query}
@@ -246,7 +252,7 @@ export function ComparisonPicker() {
             )}
           </CardDescription>
         </CardHeader>
-        <CardContent className="overflow-x-auto">
+        <CardContent className="min-w-0 overflow-x-auto">
           {selected.length === 0 ? (
             <p className="py-6 text-center text-muted-foreground text-sm">
               Empty — add tests above.

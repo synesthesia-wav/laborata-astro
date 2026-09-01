@@ -17,6 +17,15 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
 import {
   Table,
   TableBody,
@@ -252,7 +261,7 @@ export function ListDetail({ id: propId }: { id: string }) {
         : undefined;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-6">
       {shareReadOnly ? (
         <Alert>
           <AlertTitle>Shared view — read-only</AlertTitle>
@@ -280,9 +289,14 @@ export function ListDetail({ id: propId }: { id: string }) {
               {list.id}
             </span>
           </div>
+          <Label className="sr-only" htmlFor={`list-name-${list.id}`}>
+            Nume listă
+          </Label>
           <Input
+            aria-label="Nume listă"
             className="font-medium"
             defaultValue={list.name}
+            id={`list-name-${list.id}`}
             onBlur={(e) => handleRename(e.target.value)}
             onKeyDown={(e) =>
               e.key === "Enter" && (e.target as HTMLInputElement).blur()
@@ -321,18 +335,30 @@ export function ListDetail({ id: propId }: { id: string }) {
           >
             Compară standalone
           </Button>
-          <select
-            className="h-9 rounded-md border bg-card px-3 text-xs"
-            onChange={(e) => handlePinBranch(e.target.value)}
-            value={list.pinnedBranchId ?? ""}
+          <Select
+            onValueChange={(v) =>
+              handlePinBranch(v === "none" ? "" : (v ?? ""))
+            }
+            value={list.pinnedBranchId ?? "none"}
           >
-            <option value="">No pinned branch</option>
-            {BRANCHES.slice(0, 12).map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.labId} — {b.address.slice(0, 40)}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger
+              aria-label="Pinned branch"
+              className="h-9 text-xs"
+              size="sm"
+            >
+              <SelectValue placeholder="No pinned branch" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="none">No pinned branch</SelectItem>
+                {BRANCHES.slice(0, 12).map((b) => (
+                  <SelectItem key={b.id} value={b.id}>
+                    {b.labId} — {b.address.slice(0, 40)}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </CardContent>
       </Card>
 
@@ -344,7 +370,12 @@ export function ListDetail({ id: propId }: { id: string }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
+          <Label className="sr-only" htmlFor="list-detail-search">
+            Caută analiză
+          </Label>
           <Input
+            aria-label="Caută analiză"
+            id="list-detail-search"
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Caută tsh / feritina / glicemie"
             value={searchInput}
@@ -401,7 +432,7 @@ export function ListDetail({ id: propId }: { id: string }) {
                 key={tid}
               >
                 <a
-                  className="truncate font-medium text-sm underline decoration-dotted"
+                  className="min-w-0 flex-1 truncate break-all font-medium font-mono text-sm underline decoration-dotted"
                   href={`/analize/${tid}`}
                 >
                   {tid}
@@ -443,7 +474,7 @@ export function ListDetail({ id: propId }: { id: string }) {
             )}
           </CardDescription>
         </CardHeader>
-        <CardContent className="overflow-x-auto">
+        <CardContent className="min-w-0 overflow-x-auto">
           {list.items.length === 0 ? (
             <p className="py-6 text-center text-muted-foreground text-sm">
               Empty comparison • Kindly widen — add tests.

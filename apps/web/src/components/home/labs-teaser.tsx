@@ -28,6 +28,10 @@ import {
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@workspace/ui/components/toggle-group";
 import { useMemo, useState } from "react";
 
 function isOpenNow(
@@ -79,7 +83,7 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
   const count = filtered.length;
 
   return (
-    <Card id={`labs-teaser-${idSuffix}`}>
+    <Card className="min-w-0" id={`labs-teaser-${idSuffix}`}>
       <CardHeader>
         <CardTitle className="text-base">
           Partner network — 5 labs, {BRANCHES.length} branches
@@ -93,47 +97,79 @@ export function LabsTeaser({ idSuffix = "home" }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="flex flex-wrap gap-2">
+        <ToggleGroup
+          aria-label="Filter by lab"
+          className="flex flex-wrap gap-2"
+          onValueChange={(v) => {
+            const nv = (v as string[])[0] ?? "all";
+            setLab(nv);
+          }}
+          size="sm"
+          spacing={2}
+          value={lab ? [lab] : []}
+          variant="outline"
+        >
           {["all", "synevo", "invitro", "sante", "medexpert", "alfa"].map(
             (v) => (
-              <Button
+              <ToggleGroupItem
+                aria-label={v === "all" ? "All labs" : v}
                 className="rounded-full"
                 key={v}
-                onClick={() => setLab(v)}
-                size="sm"
-                variant={lab === v ? "default" : "outline"}
+                value={v}
               >
                 {v === "all" ? "All labs" : v}
-              </Button>
+              </ToggleGroupItem>
             )
           )}
-        </div>
-        <div className="flex flex-wrap gap-2">
+        </ToggleGroup>
+        <ToggleGroup
+          aria-label="Filter by sample"
+          className="flex flex-wrap gap-2"
+          onValueChange={(v) => {
+            const nv = (v as string[])[0] ?? "all";
+            setSample(nv);
+          }}
+          size="sm"
+          spacing={2}
+          value={sample ? [sample] : []}
+          variant="outline"
+        >
           {["all", "Sânge", "Urină", "Frotiu"].map((v) => (
-            <Button
+            <ToggleGroupItem
+              aria-label={v === "all" ? "All samples" : v}
               className="rounded-full"
               key={v}
-              onClick={() => setSample(v)}
-              size="sm"
-              variant={sample === v ? "default" : "outline"}
+              value={String(v)}
             >
               {v === "all" ? "All samples" : v}
-            </Button>
+            </ToggleGroupItem>
           ))}
+        </ToggleGroup>
+        <ToggleGroup
+          aria-label="Filter by sector"
+          className="flex flex-wrap gap-2"
+          onValueChange={(v) => {
+            const nv = (v as string[])[0] ?? "all";
+            setStreet(nv);
+          }}
+          size="sm"
+          spacing={2}
+          value={street ? [street] : []}
+          variant="outline"
+        >
           {["all", "botanica", "centru", "riscani", "buiucani", "ciocana"].map(
             (v) => (
-              <Button
+              <ToggleGroupItem
+                aria-label={v === "all" ? "All sectors" : v}
                 className="rounded-full"
                 key={v}
-                onClick={() => setStreet(v)}
-                size="sm"
-                variant={street === v ? "default" : "outline"}
+                value={v}
               >
                 {v === "all" ? "All sectors" : v}
-              </Button>
+              </ToggleGroupItem>
             )
           )}
-        </div>
+        </ToggleGroup>
         <div aria-live="polite" className="text-muted-foreground text-xs">
           {count} branches found
           {street === "all" ? "" : ` • ${street}`}{" "}

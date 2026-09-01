@@ -73,8 +73,8 @@ export function HeroSearch({ idSuffix = "home-hero", onSearch }: Props) {
   }, [mini, value, docs]);
 
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className="text-balance font-heading font-semibold text-3xl tracking-tight">
+    <div className="flex min-w-0 flex-col gap-3">
+      <h1 className="text-balance break-words font-heading font-semibold text-3xl tracking-tight">
         Find the right tests, at a fair price.
       </h1>
       <p className="max-w-prose text-muted-foreground text-sm leading-relaxed">
@@ -132,12 +132,14 @@ export function HeroSearch({ idSuffix = "home-hero", onSearch }: Props) {
                   {results.map((r) => (
                     <li key={r.id}>
                       <a
-                        className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-muted"
+                        className="flex min-w-0 items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm hover:bg-muted"
                         href={`/analize/${r.slug}`}
                         onMouseDown={(e) => e.preventDefault()}
                       >
-                        <span className="truncate font-medium">{r.title}</span>
-                        <span className="ml-2 shrink-0 font-mono text-[11px] text-muted-foreground">
+                        <span className="min-w-0 flex-1 truncate font-medium">
+                          {r.title}
+                        </span>
+                        <span className="ml-2 shrink-0 break-all font-mono text-[11px] text-muted-foreground">
                           {r.slug}
                         </span>
                       </a>

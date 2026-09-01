@@ -28,6 +28,10 @@ import {
 } from "@workspace/ui/components/item";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Separator } from "@workspace/ui/components/separator";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@workspace/ui/components/toggle-group";
 import { useMemo, useState } from "react";
 
 const LABS_ORDER = ["all", "alfa", "sante", "synevo", "invitro", "medexpert"];
@@ -139,7 +143,7 @@ export function BranchesExplorer({
   const count = filtered.length;
 
   return (
-    <Card id={`branches-explorer-${idSuffix}`}>
+    <Card className="min-w-0" id={`branches-explorer-${idSuffix}`}>
       <CardHeader>
         <CardTitle className="text-base">
           {hideLabFilter && lab !== "all"
@@ -156,46 +160,76 @@ export function BranchesExplorer({
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {!hideLabFilter && (
-          <div className="flex flex-wrap gap-2">
+          <ToggleGroup
+            aria-label="Filter by lab"
+            className="flex flex-wrap gap-2"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "all";
+              setLab(nv);
+            }}
+            size="sm"
+            spacing={2}
+            value={lab ? [lab] : []}
+            variant="outline"
+          >
             {LABS_ORDER.map((v) => (
-              <Button
+              <ToggleGroupItem
+                aria-label={LAB_LABEL[v] ?? v}
                 className="rounded-full"
                 key={`lab-${v}`}
-                onClick={() => setLab(v)}
-                size="sm"
-                variant={lab === v ? "default" : "outline"}
+                value={v}
               >
                 {LAB_LABEL[v] ?? v}
-              </Button>
+              </ToggleGroupItem>
             ))}
-          </div>
+          </ToggleGroup>
         )}
-        <div className="flex flex-wrap gap-2">
+        <ToggleGroup
+          aria-label="Filter by sample"
+          className="flex flex-wrap gap-2"
+          onValueChange={(v) => {
+            const nv = (v as string[])[0] ?? "all";
+            setSample(String(nv));
+          }}
+          size="sm"
+          spacing={2}
+          value={sample ? [String(sample)] : []}
+          variant="outline"
+        >
           {SAMPLE_OPTIONS.map((v) => (
-            <Button
+            <ToggleGroupItem
+              aria-label={v === "all" ? "All samples" : String(v)}
               className="rounded-full"
               key={`sample-${v}`}
-              onClick={() => setSample(String(v))}
-              size="sm"
-              variant={sample === String(v) ? "default" : "outline"}
+              value={String(v)}
             >
-              {v === "all" ? "All samples" : v}
-            </Button>
+              {v === "all" ? "All samples" : String(v)}
+            </ToggleGroupItem>
           ))}
-        </div>
-        <div className="flex flex-wrap gap-2">
+        </ToggleGroup>
+        <ToggleGroup
+          aria-label="Filter by sector"
+          className="flex flex-wrap gap-2"
+          onValueChange={(v) => {
+            const nv = (v as string[])[0] ?? "all";
+            setStreet(nv);
+          }}
+          size="sm"
+          spacing={2}
+          value={street ? [street] : []}
+          variant="outline"
+        >
           {STREET_OPTIONS.map((v) => (
-            <Button
+            <ToggleGroupItem
+              aria-label={v === "all" ? "All sectors" : v}
               className="rounded-full"
               key={`street-${v}`}
-              onClick={() => setStreet(v)}
-              size="sm"
-              variant={street === v ? "default" : "outline"}
+              value={v}
             >
               {v === "all" ? "All sectors" : v}
-            </Button>
+            </ToggleGroupItem>
           ))}
-        </div>
+        </ToggleGroup>
         <div
           aria-live="polite"
           className="text-muted-foreground text-xs"
