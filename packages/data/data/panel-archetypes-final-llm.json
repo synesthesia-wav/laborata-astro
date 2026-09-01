@@ -1,0 +1,1219 @@
+[
+  {
+    "id": "arch-anticorpi-antifosfolipidici",
+    "name_ro": "Archetype anticorpi-antifosfolipidici",
+    "analyte": "anticorpi-antifosfolipidici",
+    "tuple_key": "anticorpi-antifosfolipidici||arch||",
+    "referenceComponentIds": [
+      "2-glycoproteina-i",
+      "acidul-fosfatidic",
+      "anexina-v",
+      "anticorpi-anti-2-glicoproteina-i-igg",
+      "anticorpi-anti-2-glicoproteina-i-igm",
+      "anticorpi-anti-cardiolipina-igg",
+      "anticorpi-anti-cardiolipina-igm",
+      "cardiolipina",
+      "fosfatidilcolina",
+      "fosfatidiletanolamina"
+    ],
+    "quorum_size": 0,
+    "total_comps": 14,
+    "vendor_count": 3,
+    "cluster_count": 3,
+    "offering_count": 10,
+    "vendors": ["alfa", "invitro", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 0,
+        "total": 14
+      }
+    ]
+  },
+  {
+    "id": "arch-albumina",
+    "name_ro": "Archetype albumina",
+    "analyte": "albumina",
+    "tuple_key": "albumina||arch||",
+    "referenceComponentIds": [
+      "proteina-totala",
+      "vitamina-b12",
+      "albumina",
+      "feritina"
+    ],
+    "quorum_size": 4,
+    "total_comps": 123,
+    "vendor_count": 4,
+    "cluster_count": 4,
+    "offering_count": 8,
+    "vendors": ["alfa", "invitro", "medexpert", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 4,
+        "total": 123
+      }
+    ]
+  },
+  {
+    "id": "arch-ca-125+he4",
+    "name_ro": "Archetype ca-125+he4",
+    "analyte": "ca-125+he4",
+    "tuple_key": "ca-125+he4||arch||",
+    "referenceComponentIds": ["ca-125", "he4"],
+    "quorum_size": 2,
+    "total_comps": 3,
+    "vendor_count": 3,
+    "cluster_count": 2,
+    "offering_count": 3,
+    "vendors": ["alfa", "medexpert", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 3
+      }
+    ]
+  },
+  {
+    "id": "arch-cilindri+eritrocite+leucocite",
+    "name_ro": "Archetype cilindri+eritrocite+leucocite",
+    "analyte": "cilindri+eritrocite+leucocite",
+    "tuple_key": "cilindri+eritrocite+leucocite||arch||",
+    "referenceComponentIds": ["leucocite", "cilindri", "eritrocite"],
+    "quorum_size": 3,
+    "total_comps": 5,
+    "vendor_count": 4,
+    "cluster_count": 3,
+    "offering_count": 4,
+    "vendors": ["alfa", "invitro", "medexpert", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 3,
+        "total": 5
+      }
+    ]
+  },
+  {
+    "id": "arch-hla-dq2+hla-dq8",
+    "name_ro": "Archetype hla-dq2+hla-dq8",
+    "analyte": "hla-dq2+hla-dq8",
+    "tuple_key": "hla-dq2+hla-dq8||arch||",
+    "referenceComponentIds": ["hla-dq8", "hla-dq2"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 3,
+    "cluster_count": 2,
+    "offering_count": 3,
+    "vendors": ["alfa", "invitro", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-metanefrine+normetanefrine",
+    "name_ro": "Archetype metanefrine+normetanefrine",
+    "analyte": "metanefrine+normetanefrine",
+    "tuple_key": "metanefrine+normetanefrine||arch||",
+    "referenceComponentIds": ["metanefrine", "normetanefrine"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 4,
+    "vendors": ["alfa", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-chlamydia-trachomatis+mycoplasma-genital",
+    "name_ro": "Archetype chlamydia-trachomatis+mycoplasma-genital",
+    "analyte": "chlamydia-trachomatis+mycoplasma-genitalium+mycoplasma-hominis+ureaplasma-parvum+ureaplasma-urealyticum",
+    "tuple_key": "chlamydia-trachomatis+mycoplasma-genitalium+mycoplasma-hominis+ureaplasma-parvum+ureaplasma-urealyticum||arch||",
+    "referenceComponentIds": [
+      "c-trachomatis",
+      "chlamydia-trachomatis-adn-test-calitativ-raclaj",
+      "m-genitalium",
+      "m-hominis",
+      "mycoplasma-genitalium-adn-test-calitativ-raclaj",
+      "mycoplasma-hominis-adn-test-calitativ-raclaj",
+      "u-parvum",
+      "u-urealyticum",
+      "ureaplasma-urealyticum-ureaplasma-parvum-adn-test-calitativ-raclaj"
+    ],
+    "quorum_size": 0,
+    "total_comps": 9,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 3,
+    "vendors": ["alfa", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 0,
+        "total": 9
+      }
+    ]
+  },
+  {
+    "id": "arch-mycoplasma-hominis+ureaplasma-urealyticu",
+    "name_ro": "Archetype mycoplasma-hominis+ureaplasma-urealyticu",
+    "analyte": "mycoplasma-hominis+ureaplasma-urealyticum",
+    "tuple_key": "mycoplasma-hominis+ureaplasma-urealyticum||arch||",
+    "referenceComponentIds": [
+      "ag-m-hominis",
+      "ag-u-urealyticum",
+      "antibiograma-azitromicina-macrolide",
+      "antibiograma-ciprofloxacina-quinolone",
+      "antibiograma-claritromicina-macrolide",
+      "antibiograma-clindamicina-lincosamide",
+      "antibiograma-doxiciclina-tetracicline",
+      "antibiograma-eritromicina-macrolide",
+      "antibiograma-josamicina-macrolide",
+      "antibiograma-levofloxacina-quinolone"
+    ],
+    "quorum_size": 0,
+    "total_comps": 22,
+    "vendor_count": 4,
+    "cluster_count": 6,
+    "offering_count": 7,
+    "vendors": ["alfa", "medexpert", "sante", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 0,
+        "total": 22
+      }
+    ]
+  },
+  {
+    "id": "arch-adenovirus+rotavirus",
+    "name_ro": "Archetype adenovirus+rotavirus",
+    "analyte": "adenovirus+rotavirus",
+    "tuple_key": "adenovirus+rotavirus||arch||",
+    "referenceComponentIds": ["adenovirus", "rotavirus"],
+    "quorum_size": 2,
+    "total_comps": 4,
+    "vendor_count": 3,
+    "cluster_count": 3,
+    "offering_count": 3,
+    "vendors": ["invitro", "sante", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 4
+      }
+    ]
+  },
+  {
+    "id": "arch-adrenalina+dopamina+noradrenalina",
+    "name_ro": "Archetype adrenalina+dopamina+noradrenalina",
+    "analyte": "adrenalina+dopamina+noradrenalina",
+    "tuple_key": "adrenalina+dopamina+noradrenalina||arch||",
+    "referenceComponentIds": ["dopamina", "noradrenalina", "adrenalina"],
+    "quorum_size": 3,
+    "total_comps": 3,
+    "vendor_count": 3,
+    "cluster_count": 4,
+    "offering_count": 4,
+    "vendors": ["alfa", "sante", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 3,
+        "total": 3
+      }
+    ]
+  },
+  {
+    "id": "arch-brca1+brca2",
+    "name_ro": "Archetype brca1+brca2",
+    "analyte": "brca1+brca2",
+    "tuple_key": "brca1+brca2||arch||",
+    "referenceComponentIds": ["brca2", "brca1"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 3,
+    "cluster_count": 3,
+    "offering_count": 3,
+    "vendors": ["alfa", "invitro", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-chlamydophila-pneumoniae+mycoplasma-pneu",
+    "name_ro": "Archetype chlamydophila-pneumoniae+mycoplasma-pneu",
+    "analyte": "chlamydophila-pneumoniae+mycoplasma-pneumoniae",
+    "tuple_key": "chlamydophila-pneumoniae+mycoplasma-pneumoniae||arch||",
+    "referenceComponentIds": [
+      "chlamydophila-pneumoniae",
+      "chlamydophila-pneumoniae-adn",
+      "mycoplasma-pneumoniae",
+      "mycoplasma-pneumoniae-adn"
+    ],
+    "quorum_size": 0,
+    "total_comps": 4,
+    "vendor_count": 2,
+    "cluster_count": 3,
+    "offering_count": 3,
+    "vendors": ["invitro", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 0,
+        "total": 4
+      }
+    ]
+  },
+  {
+    "id": "arch-f2+f5",
+    "name_ro": "Archetype f2+f5",
+    "analyte": "f2+f5",
+    "tuple_key": "f2+f5||arch||",
+    "referenceComponentIds": ["f5", "f2"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 2,
+    "vendors": ["alfa", "invitro"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-free-beta-hcg+papp-a",
+    "name_ro": "Archetype free-beta-hcg+papp-a",
+    "analyte": "free-beta-hcg+papp-a",
+    "tuple_key": "free-beta-hcg+papp-a||arch||",
+    "referenceComponentIds": ["free-beta-hcg", "papp-a"],
+    "quorum_size": 2,
+    "total_comps": 4,
+    "vendor_count": 3,
+    "cluster_count": 4,
+    "offering_count": 4,
+    "vendors": ["alfa", "sante", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 4
+      }
+    ]
+  },
+  {
+    "id": "arch-hla-dqa1+hla-dqb1+hla-drb1",
+    "name_ro": "Archetype hla-dqa1+hla-dqb1+hla-drb1",
+    "analyte": "hla-dqa1+hla-dqb1+hla-drb1",
+    "tuple_key": "hla-dqa1+hla-dqb1+hla-drb1||arch||",
+    "referenceComponentIds": ["hla-dqa1", "hla-dqb1", "hla-drb1"],
+    "quorum_size": 3,
+    "total_comps": 3,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 2,
+    "vendors": ["alfa", "invitro"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 3,
+        "total": 3
+      }
+    ]
+  },
+  {
+    "id": "arch-hpv-11+hpv-16+hpv-18+hpv-26+hpv-31+hpv-3",
+    "name_ro": "Archetype hpv-11+hpv-16+hpv-18+hpv-26+hpv-31+hpv-3",
+    "analyte": "hpv-11+hpv-16+hpv-18+hpv-26+hpv-31+hpv-33+hpv-35+hpv-39+hpv-44+hpv-45+hpv-51+hpv-52+hpv-53+hpv-56+hpv-58+hpv-59+hpv-6+hpv-66+hpv-68+hpv-73+hpv-82",
+    "tuple_key": "hpv-11+hpv-16+hpv-18+hpv-26+hpv-31+hpv-33+hpv-35+hpv-39+hpv-44+hpv-45+hpv-51+hpv-52+hpv-53+hpv-56+hpv-58+hpv-59+hpv-6+hpv-66+hpv-68+hpv-73+hpv-82||arch||",
+    "referenceComponentIds": [
+      "hpv-58",
+      "hpv-45",
+      "hpv-82",
+      "hpv-33",
+      "hpv-31",
+      "hpv-73",
+      "hpv-44",
+      "hpv-53",
+      "hpv-68",
+      "hpv-26",
+      "hpv-39",
+      "hpv-11",
+      "hpv-66",
+      "hpv-16",
+      "hpv-56",
+      "hpv-18",
+      "hpv-51",
+      "hpv-52",
+      "hpv-59",
+      "hpv-6",
+      "hpv-35"
+    ],
+    "quorum_size": 21,
+    "total_comps": 21,
+    "vendor_count": 3,
+    "cluster_count": 3,
+    "offering_count": 3,
+    "vendors": ["alfa", "invitro", "medexpert"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 21,
+        "total": 21
+      }
+    ]
+  },
+  {
+    "id": "arch-hpv-16+hpv-18+hpv-31+hpv-33+hpv-35+hpv-3",
+    "name_ro": "Archetype hpv-16+hpv-18+hpv-31+hpv-33+hpv-35+hpv-3",
+    "analyte": "hpv-16+hpv-18+hpv-31+hpv-33+hpv-35+hpv-39+hpv-45+hpv-51+hpv-52+hpv-56+hpv-58+hpv-59",
+    "tuple_key": "hpv-16+hpv-18+hpv-31+hpv-33+hpv-35+hpv-39+hpv-45+hpv-51+hpv-52+hpv-56+hpv-58+hpv-59||arch||",
+    "referenceComponentIds": [
+      "hpv-58",
+      "hpv-39",
+      "hpv-45",
+      "hpv-33",
+      "hpv-16",
+      "hpv-56",
+      "hpv-18",
+      "hpv-31",
+      "hpv-51",
+      "hpv-52",
+      "hpv-59",
+      "hpv-35"
+    ],
+    "quorum_size": 12,
+    "total_comps": 24,
+    "vendor_count": 2,
+    "cluster_count": 4,
+    "offering_count": 4,
+    "vendors": ["alfa", "invitro"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 12,
+        "total": 24
+      }
+    ]
+  },
+  {
+    "id": "arch-hpv-16+hpv-18",
+    "name_ro": "Archetype hpv-16+hpv-18",
+    "analyte": "hpv-16+hpv-18",
+    "tuple_key": "hpv-16+hpv-18||arch||",
+    "referenceComponentIds": ["hpv-16", "hpv-18"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 3,
+    "cluster_count": 3,
+    "offering_count": 3,
+    "vendors": ["alfa", "invitro", "medexpert"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-identificare-bacteriana+identificare-fun",
+    "name_ro": "Archetype identificare-bacteriana+identificare-fun",
+    "analyte": "identificare-bacteriana+identificare-fungica",
+    "tuple_key": "identificare-bacteriana+identificare-fungica||arch||",
+    "referenceComponentIds": [
+      "identificare-fungica",
+      "identificare-bacteriana"
+    ],
+    "quorum_size": 2,
+    "total_comps": 4,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 2,
+    "vendors": ["invitro", "sante"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 4
+      }
+    ]
+  },
+  {
+    "id": "arch-metanefrina+normetanefrina",
+    "name_ro": "Archetype metanefrina+normetanefrina",
+    "analyte": "metanefrina+normetanefrina",
+    "tuple_key": "metanefrina+normetanefrina||arch||",
+    "referenceComponentIds": ["normetanefrina", "metanefrina"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "cluster_count": 3,
+    "offering_count": 3,
+    "vendors": ["invitro", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-rphl-p-5b+rphl-p1",
+    "name_ro": "Archetype rphl-p-5b+rphl-p1",
+    "analyte": "rphl-p-5b+rphl-p1",
+    "tuple_key": "rphl-p-5b+rphl-p1||arch||",
+    "referenceComponentIds": ["rphl-p-5b", "rphl-p1"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 2,
+    "vendors": ["alfa", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-ureaplasma-parvum+ureaplasma-urealyticum",
+    "name_ro": "Archetype ureaplasma-parvum+ureaplasma-urealyticum",
+    "analyte": "ureaplasma-parvum+ureaplasma-urealyticum",
+    "tuple_key": "ureaplasma-parvum+ureaplasma-urealyticum||arch||",
+    "referenceComponentIds": [
+      "u-parvum",
+      "u-urealyticum",
+      "ureaplasma-parvum",
+      "ureaplasma-parvum-adn",
+      "ureaplasma-urealyticum",
+      "ureaplasma-urealyticum-adn"
+    ],
+    "quorum_size": 0,
+    "total_comps": 6,
+    "vendor_count": 3,
+    "cluster_count": 5,
+    "offering_count": 5,
+    "vendors": ["alfa", "invitro", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 0,
+        "total": 6
+      }
+    ]
+  },
+  {
+    "id": "arch-virus-influenza-a+virus-influenza-b",
+    "name_ro": "Archetype virus-influenza-a+virus-influenza-b",
+    "analyte": "virus-influenza-a+virus-influenza-b",
+    "tuple_key": "virus-influenza-a+virus-influenza-b||arch||",
+    "referenceComponentIds": ["virus-influenza-a", "virus-influenza-b"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "cluster_count": 2,
+    "offering_count": 2,
+    "vendors": ["sante", "synevo"],
+    "provenance": [
+      {
+        "event": "archetype_quorum",
+        "quorum": 2,
+        "total": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-hemoleucograma-cu-reticulocite",
+    "name_ro": "Hemoleucograma completă — cu-reticulocite",
+    "name_en": "Complete blood count — cu-reticulocite",
+    "analyte": "hemoleucograma-cu-reticulocite",
+    "tuple_key": "hemoleucograma-cu-reticulocite||blood||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "cluster_count": 1,
+    "offering_count": 2,
+    "vendors": ["alfa", "medexpert"],
+    "provenance": [
+      {
+        "event": "archetype",
+        "groups": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-hemoleucograma-5-diff",
+    "name_ro": "Hemoleucograma completă — 5-diff",
+    "name_en": "Complete blood count — 5-diff",
+    "analyte": "hemoleucograma-5-diff",
+    "tuple_key": "hemoleucograma-5-diff||blood||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 3,
+    "cluster_count": 1,
+    "offering_count": 3,
+    "vendors": ["alfa", "invitro", "medexpert"],
+    "provenance": [
+      {
+        "event": "archetype",
+        "groups": 3
+      }
+    ]
+  },
+  {
+    "id": "arch-hemoleucograma-cu-formula",
+    "name_ro": "Hemoleucograma completă — cu-formula",
+    "name_en": "Complete blood count — cu-formula",
+    "analyte": "hemoleucograma-cu-formula",
+    "tuple_key": "hemoleucograma-cu-formula||blood||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 1,
+    "cluster_count": 1,
+    "offering_count": 1,
+    "vendors": ["alfa"],
+    "provenance": [
+      {
+        "event": "archetype",
+        "groups": 1
+      }
+    ]
+  },
+  {
+    "id": "arch-hemoleucograma-cu-reticulocite",
+    "name_ro": "Hemoleucograma completă — cu-reticulocite",
+    "name_en": "Complete blood count — cu-reticulocite",
+    "analyte": "hemoleucograma-cu-reticulocite",
+    "tuple_key": "hemoleucograma-cu-reticulocite||blood||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "offering_count": 2,
+    "vendors": ["alfa", "medexpert"],
+    "provenance": [
+      {
+        "event": "archetype",
+        "groups": 2
+      }
+    ]
+  },
+  {
+    "id": "arch-hemoleucograma-5-diff",
+    "name_ro": "Hemoleucograma completă — 5-diff",
+    "name_en": "Complete blood count — 5-diff",
+    "analyte": "hemoleucograma-5-diff",
+    "tuple_key": "hemoleucograma-5-diff||blood||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 3,
+    "offering_count": 3,
+    "vendors": ["alfa", "invitro", "medexpert"],
+    "provenance": [
+      {
+        "event": "archetype",
+        "groups": 3
+      }
+    ]
+  },
+  {
+    "id": "arch-hemoleucograma-cu-formula",
+    "name_ro": "Hemoleucograma completă — cu-formula",
+    "name_en": "Complete blood count — cu-formula",
+    "analyte": "hemoleucograma-cu-formula",
+    "tuple_key": "hemoleucograma-cu-formula||blood||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 1,
+    "offering_count": 1,
+    "vendors": ["alfa"],
+    "provenance": [
+      {
+        "event": "archetype",
+        "groups": 1
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-profil-tiroidian-standard-cu-h",
+    "name_ro": "Profil tiroidian standard cu hormoni liberi și anticorpi anti-TPO",
+    "analyte": "Profil tiroidian standard cu hormoni lib",
+    "tuple_key": "llm-Profil tiroidian standard cu h||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "offering_indices": [1, 2, 4],
+    "reasoning": "Offerings 1 (Synevo), 2 (Sante Tiroidă-Check) and 4 (MedExpert) share identical clinical intent: evaluarea disfuncției tiroidiene prin hormoni liberi + marker autoimun. Quorum ≥2: TSH prezent în 3/3, FT3/Free T3 prezent în 3/3, FT4/Free T4 prezent în 3/3, Anti-TPO/ATPO prezent în 3/3. Variațiile de denumire (Free T3 vs FT3 vs Triiodotironina liberă) sunt același analit. Separate de archetype 2 deoarece utilizează hormoni LIBERI vs TOTALI (metodologie și interpretare diferită) și separate de archetype 3 care este imagistic, nu de laborator.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Offerings 1 (Synevo), 2 (Sante Tiroidă-Check) and 4 (MedExpert) share identical clinical intent: evaluarea disfuncției tiroidiene prin hormoni liberi + marker autoimun. Quorum ≥2: TSH prezent în 3/3, "
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-profil-tiroidian-cu-hormoni-to",
+    "name_ro": "Profil tiroidian cu hormoni totali (de bază / extins)",
+    "analyte": "Profil tiroidian cu hormoni totali (de b",
+    "tuple_key": "llm-Profil tiroidian cu hormoni to||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "offering_indices": [0, 3, 7],
+    "reasoning": "Offerings 0 (Invitro extins), 3 (Sante Tiroidă-Esențial) și 7 (Invitro de bază) împărtășesc metodologia hormonilor TOTALI. Quorum ≥2: TSH în 3/3 (Hormonul tireotrop/TSH), tT3/T3 totală în 3/3, tT4/T4 totală în 3/3, Anti-TPO în 2/3 (0 și 3). Calcitonina (Ct) apare doar în 0, deci nu este quorum și este considerată variație minoră de tip extins pentru screening carcinom medular în cadrul aceluiași intent de profil total. 7 este varianta de bază fără anticorpi, 3 este varianta esențială cu anticorpi, 0 este varianta extinsă cu calcitonină - toate variații minore ale aceluiași archetype cu hormoni totali. Separate de archetype 1 (hormoni liberi) și de archetype 3 (imagistic).",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Offerings 0 (Invitro extins), 3 (Sante Tiroidă-Esențial) și 7 (Invitro de bază) împărtășesc metodologia hormonilor TOTALI. Quorum ≥2: TSH în 3/3 (Hormonul tireotrop/TSH), tT3/T3 totală în 3/3, tT4/T4 "
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-imagistică-ecografică-cu-evalu",
+    "name_ro": "Imagistică ecografică cu evaluarea glandei tiroide",
+    "analyte": "Imagistică ecografică cu evaluarea gland",
+    "tuple_key": "llm-Imagistică ecografică cu evalu||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "offering_indices": [5, 6],
+    "reasoning": "Offerings 5 (Examen ecografic general bărbați) și 6 (Ecografia glandei tiroide + Doppler + Elastografie TI-RADS) sunt ambele proceduri imagistice, nu de laborator, al căror numitor comun este evaluarea ecografică a glandei tiroide. Quorum ≥2: Glanda tiroidă / Structura glandei tiroide prezentă în 2/2 (analytes: glanda tiroidă în 5 și Structura glandei tiroide/Noduli tiroidieni în 6). 5 include suplimentar cavitate abdominală, rinichi, vezică, prostată (screening general), 6 include Doppler vascular, elastografie și scor TI-RADS (evaluare dedicată tiroidiană) - variații de extensie în cadrul aceluiași archetype imagistic. Gruparea este necesară pentru a satisface quorum ≥2 și pentru a separa clar intentul imagistic de cele două archetype de laborator (hormoni liberi vs totali).",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Offerings 5 (Examen ecografic general bărbați) și 6 (Ecografia glandei tiroide + Doppler + Elastografie TI-RADS) sunt ambele proceduri imagistice, nu de laborator, al căror numitor comun este evaluare"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-monitorizare-glicemică-diabet-",
+    "name_ro": "Monitorizare glicemică diabet zaharat (HbA1c + glucoză)",
+    "analyte": "Monitorizare glicemică diabet zaharat (H",
+    "tuple_key": "llm-Monitorizare glicemică diabet ||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "offering_indices": [1, 2],
+    "reasoning": "Ambele oferte 1 [medexpert] și 2 [synevo] au același intent clinic central: monitorizarea controlului glicemic prin markerii de bază Glucoza/Glicemie + Hemoglobina glicozilată (HbA1c) prezenți la ambii vendori (quorum ≥2). Diferențele - Analiza generală de urină la 1 vs Insulina + C-peptid la 2 - sunt variații minore de vendor pentru evaluarea controlului/funcției beta-pancreatice, nu schimbă arhetipul. Separate de 0 care nu conține HbA1c și vizează complicații metabolice (lipide, ficat, rinichi, coagulare), de 3 care este risc genetic HLA și de 4 care este test funcțional de provocare OGTT.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Ambele oferte 1 [medexpert] și 2 [synevo] au același intent clinic central: monitorizarea controlului glicemic prin markerii de bază Glucoza/Glicemie + Hemoglobina glicozilată (HbA1c) prezenți la ambi"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-pachet-metabolic-extins-pentru",
+    "name_ro": "Pachet metabolic extins pentru diabet (profil lipidic, hepatic, renal, coagulare)",
+    "analyte": "Pachet metabolic extins pentru diabet (p",
+    "tuple_key": "llm-Pachet metabolic extins pentru||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 1,
+    "offering_indices": [0],
+    "reasoning": "Oferta 0 [sante] nu conține HbA1c și combină Glicemie cu HDL colesterol, LDL colesterol, Trigliceride serice, Bilirubina directa/indirecta/totala, TGO/AST, TGP/ALT, Lipaza, Creatinina serica, Timp Quick/INR. Intentul este screeningul sindromului metabolic și al complicațiilor/comorbidităților diabetului (dislipidemie, afectare hepatică, renală, pancreatică, coagulare), nu monitorizarea glicemică statică ca la 1/2, nici test genetic ca 3, nici OGTT dinamic ca 4. Singleton, deci fără reference_components cu quorum ≥2.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Oferta 0 [sante] nu conține HbA1c și combină Glicemie cu HDL colesterol, LDL colesterol, Trigliceride serice, Bilirubina directa/indirecta/totala, TGO/AST, TGP/ALT, Lipaza, Creatinina serica, Timp Qui"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-predispoziție-genetică-diabet-",
+    "name_ro": "Predispoziție genetică diabet zaharat tip 1 (HLA-DQ)",
+    "analyte": "Predispoziție genetică diabet zaharat ti",
+    "tuple_key": "llm-Predispoziție genetică diabet ||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 1,
+    "offering_indices": [3],
+    "reasoning": "Oferta 3 [synevo] testează susceptibilitatea genetică HLA-DQ, DQA1*0501, DQB1*0201, DQA1*0301, DQB1*0302, DR3, DR4, C12ORF30, CLEC16A, INS, PTPN22. Intent molecular-genetic de risc pentru diabet tip 1, complet distinct de monitorizarea glicemică (1/2), de pachetul metabolic (0) și de testul funcțional OGTT (4). Nu poate fi grupat cu alte oferte.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Oferta 3 [synevo] testează susceptibilitatea genetică HLA-DQ, DQA1*0501, DQB1*0201, DQA1*0301, DQB1*0302, DR3, DR4, C12ORF30, CLEC16A, INS, PTPN22. Intent molecular-genetic de risc pentru diabet tip 1"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-test-de-toleranță-la-glucoză-p",
+    "name_ro": "Test de toleranță la glucoză per os 0-60-120 min (screening diabet gestațional)",
+    "analyte": "Test de toleranță la glucoză per os 0-60",
+    "tuple_key": "llm-Test de toleranță la glucoză p||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 1,
+    "offering_indices": [4],
+    "reasoning": "Oferta 4 [invitro] este test funcțional de provocare: Glucoza bazală + Glicemie după 60 min + Glicemie după 120 min + coeficienți calculați. Evaluează toleranța dinamică la glucoză pentru screening diabet gestațional, distinct de glicemia a jeun + HbA1c statică din 1/2, de pachetul metabolic extins 0 și de riscul genetic 3. Singleton fără quorum.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Oferta 4 [invitro] este test funcțional de provocare: Glucoza bazală + Glicemie după 60 min + Glicemie după 120 min + coeficienți calculați. Evaluează toleranța dinamică la glucoză pentru screening di"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-ionograma-extinsă",
+    "name_ro": "Ionograma extinsă",
+    "analyte": "Ionograma extinsă",
+    "tuple_key": "llm-Ionograma extinsă||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 2,
+    "offering_indices": [0, 1, 2],
+    "reasoning": "Offerings 0 and 1 are identical sante panels (adult and pediatric) with the same extended ionogram content. Offering 2 (Synevo 'Profil Ionograma extinsă') represents the same clinical archetype: a broad electrolyte/mineral panel including sodium, potassium, chloride, calcium, magnesium, phosphorus, and iron. The only variation is that sante lists calcium as separate ionic and total fractions, while synevo lists a single total calcium; this is a minor component variation within the same intended extended ionogram. They are separated from offering 3 because 3 lacks phosphorus and iron, which defines a basic rather than extended ionogram.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Offerings 0 and 1 are identical sante panels (adult and pediatric) with the same extended ionogram content. Offering 2 (Synevo 'Profil Ionograma extinsă') represents the same clinical archetype: a bro"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-ionograma-de-bază",
+    "name_ro": "Ionograma de bază",
+    "analyte": "Ionograma de bază",
+    "tuple_key": "llm-Ionograma de bază||arch||",
+    "referenceComponentIds": [],
+    "quorum_size": 0,
+    "total_comps": 0,
+    "vendor_count": 1,
+    "offering_indices": [3],
+    "reasoning": "Offering 3 is a basic ionogram containing only the five core electrolytes: calcium, chloride, magnesium, sodium, and potassium. It lacks phosphorus and iron, so it represents a distinct clinical archetype from the extended ionogram panels. Since it is the only offering of this archetype, no component meets the ≥2-vendor quorum, so reference_components is empty.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "Offering 3 is a basic ionogram containing only the five core electrolytes: calcium, chloride, magnesium, sodium, and potassium. It lacks phosphorus and iron, so it represents a distinct clinical arche"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-hiv-hiv-1+2-anticorpi-+-",
+    "name_ro": "HIV 1+2 anticorpi + antigen p24 HIV-1 (test combinat generația a 4-a, screening Ag/Ac)",
+    "analyte": "hiv",
+    "tuple_key": "hiv-llm-HIV 1+2 anticorpi + ||arch||",
+    "referenceComponentIds": [
+      "HIV-1 anticorpi",
+      "HIV-2 anticorpi",
+      "HIV-1 antigen p24"
+    ],
+    "quorum_size": 3,
+    "total_comps": 3,
+    "vendor_count": 2,
+    "offering_indices": [0, 1, 5],
+    "reasoning": "0,1,5 au aceiași analiți clinici: anticorpi anti-HIV-1 + anti-HIV-2 + antigen p24 HIV-1. Denumirile diferă (Testare HIV anti HIV 1+2/Ag.p24, Anti-HIV 1+2, HIV tip I/II-Antigen/Anticorpi) dar lista de analiți este identică. Diferența de metodă ELISA vs ECLIA nu schimbă testul clinic - toate sunt teste combinate de generația a 4-a pentru screening.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "0,1,5 au aceiași analiți clinici: anticorpi anti-HIV-1 + anti-HIV-2 + antigen p24 HIV-1. Denumirile diferă (Testare HIV anti HIV 1+2/Ag.p24, Anti-HIV 1+2, HIV tip I/II-Antigen/Anticorpi) dar lista de "
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-hiv-hiv-1+2-anticorpi-(s",
+    "name_ro": "HIV 1+2 anticorpi (screening generația a 3-a, fără antigen p24)",
+    "analyte": "hiv",
+    "tuple_key": "hiv-llm-HIV 1+2 anticorpi (s||arch||",
+    "referenceComponentIds": ["HIV-1 anticorpi", "HIV-2 anticorpi"],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "offering_indices": [2, 4],
+    "reasoning": "2 (Anticorpi către HIV I, II) și 4 (Testare HIV 1+2 screening) detectează doar anticorpi HIV-1/2, fără componenta antigen p24. Ambele au variant screening. Diferența ELISA vs imunocromatografie este diferență de platformă, nu de test clinic. Se separă de archetype-ul combinat 0/1/5 care include p24.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "2 (Anticorpi către HIV I, II) și 4 (Testare HIV 1+2 screening) detectează doar anticorpi HIV-1/2, fără componenta antigen p24. Ambele au variant screening. Diferența ELISA vs imunocromatografie este d"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-hiv-panel-genetic-graft-",
+    "name_ro": "Panel genetic Graft versus gazdă / HIV-1 / gena IL10",
+    "analyte": "hiv",
+    "tuple_key": "hiv-llm-Panel genetic Graft ||arch||",
+    "referenceComponentIds": ["Graft versus gazdă", "HIV-1", "IL10 gena"],
+    "quorum_size": 3,
+    "total_comps": 3,
+    "vendor_count": 1,
+    "offering_indices": [3],
+    "reasoning": "3 este outlier: pachet genetic ce include Graft versus gazdă și gena IL10 alături de HIV-1, fără metodă de serologie/virologie. Nu este test diagnostic de infecție HIV (anticorpi/antigen/ARN), ci testare genetică/predispoziție, deci nu poate fi grupat cu niciun alt offering HIV.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "3 este outlier: pachet genetic ce include Graft versus gazdă și gena IL10 alături de HIV-1, fără metodă de serologie/virologie. Nu este test diagnostic de infecție HIV (anticorpi/antigen/ARN), ci test"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-hiv-hiv-arn-viral---încă",
+    "name_ro": "HIV ARN viral - încărcătură virală cantitativă",
+    "analyte": "hiv",
+    "tuple_key": "hiv-llm-HIV ARN viral - încă||arch||",
+    "referenceComponentIds": ["HIV-1 ARN"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [6, 8, 9],
+    "reasoning": "6 (HIV-1 ARN cantitativ, PCR), 8 (HIV - ARN viral, real-time TMA) și 9 (Virusul imunodeficienței umane HIV ARN, sânge) sunt același test clinic: detecție/cuantificare ARN HIV (încărcătură virală). 6 are variant cantitativ explicit, 8 și 9 sunt denumiri generice pentru același parametru viral load; diferența PCR vs TMA este diferență de metodă, nu de arhetip clinic.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "6 (HIV-1 ARN cantitativ, PCR), 8 (HIV - ARN viral, real-time TMA) și 9 (Virusul imunodeficienței umane HIV ARN, sânge) sunt același test clinic: detecție/cuantificare ARN HIV (încărcătură virală). 6 a"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-hiv-hiv-1-genotipare-rez",
+    "name_ro": "HIV-1 genotipare rezistență la antiretrovirale",
+    "analyte": "hiv",
+    "tuple_key": "hiv-llm-HIV-1 genotipare rez||arch||",
+    "referenceComponentIds": [
+      "HIV-1 genotipare",
+      "HIV-1 ARN rezistență antiretrovirale"
+    ],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 1,
+    "offering_indices": [7],
+    "reasoning": "7 (HIV-1 genotipare rezistența la antiretrovirale, RT-PCR) este test de secvențiere/genotipare pentru mutații de rezistență, nu simplă detecție/cuantificare ARN. Scop clinic distinct (ghidare terapie antiretrovirală) față de încărcătura virală 6/8/9, deci arhetip separat.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "7 (HIV-1 genotipare rezistența la antiretrovirale, RT-PCR) este test de secvențiere/genotipare pentru mutații de rezistență, nu simplă detecție/cuantificare ARN. Scop clinic distinct (ghidare terapie "
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-–-",
+    "name_ro": "Toxoplasma gondii – Anticorpi IgM",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii – ||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii IgM"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [0, 1, 2, 3],
+    "reasoning": "0-3 au denumiri identice clinic (Anticorpi IgM anti-Toxoplasma gondii) cu comps [] si analytes [Toxoplasma gondii]; diferenta de formulare synevo/sante/invitro/alfa este sinonim de platforma, acelasi panel single-analyte IgM.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "0-3 au denumiri identice clinic (Anticorpi IgM anti-Toxoplasma gondii) cu comps [] si analytes [Toxoplasma gondii]; diferenta de formulare synevo/sante/invitro/alfa este sinonim de platforma, acelasi "
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-–-",
+    "name_ro": "Toxoplasma gondii – Anticorpi IgG",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii – ||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii IgG"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [7, 8, 19],
+    "reasoning": "7,8,19 sunt Toxoplasma IgG izolat (synevo, sante, medexpert); acelasi component IgG, fara IgM/ADN/aviditate, sinonime de denumire.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "7,8,19 sunt Toxoplasma IgG izolat (synevo, sante, medexpert); acelasi component IgG, fara IgM/ADN/aviditate, sinonime de denumire."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-–-",
+    "name_ro": "Toxoplasma gondii – ADN în sânge",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii – ||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii ADN (sânge)"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [4, 5, 6, 15],
+    "reasoning": "4,5 (synevo duplicate), 6 (medexpert ADN calitativ sânge) si 15 (sante ADN sânge) sunt acelasi test molecular calitativ Toxoplasma ADN cu matrice sânge; sinonime de platforma.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "4,5 (synevo duplicate), 6 (medexpert ADN calitativ sânge) si 15 (sante ADN sânge) sunt acelasi test molecular calitativ Toxoplasma ADN cu matrice sânge; sinonime de platforma."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-–-",
+    "name_ro": "Toxoplasma gondii – ADN în LCR",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii – ||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii ADN (LCR)"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 1,
+    "offering_indices": [16],
+    "reasoning": "16 este ADN Toxoplasma în LCR, matrice diferita de sânge/lichid amniotic => panel clinic distinct, nu se grupeaza cu ADN sânge.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "16 este ADN Toxoplasma în LCR, matrice diferita de sânge/lichid amniotic => panel clinic distinct, nu se grupeaza cu ADN sânge."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-–-",
+    "name_ro": "Toxoplasma gondii – ADN în lichid amniotic",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii – ||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii ADN (lichid amniotic)"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 1,
+    "offering_indices": [17],
+    "reasoning": "17 este ADN Toxoplasma în lichid amniotic, indicatie prenatala distincta de sânge si LCR => arhetip separat.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "17 este ADN Toxoplasma în lichid amniotic, indicatie prenatala distincta de sânge si LCR => arhetip separat."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-–-",
+    "name_ro": "Toxoplasma gondii – Aviditate IgG",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii – ||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii Aviditate IgG"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 1,
+    "offering_indices": [18],
+    "reasoning": "18 este test de aviditate IgG Toxoplasma, diferit de IgG cantitativ, IgM sau ADN => panel distinct.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "18 este test de aviditate IgG Toxoplasma, diferit de IgG cantitativ, IgM sau ADN => panel distinct."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-profil-torch-complet",
+    "name_ro": "Profil TORCH complet – IgG + IgM (Toxoplasma, Rubella, CMV, HSV 1/2)",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Profil TORCH complet||arch||",
+    "referenceComponentIds": [
+      "Toxoplasma gondii IgG",
+      "Toxoplasma gondii IgM",
+      "Rubella virus IgG",
+      "Rubella virus IgM",
+      "Cytomegalovirus IgG",
+      "Cytomegalovirus IgM",
+      "Herpes simplex virus 1/2 IgG",
+      "Herpes simplex virus 1/2 IgM"
+    ],
+    "quorum_size": 8,
+    "total_comps": 8,
+    "vendor_count": 2,
+    "offering_indices": [9, 10, 11, 12],
+    "reasoning": "9 (invitro Complexul TORCH), 10 (synevo Profil TORCH), 11 (medexpert Profilul TORCH), 12 (sante Profil TORCH) contin acelasi panel complet 4 patogeni x 2 clase IgG+IgM (Toxo, Rubella, CMV, HSV). Diferenta HSV 1/2 combinat (9) vs HSV-1 si HSV-2 diferentiat (11,12) este sinonim de platforma, nu panel distinct; comps trunchiate dar analytes confirma 8-10 markeri IgG+IgM.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "9 (invitro Complexul TORCH), 10 (synevo Profil TORCH), 11 (medexpert Profilul TORCH), 12 (sante Profil TORCH) contin acelasi panel complet 4 patogeni x 2 clase IgG+IgM (Toxo, Rubella, CMV, HSV). Difer"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-panel-torch-–-igg-(t",
+    "name_ro": "Panel TORCH – IgG (Toxoplasma, Rubella, CMV, HSV-1, HSV-2)",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Panel TORCH – IgG (T||arch||",
+    "referenceComponentIds": [
+      "Toxoplasma gondii IgG",
+      "Rubella virus IgG",
+      "Cytomegalovirus IgG",
+      "Herpes simplex virus 1 IgG",
+      "Herpes simplex virus 2 IgG"
+    ],
+    "quorum_size": 5,
+    "total_comps": 5,
+    "vendor_count": 1,
+    "offering_indices": [13],
+    "reasoning": "13 este panel TORCH doar IgG (5 analytes IgG) – distinct de profilul complet IgG+IgM si de panelul IgM; comps confirma doar IgG anti-Toxo, Rubella, CMV, HSV-1, HSV-2.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "13 este panel TORCH doar IgG (5 analytes IgG) – distinct de profilul complet IgG+IgM si de panelul IgM; comps confirma doar IgG anti-Toxo, Rubella, CMV, HSV-1, HSV-2."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-panel-torch-–-igm-(t",
+    "name_ro": "Panel TORCH – IgM (Toxoplasma, Rubella, CMV, HSV-1, HSV-2)",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Panel TORCH – IgM (T||arch||",
+    "referenceComponentIds": [
+      "Toxoplasma gondii IgM",
+      "Rubella virus IgM",
+      "Cytomegalovirus IgM",
+      "Herpes simplex virus 1 IgM",
+      "Herpes simplex virus 2 IgM"
+    ],
+    "quorum_size": 5,
+    "total_comps": 5,
+    "vendor_count": 1,
+    "offering_indices": [14],
+    "reasoning": "14 este panel TORCH doar IgM (5 analytes IgM) – oglinda lui 13 dar clasa IgM, distinct de IgG si de profilul complet IgG+IgM.",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "14 este panel TORCH doar IgM (5 analytes IgM) – oglinda lui 13 dar clasa IgM, distinct de IgG si de profilul complet IgG+IgM."
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-anticorpi-toxoplasma",
+    "name_ro": "Anticorpi Toxoplasma gondii IgG cu aviditate",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Anticorpi Toxoplasma||arch||",
+    "referenceComponentIds": [
+      "Toxoplasma gondii IgG",
+      "Aviditate Toxoplasma gondii IgG"
+    ],
+    "quorum_size": 2,
+    "total_comps": 2,
+    "vendor_count": 2,
+    "offering_indices": [0, 1, 8, 11],
+    "reasoning": "0 'IgG (aviditate)', 1 'Aviditate IgG (inclusiv anticorpi IgG)' cu comps [Aviditate; IgG], 8 'IgG, aviditatea', 11 'IgG (aviditatea)' - toate acelasi panel IgG+aviditate; diferentele sunt sinonime de platforma/denumire, nu panel distinct",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "0 'IgG (aviditate)', 1 'Aviditate IgG (inclusiv anticorpi IgG)' cu comps [Aviditate; IgG], 8 'IgG, aviditatea', 11 'IgG (aviditatea)' - toate acelasi panel IgG+aviditate; diferentele sunt sinonime de "
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-anticorpi-toxoplasma",
+    "name_ro": "Anticorpi Toxoplasma gondii IgG",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Anticorpi Toxoplasma||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii IgG"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [7, 10],
+    "reasoning": "7 'Anticorpi Toxoplasma gondii, IgG' si 10 'Anticorpi catre Toxoplasma gondii, IgG' - acelasi analit IgG fara aviditate, fara IgM, sinonim de platforma; distinct de panelul IgG+aviditate",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "7 'Anticorpi Toxoplasma gondii, IgG' si 10 'Anticorpi catre Toxoplasma gondii, IgG' - acelasi analit IgG fara aviditate, fara IgM, sinonim de platforma; distinct de panelul IgG+aviditate"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-anticorpi-toxoplasma",
+    "name_ro": "Anticorpi Toxoplasma gondii IgM",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Anticorpi Toxoplasma||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii IgM"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [2, 9],
+    "reasoning": "2 'Anticorpi IgM' si 9 'Anticorpi IgM (Western Blot)' - acelasi analit IgM; Western Blot este sinonim de platforma/metoda, nu panel distinct; distinct de IgG si aviditate",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "2 'Anticorpi IgM' si 9 'Anticorpi IgM (Western Blot)' - acelasi analit IgM; Western Blot este sinonim de platforma/metoda, nu panel distinct; distinct de IgG si aviditate"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-ad",
+    "name_ro": "Toxoplasma gondii ADN sânge",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii AD||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii ADN"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 2,
+    "offering_indices": [3, 4],
+    "reasoning": "3 'ADN, sânge' si 4 'ADN, calitativ, sânge' - acelasi panel molecular ADN din sange; 'calitativ' este sinonim de platforma; distinct de serologie",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "3 'ADN, sânge' si 4 'ADN, calitativ, sânge' - acelasi panel molecular ADN din sange; 'calitativ' este sinonim de platforma; distinct de serologie"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-ad",
+    "name_ro": "Toxoplasma gondii ADN lichid amniotic",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii AD||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii ADN"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 1,
+    "offering_indices": [5],
+    "reasoning": "5 'ADN, lichidul amniotic' - acelasi analit ADN dar specimen si indicatie clinica distincta (diagnostic prenatal) fata de sange si LCR, deci panel clinic distinct",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "5 'ADN, lichidul amniotic' - acelasi analit ADN dar specimen si indicatie clinica distincta (diagnostic prenatal) fata de sange si LCR, deci panel clinic distinct"
+      }
+    ]
+  },
+  {
+    "id": "arch-llm-torch-toxoplasma-gondii-ad",
+    "name_ro": "Toxoplasma gondii ADN lichid cefalorahidian",
+    "analyte": "torch",
+    "tuple_key": "torch-llm-Toxoplasma gondii AD||arch||",
+    "referenceComponentIds": ["Toxoplasma gondii ADN"],
+    "quorum_size": 1,
+    "total_comps": 1,
+    "vendor_count": 1,
+    "offering_indices": [6],
+    "reasoning": "6 'ADN, lichidul cefalorahidian' - acelasi analit ADN dar specimen LCR si indicatie neuro distincta fata de sange si lichid amniotic, deci panel clinic distinct",
+    "provenance": [
+      {
+        "event": "llm_archetype",
+        "reasoning": "6 'ADN, lichidul cefalorahidian' - acelasi analit ADN dar specimen LCR si indicatie neuro distincta fata de sange si lichid amniotic, deci panel clinic distinct"
+      }
+    ]
+  }
+]

@@ -3,12 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "exports": {
-    "./stat-card": "./src/stat-card.tsx",
-    "./test-card": "./src/test-card.tsx",
-    "./test-carousel-card": "./src/test-carousel-card.tsx",
-    "./tests-carousel": "./src/tests-carousel.tsx"
-  },
+  "exports": {},
   "scripts": {
     "lint": "eslint",
     "typecheck": "tsc --noEmit"

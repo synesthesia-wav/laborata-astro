@@ -1,0 +1,126 @@
+---
+import graph from "../../../../../packages/data/data/canonical-graph.json" with {
+  type: "json",
+};
+import { PRODUCT_GALLERY } from "../../components/product/data";
+import { Faq } from "../../components/product/faq";
+import { PriceComparison } from "../../components/product/price-comparison";
+import { ProductGallery } from "../../components/product/product-gallery";
+import { ProductHeader } from "../../components/product/product-header";
+import { ProductSpecs } from "../../components/product/product-specs";
+import Layout from "../../layouts/Layout.astro";
+
+type GraphItem = { id: string; role: string; tuple_key: string };
+
+export function getStaticPaths() {
+  const items = (graph as { items: GraphItem[] }).items.filter(
+    (i) => i.role === "comparison"
+  );
+  const enItems = items.map((it) => ({
+    params: { slug: it.id === "vitamina-b12" ? "vitamin-b12" : it.id },
+  }));
+  if (!enItems.some((p) => p.params.slug === "vitamin-b12")) {
+    enItems.push({ params: { slug: "vitamin-b12" } });
+  }
+  return enItems;
+}
+
+const { slug } = Astro.params;
+const roSlug = slug === "vitamin-b12" ? "vitamina-b12" : slug;
+const item = (graph as { items: GraphItem[] }).items.find(
+  (i) => i.id === roSlug
+);
+if (!item && slug !== "vitamin-b12") {
+  return Astro.redirect("/tests/vitamin-b12", 302);
+}
+const displayName =
+  slug === "vitamin-b12"
+    ? "Vitamin B12 (Cobalamin)"
+    : slug.replaceAll("-", " ");
+const title = `${displayName} | Laborata — Tests`;
+const description =
+  slug === "vitamin-b12"
+    ? "Vitamin B12 (Cobalamin). Measures total B12, result in 1 day, from 175 MDL. Price comparison Synevo, Sante, Invitro, Alfa."
+    : `${displayName} — test available at Synevo, Sante, Invitro, Alfa. Compare prices, fee once.`;
+const url = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url.origin
+).toString();
+---
+
+<Layout
+  description={description}
+  lang="en"
+  ogImage={PRODUCT_GALLERY[0]}
+  title={title}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MedicalTest",
+      name: displayName,
+      alternateName: slug,
+      description,
+      url,
+      relevantSpecialty: "Hematology",
+      code: {
+        "@type": "MedicalCode",
+        code: (item as GraphItem | undefined)?.tuple_key ?? slug,
+        codingSystem: "Laborata tuple_key",
+      },
+    })}
+  />
+  <section
+    class="grid gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10"
+  >
+    <ProductGallery
+      idSuffix={`${slug}-hero-en`}
+      images={PRODUCT_GALLERY}
+      client:load
+    />
+    <ProductHeader
+      idSuffix={`${slug}-hero-en`}
+      lang="en"
+      priceAsOf="August 2026"
+      sourceUrl="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"
+      client:load
+    />
+  </section>
+
+  <section class="border-t bg-muted/20 px-4 py-10 sm:px-6">
+    <div class="mx-auto flex w-full max-w-7xl flex-col">
+      <ProductSpecs idSuffix={`${slug}-specs-en`} client:load />
+    </div>
+  </section>
+
+  <section class="px-4 py-10 sm:px-6">
+    <div class="mx-auto w-full max-w-7xl">
+      <PriceComparison
+        idSuffix={`${slug}-en`}
+        lang="en"
+        priceAsOf="August 2026"
+        client:load
+      />
+    </div>
+  </section>
+
+  <section class="px-4 py-10 sm:px-6">
+    <div class="mx-auto w-full max-w-3xl">
+      <Faq idSuffix={`${slug}-en`} client:load />
+    </div>
+  </section>
+
+  <section class="border-t bg-card px-4 py-8 sm:px-6">
+    <div class="mx-auto max-w-7xl">
+      <p class="max-w-3xl text-xs leading-relaxed text-muted-foreground">
+        Laborata information is for information only and does not replace
+        medical advice. For persistent symptoms, anemia, pregnancy or
+        supplements, consult your clinician. Collection fee: Sante/MedExpert 0
+        MDL — included, Synevo/Invitro 30 MDL once, Alfa 25 MDL.
+      </p>
+    </div>
+  </section>
+</Layout>

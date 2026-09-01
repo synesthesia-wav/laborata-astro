@@ -1,0 +1,437 @@
+{
+  "vendor": "alfa",
+  "source": "alfa_homepage_raw",
+  "scraped_at": "2026-06-10T16:06:38.335220+00:00",
+  "source_url": "https://alfalab.md/ro/",
+  "items": [
+    {
+      "menu_index": 0,
+      "raw_text": "Sector Centru\nChișinău\nstr. N. Testemițanu, 21\nLuni – Vineri\n07:30 - 18:00\nPrelevare analize\n07:30 - 15:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:45\n(022) 82 44 44\ninfo@alfalab.md\n  ",
+      "lines": [
+        "Sector Centru",
+        "Chișinău",
+        "str. N. Testemițanu, 21",
+        "Luni – Vineri",
+        "07:30 - 18:00",
+        "Prelevare analize",
+        "07:30 - 15:30",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:45",
+        "(022) 82 44 44",
+        "info@alfalab.md"
+      ],
+      "raw_name": "Sector Centru",
+      "raw_city": "Chișinău",
+      "raw_address": "str. N. Testemițanu, 21",
+      "raw_hours": "Luni – Vineri\n07:30 - 18:00\nPrelevare analize\n07:30 - 15:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:45\n(022) 82 44 44\ninfo@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info@alfalab.md",
+      "links": [
+        {
+          "text": "info@alfalab.md",
+          "href": "mailto:info@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 1,
+      "raw_text": "Sector Botanica\nChișinău\nstr. Decebal, 72/6\nLuni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 15:00\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.botanica@alfalab.md\n  ",
+      "lines": [
+        "Sector Botanica",
+        "Chișinău",
+        "str. Decebal, 72/6",
+        "Luni – Vineri",
+        "07:30 - 16:00",
+        "Prelevare analize",
+        "07:30 - 15:00",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:30",
+        "(022) 82 44 44",
+        "info.botanica@alfalab.md"
+      ],
+      "raw_name": "Sector Botanica",
+      "raw_city": "Chișinău",
+      "raw_address": "str. Decebal, 72/6",
+      "raw_hours": "Luni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 15:00\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.botanica@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.botanica@alfalab.md",
+      "links": [
+        {
+          "text": "info.botanica@alfalab.md",
+          "href": "mailto:info.botanica@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 2,
+      "raw_text": "Sector Râșcani 1\nChișinău\nstr. Alecu Russo, 15\nLuni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.riscani@alfalab.md\n  ",
+      "lines": [
+        "Sector Râșcani 1",
+        "Chișinău",
+        "str. Alecu Russo, 15",
+        "Luni – Vineri",
+        "07:30 - 16:00",
+        "Prelevare analize",
+        "07:30 - 14:30",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:30",
+        "(022) 82 44 44",
+        "info.riscani@alfalab.md"
+      ],
+      "raw_name": "Sector Râșcani 1",
+      "raw_city": "Chișinău",
+      "raw_address": "str. Alecu Russo, 15",
+      "raw_hours": "Luni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.riscani@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.riscani@alfalab.md",
+      "links": [
+        {
+          "text": "info.riscani@alfalab.md",
+          "href": "mailto:info.riscani@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 3,
+      "raw_text": "Sector Râșcani 2\nChișinău\nstr. Miron Costin, 13/1\nLuni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.riscani.costin@alfalab.md\n  ",
+      "lines": [
+        "Sector Râșcani 2",
+        "Chișinău",
+        "str. Miron Costin, 13/1",
+        "Luni – Vineri",
+        "07:30 - 16:00",
+        "Prelevare analize",
+        "07:30 - 14:30",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:30",
+        "(022) 82 44 44",
+        "info.riscani.costin@alfalab.md"
+      ],
+      "raw_name": "Sector Râșcani 2",
+      "raw_city": "Chișinău",
+      "raw_address": "str. Miron Costin, 13/1",
+      "raw_hours": "Luni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.riscani.costin@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.riscani.costin@alfalab.md",
+      "links": [
+        {
+          "text": "info.riscani.costin@alfalab.md",
+          "href": "mailto:info.riscani.costin@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 4,
+      "raw_text": "Sector Ciocana\nChișinău\nstr. Mircea cel Bătrân, 3/2\nLuni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 15:00\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.ciocana@alfalab.md\n  ",
+      "lines": [
+        "Sector Ciocana",
+        "Chișinău",
+        "str. Mircea cel Bătrân, 3/2",
+        "Luni – Vineri",
+        "07:30 - 16:00",
+        "Prelevare analize",
+        "07:30 - 15:00",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:30",
+        "(022) 82 44 44",
+        "info.ciocana@alfalab.md"
+      ],
+      "raw_name": "Sector Ciocana",
+      "raw_city": "Chișinău",
+      "raw_address": "str. Mircea cel Bătrân, 3/2",
+      "raw_hours": "Luni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 15:00\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:30\n(022) 82 44 44\ninfo.ciocana@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.ciocana@alfalab.md",
+      "links": [
+        {
+          "text": "info.ciocana@alfalab.md",
+          "href": "mailto:info.ciocana@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 5,
+      "raw_text": "Sector Buiucani 1\nChișinău\nstr. București, 116\nLuni – Vineri\n07:30 - 18:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:00\n(022) 82 44 44\ninfo.buiucani@alfalab.md\n  ",
+      "lines": [
+        "Sector Buiucani 1",
+        "Chișinău",
+        "str. București, 116",
+        "Luni – Vineri",
+        "07:30 - 18:00",
+        "Prelevare analize",
+        "07:30 - 14:30",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:00",
+        "(022) 82 44 44",
+        "info.buiucani@alfalab.md"
+      ],
+      "raw_name": "Sector Buiucani 1",
+      "raw_city": "Chișinău",
+      "raw_address": "str. București, 116",
+      "raw_hours": "Luni – Vineri\n07:30 - 18:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:00\n(022) 82 44 44\ninfo.buiucani@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.buiucani@alfalab.md",
+      "links": [
+        {
+          "text": "info.buiucani@alfalab.md",
+          "href": "mailto:info.buiucani@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 6,
+      "raw_text": "Sector Buiucani 2\nChișinău\nPiața Unirii Principatelor, 1\nLuni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:00\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:00\n(022) 82 44 44\ninfo.buiucani.unirii@alfalab.md\n  ",
+      "lines": [
+        "Sector Buiucani 2",
+        "Chișinău",
+        "Piața Unirii Principatelor, 1",
+        "Luni – Vineri",
+        "07:30 - 16:00",
+        "Prelevare analize",
+        "07:30 - 14:00",
+        "Sâmbătă",
+        "08:00 - 14:00",
+        "Prelevare analize",
+        "08:00 - 12:00",
+        "(022) 82 44 44",
+        "info.buiucani.unirii@alfalab.md"
+      ],
+      "raw_name": "Sector Buiucani 2",
+      "raw_city": "Chișinău",
+      "raw_address": "Piața Unirii Principatelor, 1",
+      "raw_hours": "Luni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:00\nSâmbătă\n08:00 - 14:00\nPrelevare analize\n08:00 - 12:00\n(022) 82 44 44\ninfo.buiucani.unirii@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.buiucani.unirii@alfalab.md",
+      "links": [
+        {
+          "text": "info.buiucani.unirii@alfalab.md",
+          "href": "mailto:info.buiucani.unirii@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 7,
+      "raw_text": "Bălți 1\nBălți\nstr. Decebal, 126/4\nLuni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 13:00\nPrelevare analize\n08:00 - 11:00\n(022) 82 44 44\ninfo.balti@alfalab.md\n  ",
+      "lines": [
+        "Bălți 1",
+        "Bălți",
+        "str. Decebal, 126/4",
+        "Luni – Vineri",
+        "07:30 - 16:00",
+        "Prelevare analize",
+        "07:30 - 14:30",
+        "Sâmbătă",
+        "08:00 - 13:00",
+        "Prelevare analize",
+        "08:00 - 11:00",
+        "(022) 82 44 44",
+        "info.balti@alfalab.md"
+      ],
+      "raw_name": "Bălți 1",
+      "raw_city": "Bălți",
+      "raw_address": "str. Decebal, 126/4",
+      "raw_hours": "Luni – Vineri\n07:30 - 16:00\nPrelevare analize\n07:30 - 14:30\nSâmbătă\n08:00 - 13:00\nPrelevare analize\n08:00 - 11:00\n(022) 82 44 44\ninfo.balti@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.balti@alfalab.md",
+      "links": [
+        {
+          "text": "info.balti@alfalab.md",
+          "href": "mailto:info.balti@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 8,
+      "raw_text": "Bălți 2\nBălți\nstr. M. Sadoveanu, 1\nLuni - Vineri\n07:30 - 16:00\nPrelevarea analizelor\n07:30 - 14:30\nSâmbătă\n08:00 - 13:00\nPrelevarea analizelor\n08:00 - 11:00\n(022) 82 44 44\ninfo.balti.sadoveanu@alfalab.md\n  ",
+      "lines": [
+        "Bălți 2",
+        "Bălți",
+        "str. M. Sadoveanu, 1",
+        "Luni - Vineri",
+        "07:30 - 16:00",
+        "Prelevarea analizelor",
+        "07:30 - 14:30",
+        "Sâmbătă",
+        "08:00 - 13:00",
+        "Prelevarea analizelor",
+        "08:00 - 11:00",
+        "(022) 82 44 44",
+        "info.balti.sadoveanu@alfalab.md"
+      ],
+      "raw_name": "Bălți 2",
+      "raw_city": "Bălți",
+      "raw_address": "str. M. Sadoveanu, 1",
+      "raw_hours": "Luni - Vineri\n07:30 - 16:00\nPrelevarea analizelor\n07:30 - 14:30\nSâmbătă\n08:00 - 13:00\nPrelevarea analizelor\n08:00 - 11:00\n(022) 82 44 44\ninfo.balti.sadoveanu@alfalab.md",
+      "phone": "(022) 82 44 44",
+      "email": "info.balti.sadoveanu@alfalab.md",
+      "links": [
+        {
+          "text": "info.balti.sadoveanu@alfalab.md",
+          "href": "mailto:info.balti.sadoveanu@alfalab.md"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    },
+    {
+      "menu_index": 9,
+      "raw_text": "Clinica Pediatrică ALFA Diagnostica\nChișinău\nBulevardul Dacia 14/1, MD-2043\nLuni – Vineri\n07:30 - 19:00\nPrelevare analize\n07:30 - 15:00\nSâmbătă\n08:00 - 16:00\nPrelevare analize\n08:00 - 13:00\n(022) 82 44 44\n  ",
+      "lines": [
+        "Clinica Pediatrică ALFA Diagnostica",
+        "Chișinău",
+        "Bulevardul Dacia 14/1, MD-2043",
+        "Luni – Vineri",
+        "07:30 - 19:00",
+        "Prelevare analize",
+        "07:30 - 15:00",
+        "Sâmbătă",
+        "08:00 - 16:00",
+        "Prelevare analize",
+        "08:00 - 13:00",
+        "(022) 82 44 44"
+      ],
+      "raw_name": "Clinica Pediatrică ALFA Diagnostica",
+      "raw_city": "Chișinău",
+      "raw_address": "Bulevardul Dacia 14/1, MD-2043",
+      "raw_hours": "Luni – Vineri\n07:30 - 19:00\nPrelevare analize\n07:30 - 15:00\nSâmbătă\n08:00 - 16:00\nPrelevare analize\n08:00 - 13:00\n(022) 82 44 44",
+      "phone": "(022) 82 44 44",
+      "email": null,
+      "links": [
+        {
+          "text": "",
+          "href": "mailto:"
+        },
+        {
+          "text": "",
+          "href": "https://wa.me/+37379600816"
+        },
+        {
+          "text": "",
+          "href": "https://t.me/AlfaDiagnostica"
+        },
+        {
+          "text": "",
+          "href": "viber://chat?number=+37379600816"
+        }
+      ]
+    }
+  ]
+}

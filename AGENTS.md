@@ -170,3 +170,20 @@ This repo:
 - **Frontend** = `apps/web` + `packages/ui` + `packages/blocks` + `apps/ui-playground` (`/showcase`). Verification = **Vercel preview deploy** per PR (Astro 7.2.7 `output: static`) + `node_modules/.bin/shadscan --check-ui <preview-url> --route /` + `shadscan --check-ui <preview-url> --route /showcase` + manual 320px/desktop check on the preview link. Every component must first be added to `apps/web/src/pages/showcase.astro` matrix (or `apps/ui-playground/src/pages/index.astro` alias) before wiring to `apps/web`.
 - **PR rule:** Never mix data-generation changes with visual changes in one PR. If both are needed, open `feat(data-…)` and `feat(web-…)` stacked on the same branch but reviewed/deployed separately. `lefthook.yml` `pre-commit: ultracite fix + shadscan --fail-under 43` and `pre-push: typecheck` plus CI (`shadscan.yml` + future `preview.yml` with `shadscan --check-ui`) enforce the gate.
 - **Design iteration:** Use `apps/web/src/pages/showcase.astro` (or `apps/ui-playground` alias, or Figma) for 3–4 variants before touching `apps/web` product routes — do not graft directly onto the real page.
+
+## Commands
+
+- `bun run build` — build the project
+- `bun run lint` — run the lint task
+- `bun run format` — run the format task
+- `bun run dev` — run the development task
+
+## Code Map
+
+- `apps` — application source
+- `packages` — packages
+- `.github` — project configuration
+
+## Conventions
+
+- Use ESM `import` and `export` syntax for modules.

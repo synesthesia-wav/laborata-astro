@@ -17,7 +17,7 @@
     "@remixicon/react": "^4.9.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/blocks": "workspace:*",
+    "@workspace/data": "workspace:*",
     "@workspace/ui": "workspace:*",
     "astro": "^7",
     "react": "^19.2.8",

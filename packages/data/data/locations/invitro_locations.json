@@ -1,0 +1,1996 @@
+{
+  "vendor": "invitro",
+  "source": "invitro_homepage_raw",
+  "scraped_at": "2026-06-11T09:38:56.720482+00:00",
+  "source_url": "https://www.invitro.md/ro/contacts",
+  "map_render_url": "https://www.invitro.md/ro/map-render",
+  "central_phone": "+373 22 903 999",
+  "items": [
+    {
+      "branch_id": 1,
+      "external_key": "https://www.invitro.md/ro/contacts/01-chisinau-stralbisoara-64-2",
+      "raw_name": "Chișinău, Str. Albișoara, 64/2",
+      "city": "Chișinău",
+      "street_address": "Str. Albișoara, 64/2",
+      "address": "Chișinău, Str. Albișoara, 64/2",
+      "lat": 47.0364351,
+      "lng": 28.8414132,
+      "map_url": "https://maps.app.goo.gl/xNTGL3XmZrFrt41n7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:00 - 19:00",
+          "text": "Luni - Vineri: 07:00 - 19:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "08:00 - 16:00",
+          "text": "Sâmbătă: 08:00 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "08:00 - 14:00",
+          "text": "Duminică: 08:00 - 14:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:00 - 17:00",
+          "text": "Colectarea analizelor: 07:00 - 17:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "08:00 - 15:00",
+          "text": "Colectarea analizelor: 08:00 - 15:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "08:00 - 13:00",
+          "text": "Colectarea analizelor: 08:00 - 13:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Albișoara, 64/2\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n07:00 - 19:00\nColectarea analizelor\n07:00 - 17:00\nSâmbătă\n08:00 - 16:00\nColectarea analizelor\n08:00 - 15:00\nDuminică\n08:00 - 14:00\nColectarea analizelor\n08:00 - 13:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 2,
+      "external_key": "https://www.invitro.md/ro/contacts/02-chisinau-strtestemitanu-19-1",
+      "raw_name": "Chișinău, Str. Testemițanu, 19/1",
+      "city": "Chișinău",
+      "street_address": "Str. Testemițanu, 19/1",
+      "address": "Chișinău, Str. Testemițanu, 19/1",
+      "lat": 46.9968328,
+      "lng": 28.8361522,
+      "map_url": "https://maps.app.goo.gl/CtxZ4WKVYCfvhRZW8",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 18:00",
+          "text": "Luni - Vineri: 7:30 - 18:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 14:00",
+          "text": "Sâmbătă: 7:30 - 14:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 15:00",
+          "text": "Colectarea analizelor: 7:30 - 15:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Testemițanu, 19/1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 18:00\nColectarea analizelor\n7:30 - 15:00\nSâmbătă\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 4,
+      "external_key": "https://www.invitro.md/ro/contacts/04-chisinau-bddacia-47-2",
+      "raw_name": "Chișinău, Bd. Dacia, 47/2",
+      "city": "Chișinău",
+      "street_address": "Bd. Dacia, 47/2",
+      "address": "Chișinău, Bd. Dacia, 47/2",
+      "lat": 46.976805,
+      "lng": 28.8711952,
+      "map_url": "https://goo.gl/maps/4tEQ7baaR5VfXWbB6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:00",
+          "text": "Colectarea analizelor: 7:30 - 13:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:00",
+          "text": "Colectarea analizelor: 7:30 - 10:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Bd. Dacia, 47/2\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 13:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 7,
+      "external_key": "https://www.invitro.md/ro/contacts/07-chisinau-stralecu-russo-61-6",
+      "raw_name": "Chișinău, Str. Alecu Russo, 61/6",
+      "city": "Chișinău",
+      "street_address": "Str. Alecu Russo, 61/6",
+      "address": "Chișinău, Str. Alecu Russo, 61/6",
+      "lat": 47.0377368,
+      "lng": 28.8860955,
+      "map_url": "https://goo.gl/maps/uZkMDjPbaBRL59B79",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:20",
+          "text": "Colectarea analizelor: 7:30 - 12:20",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:40",
+          "text": "Colectarea analizelor: 7:30 - 09:40",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Alecu Russo, 61/6\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 12:20\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:40\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 8,
+      "external_key": "https://www.invitro.md/ro/contacts/08-chisinau-strntestemianu-37",
+      "raw_name": "Chișinău, Str. N. Testemiţanu, 37",
+      "city": "Chișinău",
+      "street_address": "Str. N. Testemiţanu, 37",
+      "address": "Chișinău, Str. N. Testemiţanu, 37",
+      "lat": 46.9906982,
+      "lng": 28.8273599,
+      "map_url": "https://goo.gl/maps/1CNXpht1N7pLsJum7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:00",
+          "text": "Colectarea analizelor: 7:30 - 13:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:30",
+          "text": "Colectarea analizelor: 7:30 - 10:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. N. Testemiţanu, 37\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 13:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 9,
+      "external_key": "https://www.invitro.md/ro/contacts/09-chisinau-stricreanga-5-2",
+      "raw_name": "Chișinău, Str. I. Creangă, 5/2",
+      "city": "Chișinău",
+      "street_address": "Str. I. Creangă, 5/2",
+      "address": "Chișinău, Str. I. Creangă, 5/2",
+      "lat": 47.0328109,
+      "lng": 28.8064425,
+      "map_url": "https://goo.gl/maps/96jwxgcPd5LWA48N7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:30",
+          "text": "Colectarea analizelor: 7:30 - 09:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. I. Creangă, 5/2\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 12:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 10,
+      "external_key": "https://www.invitro.md/ro/contacts/10-chisinau-str31-august-1989-59",
+      "raw_name": "Chișinău, Str. 31 August 1989, 59",
+      "city": "Chișinău",
+      "street_address": "Str. 31 August 1989, 59",
+      "address": "Chișinău, Str. 31 August 1989, 59",
+      "lat": 47.0161219,
+      "lng": 28.8388171,
+      "map_url": "https://goo.gl/maps/1moErq3pwLcxs6bPA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:30",
+          "text": "Colectarea analizelor: 7:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:00",
+          "text": "Colectarea analizelor: 7:30 - 10:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. 31 August 1989, 59\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 12:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 11,
+      "external_key": "https://www.invitro.md/ro/contacts/11-chisinau-bdmircea-cel-batrin-34-6",
+      "raw_name": "Chișinău, Bd. Mircea cel Bătrîn, 34/6",
+      "city": "Chișinău",
+      "street_address": "Bd. Mircea cel Bătrîn, 34/6",
+      "address": "Chișinău, Bd. Mircea cel Bătrîn, 34/6",
+      "lat": 47.0546955,
+      "lng": 28.8920267,
+      "map_url": "https://goo.gl/maps/qkXmzq2cDywqxDVm6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:30",
+          "text": "Colectarea analizelor: 7:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:15",
+          "text": "Colectarea analizelor: 7:30 - 10:15",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Bd. Mircea cel Bătrîn, 34/6\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 12:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:15\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 12,
+      "external_key": "https://www.invitro.md/ro/contacts/12-chisinau-strmelestiu-20",
+      "raw_name": "Chișinău, Str. Melestiu, 20",
+      "city": "Chișinău",
+      "street_address": "Str. Melestiu, 20",
+      "address": "Chișinău, Str. Melestiu, 20",
+      "lat": 47.0057735,
+      "lng": 28.8448953,
+      "map_url": "https://goo.gl/maps/PGinC2FCWRe7YXP49",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "8:00 - 12:00",
+          "text": "Sâmbătă: 8:00 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 14:00",
+          "text": "Colectarea analizelor: 7:30 - 14:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "8:00 - 11:00",
+          "text": "Colectarea analizelor: 8:00 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Melestiu, 20\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 14:00\nSâmbătă\n8:00 - 12:00\nColectarea analizelor\n8:00 - 11:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 13,
+      "external_key": "https://www.invitro.md/ro/contacts/13-chisinau-strmeminescu-63",
+      "raw_name": "Chișinău, Str. M. Eminescu, 63",
+      "city": "Chișinău",
+      "street_address": "Str. M. Eminescu, 63",
+      "address": "Chișinău, Str. M. Eminescu, 63",
+      "lat": 47.0245756,
+      "lng": 28.8403198,
+      "map_url": "https://goo.gl/maps/mGuJRqdzqQzTArvE9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:15",
+          "text": "Colectarea analizelor: 7:30 - 13:15",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:30",
+          "text": "Colectarea analizelor: 7:30 - 10:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. M. Eminescu, 63\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 13:15\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 39,
+      "external_key": "https://www.invitro.md/ro/contacts/05-chisinau-strliviu-deleanu-14b",
+      "raw_name": "Chișinău, Str. Liviu Deleanu, 14b",
+      "city": "Chișinău",
+      "street_address": "Str. Liviu Deleanu, 14b",
+      "address": "Chișinău, Str. Liviu Deleanu, 14b",
+      "lat": 47.0463361,
+      "lng": 28.7695511,
+      "map_url": "https://goo.gl/maps/dkt2ZXkdf42LH27LA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30-16:00",
+          "text": "Luni - Vineri: 07:30-16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:30-12:00",
+          "text": "Sâmbătă: 07:30-12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30-11:45",
+          "text": "Colectarea analizelor: 07:30-11:45",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30-09:30",
+          "text": "Colectarea analizelor: 07:30-09:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Liviu Deleanu, 14b\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n07:30-16:00\nColectarea analizelor\n07:30-11:45\nSâmbătă\n07:30-12:00\nColectarea analizelor\n07:30-09:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 40,
+      "external_key": "https://www.invitro.md/ro/contacts/14-chisinau-bdtefan-cel-mare-184",
+      "raw_name": "Chișinău, Bd. Ștefan cel Mare, 184",
+      "city": "Chișinău",
+      "street_address": "Bd. Ștefan cel Mare, 184",
+      "address": "Chișinău, Bd. Ștefan cel Mare, 184",
+      "lat": 47.0320413,
+      "lng": 28.8217844,
+      "map_url": "https://goo.gl/maps/1ZrKyv1N4vz6fQ6P7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 14:00",
+          "text": "Colectarea analizelor: 7:30 - 14:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:00",
+          "text": "Colectarea analizelor: 7:30 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Bd. Ștefan cel Mare, 184\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 14:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 50,
+      "external_key": "https://www.invitro.md/ro/contacts/16-chisinau-bddacia-14-1",
+      "raw_name": "Chișinău, Bd. Dacia, 14/1",
+      "city": "Chișinău",
+      "street_address": "Bd. Dacia, 14/1",
+      "address": "Chișinău, Bd. Dacia, 14/1",
+      "lat": 46.9899986,
+      "lng": 28.8505246,
+      "map_url": "https://goo.gl/maps/JJRTwhmytghHFw3U8",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:45",
+          "text": "Colectarea analizelor: 7:30 - 13:45",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:45",
+          "text": "Colectarea analizelor: 7:30 - 10:45",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Bd. Dacia, 14/1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 13:45\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:45\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 53,
+      "external_key": "https://www.invitro.md/ro/contacts/17-chisinau-strceucari-5-8",
+      "raw_name": "Chișinău, Str. Ceucari, 5/8",
+      "city": "Chișinău",
+      "street_address": "Str. Ceucari, 5/8",
+      "address": "Chișinău, Str. Ceucari, 5/8",
+      "lat": 47.0637588,
+      "lng": 28.8450738,
+      "map_url": "https://maps.app.goo.gl/3Bbqy3KrdHbQY2Xv6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 16:00",
+          "text": "Luni - Vineri: 07:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:30 - 12:00",
+          "text": "Sâmbătă: 07:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30 - 13:30",
+          "text": "Colectarea analizelor: 07:30 - 13:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30 - 09:15",
+          "text": "Colectarea analizelor: 07:30 - 09:15",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Ceucari, 5/8\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n07:30 - 16:00\nColectarea analizelor\n07:30 - 13:30\nSâmbătă\n07:30 - 12:00\nColectarea analizelor\n07:30 - 09:15\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 58,
+      "external_key": "https://www.invitro.md/ro/contacts/18-chisinau-str-alba-iulia-168",
+      "raw_name": "Chișinău, Str. Alba Iulia, 168",
+      "city": "Chișinău",
+      "street_address": "Str. Alba Iulia, 168",
+      "address": "Chișinău, Str. Alba Iulia, 168",
+      "lat": 47.0342823,
+      "lng": 28.779181,
+      "map_url": "https://maps.app.goo.gl/hDW3AW3GvCyoKSas9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30-16:00",
+          "text": "Luni - Vineri: 7:30-16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30-12:00",
+          "text": "Sâmbătă: 7:30-12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30-11:30",
+          "text": "Colectarea analizelor: 7:30-11:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30-9:30",
+          "text": "Colectarea analizelor: 7:30-9:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. Alba Iulia, 168\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30-16:00\nColectarea analizelor\n7:30-11:30\nSâmbătă\n7:30-12:00\nColectarea analizelor\n7:30-9:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 61,
+      "external_key": "https://www.invitro.md/ro/contacts/03-chisinau-strbvoievod-2",
+      "raw_name": "Chișinău, Str. B. Voievod, 2",
+      "city": "Chișinău",
+      "street_address": "Str. B. Voievod, 2",
+      "address": "Chișinău, Str. B. Voievod, 2",
+      "lat": 47.0439232,
+      "lng": 28.8578677,
+      "map_url": "https://maps.app.goo.gl/N5a2vkJDTpFXMNTX9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:30",
+          "text": "Colectarea analizelor: 7:30 - 10:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, Str. B. Voievod, 2\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 12:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 64,
+      "external_key": "https://www.invitro.md/ro/contacts/06-chisinau-bdmoscovei-8",
+      "raw_name": "Chișinău, bd. Moscova, 8",
+      "city": "Chișinău",
+      "street_address": "bd. Moscova, 8",
+      "address": "Chișinău, bd. Moscova, 8",
+      "lat": 47.0481846,
+      "lng": 28.8635795,
+      "map_url": "https://maps.app.goo.gl/AxbovgLhd8HvUXRM9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 – 18:00",
+          "text": "Luni - Vineri: 7:30 – 18:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 – 12:00",
+          "text": "Sâmbătă: 7:30 – 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 – 12:00",
+          "text": "Colectarea analizelor: 7:30 – 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 – 10:00",
+          "text": "Colectarea analizelor: 7:30 – 10:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Chișinău, bd. Moscova, 8\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 – 18:00\nColectarea analizelor\n7:30 – 12:00\nSâmbătă\n7:30 – 12:00\nColectarea analizelor\n7:30 – 10:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 14,
+      "external_key": "https://www.invitro.md/ro/contacts/20-hancesti-strmhancu-149",
+      "raw_name": "Hîncești, Str. M. Hîncu, 149",
+      "city": "Hîncești",
+      "street_address": "Str. M. Hîncu, 149",
+      "address": "Hîncești, Str. M. Hîncu, 149",
+      "lat": 46.8282367,
+      "lng": 28.5883904,
+      "map_url": "https://maps.app.goo.gl/XyqpGVuRpjwyX72r7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 16:00",
+          "text": "Luni - Vineri: 7:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:30",
+          "text": "Sâmbătă: 7:30 - 12:30",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 14:00",
+          "text": "Colectarea analizelor: 7:30 - 14:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Hîncești, Str. M. Hîncu, 149\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 16:00\nColectarea analizelor\n7:30 - 14:00\nSâmbătă\n7:30 - 12:30\nColectarea analizelor\n7:30 - 12:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 15,
+      "external_key": "https://www.invitro.md/ro/contacts/21-balti-strdecebal-126",
+      "raw_name": "Bălți, Str. Decebal, 126/1",
+      "city": "Bălți",
+      "street_address": "Str. Decebal, 126/1",
+      "address": "Bălți, Str. Decebal, 126/1",
+      "lat": 47.7743697,
+      "lng": 27.8973147,
+      "map_url": "https://goo.gl/maps/oWYiKFQGrUVLKRgu6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 17:00",
+          "text": "Luni - Vineri: 7:30 - 17:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:30",
+          "text": "Colectarea analizelor: 7:30 - 13:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Bălți, Str. Decebal, 126/1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 17:00\nColectarea analizelor\n7:30 - 13:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 12:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 63,
+      "external_key": "https://www.invitro.md/ro/contacts/51-balti-str-stefan-cel-mare-79",
+      "raw_name": "Bălți, Str. Ștefan cel Mare, 79",
+      "city": "Bălți",
+      "street_address": "Str. Ștefan cel Mare, 79",
+      "address": "Bălți, Str. Ștefan cel Mare, 79",
+      "lat": 47.7591619,
+      "lng": 27.9207117,
+      "map_url": "https://maps.app.goo.gl/KLt2BrQ5vhfypePY7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 16:00",
+          "text": "Luni - Vineri: 07:30 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:30 - 12:00",
+          "text": "Sâmbătă: 07:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30 - 12:30",
+          "text": "Colectarea analizelor: 07:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30 - 11:30",
+          "text": "Colectarea analizelor: 07:30 - 11:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Bălți, Str. Ștefan cel Mare, 79\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n07:30 - 16:00\nColectarea analizelor\n07:30 - 12:30\nSâmbătă\n07:30 - 12:00\nColectarea analizelor\n07:30 - 11:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 16,
+      "external_key": "https://www.invitro.md/ro/contacts/22-soroca-strmkogalniceanu-15",
+      "raw_name": "Soroca, Str. M.Kogălniceanu, 15",
+      "city": "Soroca",
+      "street_address": "Str. M.Kogălniceanu, 15",
+      "address": "Soroca, Str. M.Kogălniceanu, 15",
+      "lat": 48.154947,
+      "lng": 28.299281,
+      "map_url": "https://maps.app.goo.gl/TxSi21YgmjkQ7rAZ9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:00",
+          "text": "Colectarea analizelor: 7:30 - 11:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:00",
+          "text": "Colectarea analizelor: 7:30 - 10:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Soroca, Str. M.Kogălniceanu, 15\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 18,
+      "external_key": "https://www.invitro.md/ro/contacts/24-edinet-strindependenei-81-1",
+      "raw_name": "Edineț, Str. Independenţei, 81/1",
+      "city": "Edineț",
+      "street_address": "Str. Independenţei, 81/1",
+      "address": "Edineț, Str. Independenţei, 81/1",
+      "lat": 48.1683715,
+      "lng": 27.307876,
+      "map_url": "https://goo.gl/maps/GFWu9ctWwdveVUxB7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:10",
+          "text": "Colectarea analizelor: 7:30 - 11:10",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:10",
+          "text": "Colectarea analizelor: 7:30 - 10:10",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Edineț, Str. Independenţei, 81/1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:10\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:10\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 19,
+      "external_key": "https://www.invitro.md/ro/contacts/25-sangerei-strntestemianu-5",
+      "raw_name": "Sîngerei, Str. N.Testemiţanu, 5",
+      "city": "Sîngerei",
+      "street_address": "Str. N.Testemiţanu, 5",
+      "address": "Sîngerei, Str. N.Testemiţanu, 5",
+      "lat": 47.6365587,
+      "lng": 28.1374589,
+      "map_url": "https://goo.gl/maps/9hAgg3Hwcq1kaN5o7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:00",
+          "text": "Colectarea analizelor: 7:30 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Sîngerei, Str. N.Testemiţanu, 5\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 20,
+      "external_key": "https://www.invitro.md/ro/contacts/26-floresti-strtefan-cel-mare-30",
+      "raw_name": "Florești, Str. Ştefan cel Mare, 30",
+      "city": "Florești",
+      "street_address": "Str. Ştefan cel Mare, 30",
+      "address": "Florești, Str. Ştefan cel Mare, 30",
+      "lat": 47.8923682,
+      "lng": 28.3019773,
+      "map_url": "https://goo.gl/maps/jFLuNnbBEbwtAkjbA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:30",
+          "text": "Colectarea analizelor: 7:30 - 11:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:30",
+          "text": "Colectarea analizelor: 7:30 - 10:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Florești, Str. Ştefan cel Mare, 30\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 21,
+      "external_key": "https://www.invitro.md/ro/contacts/27-falesti-strtefan-cel-mare-61",
+      "raw_name": "Fălești, Str. Ștefan cel Mare, 61",
+      "city": "Fălești",
+      "street_address": "Str. Ștefan cel Mare, 61",
+      "address": "Fălești, Str. Ștefan cel Mare, 61",
+      "lat": 47.5755181,
+      "lng": 27.707861,
+      "map_url": "https://goo.gl/maps/MVHLSnq2gArtkkW4A",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:10",
+          "text": "Colectarea analizelor: 7:30 - 11:10",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:10",
+          "text": "Colectarea analizelor: 7:30 - 10:10",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Fălești, Str. Ștefan cel Mare, 61\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:10\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:10\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 22,
+      "external_key": "https://www.invitro.md/ro/contacts/28-briceni-strmeminescu-48-z",
+      "raw_name": "Briceni, Str. M. Eminescu, 48Z",
+      "city": "Briceni",
+      "street_address": "Str. M. Eminescu, 48Z",
+      "address": "Briceni, Str. M. Eminescu, 48Z",
+      "lat": 48.3549158,
+      "lng": 27.0869529,
+      "map_url": "https://goo.gl/maps/XZVgQWpqVZgje5xZA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:10",
+          "text": "Colectarea analizelor: 7:30 - 11:10",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:35",
+          "text": "Colectarea analizelor: 7:30 - 09:35",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Briceni, Str. M. Eminescu, 48Z\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:10\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:35\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 23,
+      "external_key": "https://www.invitro.md/ro/contacts/30-rascani-str31-august-1989-7",
+      "raw_name": "Rîșcani, Str. 31 August 1989, 7",
+      "city": "Rîșcani",
+      "street_address": "Str. 31 August 1989, 7",
+      "address": "Rîșcani, Str. 31 August 1989, 7",
+      "lat": 47.9528419,
+      "lng": 27.5611402,
+      "map_url": "https://goo.gl/maps/Us58cVjqQGCFCHgMA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:40",
+          "text": "Colectarea analizelor: 7:30 - 11:40",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:50",
+          "text": "Colectarea analizelor: 7:30 - 10:50",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Rîșcani, Str. 31 August 1989, 7\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:40\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:50\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 25,
+      "external_key": "https://www.invitro.md/ro/contacts/29-drochia-strindependentei-16-1",
+      "raw_name": "Drochia, Str. Independenței, 16, nr. 1",
+      "city": "Drochia",
+      "street_address": "Str. Independenței, 16, nr. 1",
+      "address": "Drochia, Str. Independenței, 16, nr. 1",
+      "lat": 48.0314042,
+      "lng": 27.8150484,
+      "map_url": "https://goo.gl/maps/S7ecYBTTUjo2cR5s5",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:35",
+          "text": "Colectarea analizelor: 7:30 - 10:35",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:30",
+          "text": "Colectarea analizelor: 7:30 - 09:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Drochia, Str. Independenței, 16, nr. 1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 10:35\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 27,
+      "external_key": "https://www.invitro.md/ro/contacts/-anenii-noi-strchisinaului-1",
+      "raw_name": "Anenii Noi, Str. Chișinăului, 1",
+      "city": "Anenii Noi",
+      "street_address": "Str. Chișinăului, 1",
+      "address": "Anenii Noi, Str. Chișinăului, 1",
+      "lat": 46.8818069,
+      "lng": 29.2308109,
+      "map_url": "https://goo.gl/maps/U2BEZx6cgBscvPe49",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:30",
+          "text": "Colectarea analizelor: 7:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:00",
+          "text": "Colectarea analizelor: 7:30 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Anenii Noi, Str. Chișinăului, 1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 28,
+      "external_key": "https://www.invitro.md/ro/contacts/36-cahul-strtefan-cel-mare-34-nr-30",
+      "raw_name": "Cahul, Str. Ștefan cel Mare 34, nr. 30",
+      "city": "Cahul",
+      "street_address": "Str. Ștefan cel Mare 34, nr. 30",
+      "address": "Cahul, Str. Ștefan cel Mare 34, nr. 30",
+      "lat": 45.9081761,
+      "lng": 28.1989716,
+      "map_url": "https://goo.gl/maps/tiCSXXiNXemdh3im6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:00",
+          "text": "Colectarea analizelor: 7:30 - 11:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:50",
+          "text": "Colectarea analizelor: 7:30 - 09:50",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Cahul, Str. Ștefan cel Mare 34, nr. 30\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:50\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 29,
+      "external_key": "https://www.invitro.md/ro/contacts/31-calarasi-strmeminescu-41",
+      "raw_name": "Călărași, Str. M. Eminescu, 41",
+      "city": "Călărași",
+      "street_address": "Str. M. Eminescu, 41",
+      "address": "Călărași, Str. M. Eminescu, 41",
+      "lat": 47.248556,
+      "lng": 28.3223787,
+      "map_url": "https://goo.gl/maps/8yLoP1qD6gV491Da9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:20",
+          "text": "Colectarea analizelor: 7:30 - 12:20",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:20",
+          "text": "Colectarea analizelor: 7:30 - 11:20",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Călărași, Str. M. Eminescu, 41\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:20\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:20\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 30,
+      "external_key": "https://www.invitro.md/ro/contacts/42-causeni-strana-si-alexandru-2a",
+      "raw_name": "Căușeni, Str. Ana și Alexandru, 2A",
+      "city": "Căușeni",
+      "street_address": "Str. Ana și Alexandru, 2A",
+      "address": "Căușeni, Str. Ana și Alexandru, 2A",
+      "lat": 46.6563301,
+      "lng": 29.4101206,
+      "map_url": "https://goo.gl/maps/n1vsrpGhRK4jRawDA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:30",
+          "text": "Colectarea analizelor: 7:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:30",
+          "text": "Colectarea analizelor: 7:30 - 10:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Căușeni, Str. Ana și Alexandru, 2A\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 31,
+      "external_key": "https://www.invitro.md/ro/contacts/38-ceadar-lunga-strmiciurin-1-1",
+      "raw_name": "Ceadîr-Lunga, Str. Miciurin, 1/1",
+      "city": "Ceadîr-Lunga",
+      "street_address": "Str. Miciurin, 1/1",
+      "address": "Ceadîr-Lunga, Str. Miciurin, 1/1",
+      "lat": 46.0569375,
+      "lng": 28.8074375,
+      "map_url": "https://goo.gl/maps/KNfGLrLEVdX7kuG37",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:30",
+          "text": "Colectarea analizelor: 7:30 - 11:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:50",
+          "text": "Colectarea analizelor: 7:30 - 10:50",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Ceadîr-Lunga, Str. Miciurin, 1/1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:50\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 32,
+      "external_key": "https://www.invitro.md/ro/contacts/35-cimislia-bdtefan-cel-mare-144-v",
+      "raw_name": "Cimișlia, Bd. Ștefan cel Mare, 144 V",
+      "city": "Cimișlia",
+      "street_address": "Bd. Ștefan cel Mare, 144 V",
+      "address": "Cimișlia, Bd. Ștefan cel Mare, 144 V",
+      "lat": 46.5251949,
+      "lng": 28.7810147,
+      "map_url": "https://goo.gl/maps/NCdoz8e6hr5n7z3u9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:00",
+          "text": "Colectarea analizelor: 7:30 - 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:45",
+          "text": "Colectarea analizelor: 7:30 - 11:45",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Cimișlia, Bd. Ștefan cel Mare, 144 V\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:00\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:45\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 33,
+      "external_key": "https://www.invitro.md/ro/contacts/40-comrat-strlenina-159",
+      "raw_name": "Comrat, Str. Lenina, 159",
+      "city": "Comrat",
+      "street_address": "Str. Lenina, 159",
+      "address": "Comrat, Str. Lenina, 159",
+      "lat": 46.3033853,
+      "lng": 28.6572834,
+      "map_url": "https://goo.gl/maps/gQsT1t826PrMoybv9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:10",
+          "text": "Colectarea analizelor: 7:30 - 12:10",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:20",
+          "text": "Colectarea analizelor: 7:30 - 11:20",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Comrat, Str. Lenina, 159\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:10\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:20\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 34,
+      "external_key": "https://www.invitro.md/ro/contacts/41-ialoveni-stralexandru-cel-bun-5-3",
+      "raw_name": "Ialoveni, Str. Alexandru cel Bun, 5/3",
+      "city": "Ialoveni",
+      "street_address": "Str. Alexandru cel Bun, 5/3",
+      "address": "Ialoveni, Str. Alexandru cel Bun, 5/3",
+      "lat": 46.9554997,
+      "lng": 28.7694784,
+      "map_url": "https://maps.app.goo.gl/2izFcbCV29cEYuBt8",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:30",
+          "text": "Colectarea analizelor: 7:30 - 13:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:30",
+          "text": "Colectarea analizelor: 7:30 - 11:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Ialoveni, Str. Alexandru cel Bun, 5/3\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 13:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 35,
+      "external_key": "https://www.invitro.md/ro/contacts/32-orhei-strvlupu-138",
+      "raw_name": "Orhei, Str. V. Lupu, 138",
+      "city": "Orhei",
+      "street_address": "Str. V. Lupu, 138",
+      "address": "Orhei, Str. V. Lupu, 138",
+      "lat": 47.3955168,
+      "lng": 28.8225675,
+      "map_url": "https://goo.gl/maps/uCCekDQr7qpc5J7QA",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:20",
+          "text": "Colectarea analizelor: 7:30 - 12:20",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:45",
+          "text": "Colectarea analizelor: 7:30 - 10:45",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Orhei, Str. V. Lupu, 138\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:20\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:45\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 37,
+      "external_key": "https://www.invitro.md/ro/contacts/34-ungheni-strvalecsandri-23",
+      "raw_name": "Ungheni, Str. V.Alecsandri, 23",
+      "city": "Ungheni",
+      "street_address": "Str. V.Alecsandri, 23",
+      "address": "Ungheni, Str. V.Alecsandri, 23",
+      "lat": 47.209555,
+      "lng": 27.796057,
+      "map_url": "https://goo.gl/maps/jcAspGVxZVzKYUa88",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:20",
+          "text": "Colectarea analizelor: 7:30 - 11:20",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:20",
+          "text": "Colectarea analizelor: 7:30 - 10:20",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Ungheni, Str. V.Alecsandri, 23\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:20\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:20\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 38,
+      "external_key": "https://www.invitro.md/ro/contacts/37-varnita-str27-aprilie-88",
+      "raw_name": "Varnița, Str. 27 Aprilie, 88",
+      "city": "Varnița",
+      "street_address": "Str. 27 Aprilie, 88",
+      "address": "Varnița, Str. 27 Aprilie, 88",
+      "lat": 46.8564948,
+      "lng": 29.463288,
+      "map_url": "https://goo.gl/maps/XSf8r2dvZKBRteQb9",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:30",
+          "text": "Colectarea analizelor: 7:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:30",
+          "text": "Colectarea analizelor: 7:30 - 10:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Varnița, Str. 27 Aprilie, 88\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 10:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 41,
+      "external_key": "https://www.invitro.md/ro/contacts/43-oldanesti-strpacii-10",
+      "raw_name": "Șoldănești, Str. Păcii, 10",
+      "city": "Șoldănești",
+      "street_address": "Str. Păcii, 10",
+      "address": "Șoldănești, Str. Păcii, 10",
+      "lat": 47.8155069,
+      "lng": 28.7902946,
+      "map_url": "https://goo.gl/maps/3ChdBgTFt1P5wiR4A",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:10",
+          "text": "Colectarea analizelor: 7:30 - 11:10",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:10",
+          "text": "Colectarea analizelor: 7:30 - 09:10",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Șoldănești, Str. Păcii, 10\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:10\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:10\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 42,
+      "external_key": "https://www.invitro.md/ro/contacts/44-criuleni-strtefan-cel-mare-1",
+      "raw_name": "Criuleni, Str. Ștefan cel Mare, 1",
+      "city": "Criuleni",
+      "street_address": "Str. Ștefan cel Mare, 1",
+      "address": "Criuleni, Str. Ștefan cel Mare, 1",
+      "lat": 47.2090356,
+      "lng": 29.153784,
+      "map_url": "https://maps.app.goo.gl/HuQuFxx8o6Lw834z7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:10",
+          "text": "Colectarea analizelor: 7:30 - 13:10",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:45",
+          "text": "Colectarea analizelor: 7:30 - 11:45",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Criuleni, Str. Ștefan cel Mare, 1\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 13:10\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:45\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 46,
+      "external_key": "https://www.invitro.md/ro/contacts/45-ocnita-str50-ani-ai-biruintei-24",
+      "raw_name": "Ocnița, Str. 50 ani ai Biruinței, 24",
+      "city": "Ocnița",
+      "street_address": "Str. 50 ani ai Biruinței, 24",
+      "address": "Ocnița, Str. 50 ani ai Biruinței, 24",
+      "lat": 48.4064957,
+      "lng": 27.4893148,
+      "map_url": "https://goo.gl/maps/815BHThCvwQ6FpRC6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 10:35",
+          "text": "Colectarea analizelor: 7:30 - 10:35",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 09:00",
+          "text": "Colectarea analizelor: 7:30 - 09:00",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Ocnița, Str. 50 ani ai Biruinței, 24\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 10:35\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 09:00\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 54,
+      "external_key": "https://www.invitro.md/ro/contacts/33-straseni-strtefan-cel-mare-40-d",
+      "raw_name": "Strășeni, str. Ștefan cel Mare, 40/D",
+      "city": "Strășeni",
+      "street_address": "str. Ștefan cel Mare, 40/D",
+      "address": "Strășeni, str. Ștefan cel Mare, 40/D",
+      "lat": 47.1470143,
+      "lng": 28.623175,
+      "map_url": "https://maps.app.goo.gl/gJZnYDnGEuLnHuJR7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 12:30",
+          "text": "Colectarea analizelor: 7:30 - 12:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:30",
+          "text": "Colectarea analizelor: 7:30 - 11:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Strășeni, str. Ștefan cel Mare, 40/D\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 12:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 11:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 55,
+      "external_key": "https://www.invitro.md/ro/contacts/47-glodeni-strvasile-zgarcea-1-b",
+      "raw_name": "Glodeni, Str. Vasile Zgîrcea, 1/B",
+      "city": "Glodeni",
+      "street_address": "Str. Vasile Zgîrcea, 1/B",
+      "address": "Glodeni, Str. Vasile Zgîrcea, 1/B",
+      "lat": 47.7734927,
+      "lng": 27.5172125,
+      "map_url": "https://maps.app.goo.gl/Q5vuKVBw5GJLZz6u7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 14:00",
+          "text": "Luni - Vineri: 07:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:30 - 12:00",
+          "text": "Sâmbătă: 07:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30 - 10:40",
+          "text": "Colectarea analizelor: 07:30 - 10:40",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "07:30 - 10:10",
+          "text": "Colectarea analizelor: 07:30 - 10:10",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Glodeni, Str. Vasile Zgîrcea, 1/B\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n07:30 - 14:00\nColectarea analizelor\n07:30 - 10:40\nSâmbătă\n07:30 - 12:00\nColectarea analizelor\n07:30 - 10:10\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 56,
+      "external_key": "https://www.invitro.md/ro/contacts/48-telenesti-str31-august-1989-2",
+      "raw_name": "Telenești, Str. 31 August 1989, 2",
+      "city": "Telenești",
+      "street_address": "Str. 31 August 1989, 2",
+      "address": "Telenești, Str. 31 August 1989, 2",
+      "lat": 47.5039745,
+      "lng": 28.3665074,
+      "map_url": "https://maps.app.goo.gl/HjKAvN7eWyHHdBok6",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:30",
+          "text": "Luni - Vineri: 7:30 - 14:30",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 13:20",
+          "text": "Sâmbătă: 7:30 - 13:20",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 13:00",
+          "text": "Colectarea analizelor: 7:30 - 13:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:30",
+          "text": "Colectarea analizelor: 7:30 - 11:30",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Telenești, Str. 31 August 1989, 2\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:30\nColectarea analizelor\n7:30 - 13:00\nSâmbătă\n7:30 - 13:20\nColectarea analizelor\n7:30 - 11:30\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 57,
+      "external_key": "https://www.invitro.md/ro/contacts/49-nisporeni-strchisinau-8-a",
+      "raw_name": "Nisporeni, Str. Chișinăului, 8/A",
+      "city": "Nisporeni",
+      "street_address": "Str. Chișinăului, 8/A",
+      "address": "Nisporeni, Str. Chișinăului, 8/A",
+      "lat": 47.0853706,
+      "lng": 28.1830892,
+      "map_url": "https://maps.app.goo.gl/N8tBaofqf5z9kTxv7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30-10:20",
+          "text": "Colectarea analizelor: 7:30-10:20",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30-9:20",
+          "text": "Colectarea analizelor: 7:30-9:20",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Nisporeni, Str. Chișinăului, 8/A\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30-10:20\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30-9:20\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    },
+    {
+      "branch_id": 59,
+      "external_key": "https://www.invitro.md/ro/contacts/50-rezina-bdalexei-ciusev-2",
+      "raw_name": "Rezina, Bd. Alexei Șciusev, 2",
+      "city": "Rezina",
+      "street_address": "Bd. Alexei Șciusev, 2",
+      "address": "Rezina, Bd. Alexei Șciusev, 2",
+      "lat": 47.7468197,
+      "lng": 28.9593826,
+      "map_url": "https://maps.app.goo.gl/d85gMZ1rmPTiVBgW7",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "7:30 - 14:00",
+          "text": "Luni - Vineri: 7:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "7:30 - 12:00",
+          "text": "Sâmbătă: 7:30 - 12:00",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 11:30",
+          "text": "Colectarea analizelor: 7:30 - 11:30",
+          "is_sample": true
+        },
+        {
+          "label": "Colectarea analizelor",
+          "value": "7:30 - 9:40",
+          "text": "Colectarea analizelor: 7:30 - 9:40",
+          "is_sample": true
+        }
+      ],
+      "source_url": "https://www.invitro.md/ro/contacts",
+      "raw_text": "Rezina, Bd. Alexei Șciusev, 2\nPe hartă\nDoctorii\nIndicare direcție\nLuni - Vineri\n7:30 - 14:00\nColectarea analizelor\n7:30 - 11:30\nSâmbătă\n7:30 - 12:00\nColectarea analizelor\n7:30 - 9:40\nProgramare online\nComandă apel",
+      "scraped_at": "2026-06-11T09:38:56.687968+00:00"
+    }
+  ]
+}

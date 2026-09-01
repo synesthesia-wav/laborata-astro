@@ -1,0 +1,25 @@
+---
+import graph from "../../../../../packages/data/data/canonical-graph.json" with {
+  type: "json",
+};
+
+type GraphItem = { id: string; role: string };
+
+export function getStaticPaths() {
+  const items = (graph as { items: GraphItem[] }).items.filter(
+    (i) => i.role === "comparison"
+  );
+  const slugs = items.map((it) => ({ params: { slug: it.id } }));
+  if (!slugs.some((s) => s.params.slug === "vitamina-b12")) {
+    slugs.push({ params: { slug: "vitamina-b12" } });
+  }
+  slugs.push({ params: { slug: "vitamin-b12" } });
+  return slugs;
+}
+
+return Astro.redirect(
+  `/analize/${encodeURIComponent((Astro.params.slug === "vitamin-b12" ? "vitamina-b12" : Astro.params.slug) ?? "vitamina-b12")}`,
+  301
+);
+---
+

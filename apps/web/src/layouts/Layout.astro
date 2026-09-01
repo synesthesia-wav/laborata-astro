@@ -1,0 +1,70 @@
+---
+import "@workspace/ui/globals.css";
+
+interface Props {
+  canonical?: string;
+  description: string;
+  lang?: "ro" | "en";
+  ogImage?: string;
+  title: string;
+}
+
+const { title, description, lang = "ro", ogImage, canonical } = Astro.props;
+const site = Astro.site?.toString() ?? Astro.url.origin;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>{title}</title>
+    <meta content={description} name="description">
+    <link href={canonicalUrl} rel="canonical">
+    <meta content={title} property="og:title">
+    <meta content={description} property="og:description">
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta content="website" property="og:type">
+    <meta content="summary_large_image" name="twitter:card">
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml">
+    <slot name="head" />
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <header class="sticky top-0 z-10 border-b bg-background/80 backdrop-blur">
+      <div
+        class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
+      >
+        <a class="font-heading text-sm font-semibold tracking-tight" href="/"
+          >Laborata</a
+        >
+        <span class="hidden text-xs text-muted-foreground sm:inline"
+          >MDL • Laboratoare acreditate</span
+        >
+        <a
+          class="inline-flex h-8 items-center rounded-full border bg-card px-3 text-xs font-medium hover:bg-muted"
+          href="/analize"
+          >Vezi analize</a
+        >
+      </div>
+    </header>
+
+    <main class="flex w-full min-w-0 flex-col">
+      <slot />
+    </main>
+
+    <footer
+      class="border-t px-4 py-6 text-center text-xs text-muted-foreground sm:px-6"
+    >
+      <div class="mx-auto max-w-7xl">
+        © {new Date().getFullYear()} Laborata • Date demonstrative — vezi lista
+        și compară prețuri. În curând rezervi la
+        <a
+          class="underline underline-offset-4 hover:text-foreground"
+          href="mailto:hello@laborata.md"
+          >hello@laborata.md</a
+        >
+      </div>
+    </footer>
+  </body>
+</html>

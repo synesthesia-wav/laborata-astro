@@ -1,0 +1,1246 @@
+{
+  "vendor": "medexpert",
+  "source": "medexpert_homepage_raw",
+  "scraped_at": "2026-06-10T22:16:16.027914+00:00",
+  "source_url": "https://medexpert.md/locatii/",
+  "items": [
+    {
+      "index": 1,
+      "raw_name": "Botanica (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Nicolae Zelinski, 33/2",
+      "locality": "Chișinău",
+      "address": "str. Nicolae Zelinski, 33/2, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 15:00",
+          "text": "Luni - Vineri: 07:30 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "08:00 - 12:00",
+          "text": "Sâmbătă: 08:00 - 12:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 12:00",
+          "text": "Colectare analize: 07:30 - 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "",
+          "value": "Sâmbăta nu se efectuează colectarea analizelor",
+          "text": "Sâmbăta nu se efectuează colectarea analizelor",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator", "Servicii imagistice"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Nicolae%20Zelinski%2C%2033%2F2%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n2 categorii servicii\nBotanica (Chișinău)\nstr. Nicolae Zelinski, 33/2\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n07:30 - 15:00\nColectare analize\n07:30 - 12:00\nSâmbătă\n08:00 - 12:00\nSâmbăta nu se efectuează colectarea analizelor\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 2,
+      "raw_name": "Buiucani (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Ion Luca Caragiale, 3",
+      "locality": "Chișinău",
+      "address": "str. Ion Luca Caragiale, 3, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 16:00",
+          "text": "Luni - Vineri: 08:00 - 16:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "08:00 - 12:00",
+          "text": "Sâmbătă: 08:00 - 12:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 14:00",
+          "text": "Colectare analize: 08:00 - 14:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 11:00",
+          "text": "Colectare analize: 08:00 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Ion%20Luca%20Caragiale%2C%203%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n3 categorii servicii\nBuiucani (Chișinău)\nstr. Ion Luca Caragiale, 3\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n08:00 - 16:00\nColectare analize\n08:00 - 14:00\nSâmbătă\n08:00 - 12:00\nColectare analize\n08:00 - 11:00\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 3,
+      "raw_name": "Buiucani (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Liviu Deleanu, 7/6",
+      "locality": "Chișinău",
+      "address": "str. Liviu Deleanu, 7/6, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 15:00",
+          "text": "Luni - Vineri: 07:30 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "11:00 - 14:00",
+          "text": "Colectare analize: 11:00 - 14:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Liviu%20Deleanu%2C%207%2F6%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n1 categorii servicii\nBuiucani (Chișinău)\nstr. Liviu Deleanu, 7/6\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n07:30 - 15:00\nColectare analize\n11:00 - 14:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 4,
+      "raw_name": "Centru (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Bulgară, 35",
+      "locality": "Chișinău",
+      "address": "str. Bulgară, 35, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 14:30",
+          "text": "Luni - Vineri: 07:30 - 14:30",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 13:00",
+          "text": "Colectare analize: 07:30 - 13:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Bulgar%C4%83%2C%2035%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n1 categorii servicii\nCentru (Chișinău)\nstr. Bulgară, 35\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n07:30 - 14:30\nColectare analize\n07:30 - 13:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 5,
+      "raw_name": "Policlinica MedExpert (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Gheorghe Asachi, 62/3",
+      "locality": "Chișinău",
+      "address": "str. Gheorghe Asachi, 62/3, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 19:00",
+          "text": "Luni - Vineri: 07:30 - 19:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:30 - 14:00",
+          "text": "Sâmbătă: 07:30 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 16:00",
+          "text": "Colectare analize: 07:30 - 16:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 12:00",
+          "text": "Colectare analize: 07:30 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Gheorghe%20Asachi%2C%2062%2F3%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n3 categorii servicii\nPoliclinica MedExpert (Chișinău)\nstr. Gheorghe Asachi, 62/3\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n07:30 - 19:00\nColectare analize\n07:30 - 16:00\nSâmbătă\n07:30 - 14:00\nColectare analize\n07:30 - 12:00\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 6,
+      "raw_name": "Rîșcani (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Alecu Russo, 3/1",
+      "locality": "Chișinău",
+      "address": "str. Alecu Russo, 3/1, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 14:30",
+          "text": "Luni - Vineri: 07:30 - 14:30",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 14:00",
+          "text": "Colectare analize: 07:30 - 14:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Alecu%20Russo%2C%203%2F1%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n1 categorii servicii\nRîșcani (Chișinău)\nstr. Alecu Russo, 3/1\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n07:30 - 14:30\nColectare analize\n07:30 - 14:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 7,
+      "raw_name": "Sediul Central (Chișinău)",
+      "city": "Chișinău",
+      "street_address": "str. Gheorghe Asachi, 42",
+      "locality": "Chișinău",
+      "address": "str. Gheorghe Asachi, 42, Chișinău",
+      "phone": "+373 22 811 181",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:00 - 17:00",
+          "text": "Luni - Vineri: 07:00 - 17:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:00 - 14:00",
+          "text": "Sâmbătă: 07:00 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:00 - 16:00",
+          "text": "Colectare analize: 07:00 - 16:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "07:00 - 13:00",
+          "text": "Colectare analize: 07:00 - 13:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator", "Consultații specialiști"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Gheorghe%20Asachi%2C%2042%2C%20Chi%C8%99in%C4%83u%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Chișinău\n2 categorii servicii\nSediul Central (Chișinău)\nstr. Gheorghe Asachi, 42\nChișinău\nVezi pe hartă\n022 811 181\nLuni - Vineri\n07:00 - 17:00\nColectare analize\n07:00 - 16:00\nSâmbătă\n07:00 - 14:00\nColectare analize\n07:00 - 13:00\nDuminică\nzi liberă\nAnalize de laborator\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 8,
+      "raw_name": "Bălți",
+      "city": "Bălți",
+      "street_address": "str. Decebal, 101, et. 2",
+      "locality": "Bălți",
+      "address": "str. Decebal, 101, et. 2, Bălți",
+      "phone": "+373 231 88282",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:30",
+          "text": "Luni - Vineri: 08:00 - 15:30",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 13:00",
+          "text": "Colectare analize: 08:00 - 13:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Decebal%2C%20101%2C%20et.%202%2C%20B%C4%83l%C8%9Bi%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Bălți\n1 categorii servicii\nBălți\nstr. Decebal, 101, et. 2\nBălți\nVezi pe hartă\n0231 88282\nLuni - Vineri\n08:00 - 15:30\nColectare analize\n08:00 - 13:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 9,
+      "raw_name": "Bălți",
+      "city": "Bălți",
+      "street_address": "str. Decebal, 101A, IMSP CC Bălți, cab. 113",
+      "locality": "Bălți",
+      "address": "str. Decebal, 101A, IMSP CC Bălți, cab. 113, Bălți",
+      "phone": "+373 231 23020",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 13:00",
+          "text": "Colectare analize: 08:00 - 13:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Decebal%2C%20101A%2C%20IMSP%20CC%20B%C4%83l%C8%9Bi%2C%20cab.%20113%2C%20B%C4%83l%C8%9Bi%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Bălți\n1 categorii servicii\nBălți\nstr. Decebal, 101A, IMSP CC Bălți, cab. 113\nBălți\nVezi pe hartă\n0231 230 20\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 13:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 10,
+      "raw_name": "Briceni",
+      "city": "Briceni",
+      "street_address": "str. Mihai Eminescu, 48A",
+      "locality": "Briceni",
+      "address": "str. Mihai Eminescu, 48A, Briceni",
+      "phone": "+373 38 000 699",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:00 - 14:00",
+          "text": "Luni - Vineri: 07:00 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:00 - 11:00",
+          "text": "Colectare analize: 07:00 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Mihai%20Eminescu%2C%2048A%2C%20Briceni%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Briceni\n1 categorii servicii\nBriceni\nstr. Mihai Eminescu, 48A\nBriceni\nVezi pe hartă\n038 000 699\nLuni - Vineri\n07:00 - 14:00\nColectare analize\n07:00 - 11:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 11,
+      "raw_name": "Cahul",
+      "city": "Cahul",
+      "street_address": "str. Ștefan cel Mare, 27",
+      "locality": "Cahul",
+      "address": "str. Ștefan cel Mare, 27, Cahul",
+      "phone": "+373 299 80586",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:30 - 17:00",
+          "text": "Luni - Vineri: 07:30 - 17:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "07:30 - 12:00",
+          "text": "Sâmbătă: 07:30 - 12:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 16:00",
+          "text": "Colectare analize: 07:30 - 16:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "07:30 - 12:00",
+          "text": "Colectare analize: 07:30 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20%C8%98tefan%20cel%20Mare%2C%2027%2C%20Cahul%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Cahul\n3 categorii servicii\nCahul\nstr. Ștefan cel Mare, 27\nCahul\nVezi pe hartă\n0299 805 86\nLuni - Vineri\n07:30 - 17:00\nColectare analize\n07:30 - 16:00\nSâmbătă\n07:30 - 12:00\nColectare analize\n07:30 - 12:00\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 12,
+      "raw_name": "Călărași",
+      "city": "Călărași",
+      "street_address": "str. Nicolae Testemițanu, 59A",
+      "locality": "Călărași",
+      "address": "str. Nicolae Testemițanu, 59A, Călărași",
+      "phone": "+373 244 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 13:00",
+          "text": "Colectare analize: 08:00 - 13:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Nicolae%20Testemi%C8%9Banu%2C%2059A%2C%20C%C4%83l%C4%83ra%C8%99i%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Călărași\n3 categorii servicii\nCălărași\nstr. Nicolae Testemițanu, 59A\nCălărași\nVezi pe hartă\n0244 800 33\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 13:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 13,
+      "raw_name": "Căușeni",
+      "city": "Căușeni",
+      "street_address": "str. Gagarin, 54B",
+      "locality": "Căușeni",
+      "address": "str. Gagarin, 54B, Căușeni",
+      "phone": "+373 243 93739",
+      "hours_rows": [
+        {
+          "label": "Luni - Sâmbătă",
+          "value": "07:00 - 18:00",
+          "text": "Luni - Sâmbătă: 07:00 - 18:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator", "Servicii imagistice"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Gagarin%2C%2054B%2C%20C%C4%83u%C8%99eni%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Căușeni\n2 categorii servicii\nCăușeni\nstr. Gagarin, 54B\nCăușeni\nVezi pe hartă\n0243 93 739\nLuni - Sâmbătă\n07:00 - 18:00\nColectare analize\n08:00 - 12:00\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 14,
+      "raw_name": "Cimișlia",
+      "city": "Cimișlia",
+      "street_address": "str. Alexandru cel Bun, 135",
+      "locality": "Cimișlia",
+      "address": "str. Alexandru cel Bun, 135, Cimișlia",
+      "phone": "+373 38 000 134",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Alexandru%20cel%20Bun%2C%20135%2C%20Cimi%C8%99lia%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Cimișlia\n1 categorii servicii\nCimișlia\nstr. Alexandru cel Bun, 135\nCimișlia\nVezi pe hartă\n038 000 134\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 15,
+      "raw_name": "Comrat",
+      "city": "Comrat",
+      "street_address": "str. Tretiakov, 15",
+      "locality": "Comrat",
+      "address": "str. Tretiakov, 15, Comrat",
+      "phone": "+373 298 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 14:00",
+          "text": "Luni - Vineri: 08:00 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "08:00 - 12:00",
+          "text": "Sâmbătă: 08:00 - 12:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 13:00",
+          "text": "Colectare analize: 08:00 - 13:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Tretiakov%2C%2015%2C%20Comrat%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Comrat\n1 categorii servicii\nComrat\nstr. Tretiakov, 15\nComrat\nVezi pe hartă\n0298 800 33\nLuni - Vineri\n08:00 - 14:00\nColectare analize\n08:00 - 13:00\nSâmbătă\n08:00 - 12:00\nColectare analize\n08:00 - 12:00\nDuminică\nzi liberă\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 16,
+      "raw_name": "Dondușeni",
+      "city": "Dondușeni",
+      "street_address": "str. Mihai Eminescu, 26/1, IMSP SR, et. 4",
+      "locality": "Dondușeni",
+      "address": "str. Mihai Eminescu, 26/1, IMSP SR, et. 4, Dondușeni",
+      "phone": "+373 251 80882",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 10:00",
+          "text": "Colectare analize: 08:00 - 10:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Mihai%20Eminescu%2C%2026%2F1%2C%20IMSP%20SR%2C%20et.%204%2C%20Dondu%C8%99eni%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Dondușeni\n1 categorii servicii\nDondușeni\nstr. Mihai Eminescu, 26/1, IMSP SR, et. 4\nDondușeni\nVezi pe hartă\n0251 808 82\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 10:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 17,
+      "raw_name": "Drochia",
+      "city": "Drochia",
+      "street_address": "str. Nicolae Testemițanu, 4",
+      "locality": "Drochia",
+      "address": "str. Nicolae Testemițanu, 4, Drochia",
+      "phone": "+373 252 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 14:00",
+          "text": "Colectare analize: 08:00 - 14:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Nicolae%20Testemi%C8%9Banu%2C%204%2C%20Drochia%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Drochia\n1 categorii servicii\nDrochia\nstr. Nicolae Testemițanu, 4\nDrochia\nVezi pe hartă\n0252 800 33\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 14:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 18,
+      "raw_name": "Edineț",
+      "city": "Edineț",
+      "street_address": "str. Independenței, 79",
+      "locality": "Edineț",
+      "address": "str. Independenței, 79, Edineț",
+      "phone": "+373 246 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 11:00",
+          "text": "Colectare analize: 08:00 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Independen%C8%9Bei%2C%2079%2C%20Edine%C8%9B%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Edineț\n1 categorii servicii\nEdineț\nstr. Independenței, 79\nEdineț\nVezi pe hartă\n0246 800 33\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 11:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 19,
+      "raw_name": "Florești",
+      "city": "Florești",
+      "street_address": "str. Ștefan cel Mare, 35, etaj 2",
+      "locality": "Florești",
+      "address": "str. Ștefan cel Mare, 35, etaj 2, Florești",
+      "phone": "+373 250 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:30",
+          "text": "Colectare analize: 08:00 - 12:30",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20%C8%98tefan%20cel%20Mare%2C%2035%2C%20etaj%202%2C%20Flore%C8%99ti%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Florești\n1 categorii servicii\nFlorești\nstr. Ștefan cel Mare, 35, etaj 2\nFlorești\nVezi pe hartă\n0250 800 33\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:30\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 20,
+      "raw_name": "Glodeni",
+      "city": "Glodeni",
+      "street_address": "str. Tricolorului, 4",
+      "locality": "Glodeni",
+      "address": "str. Tricolorului, 4, Glodeni",
+      "phone": "+373 38 000 340",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Tricolorului%2C%204%2C%20Glodeni%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Glodeni\n1 categorii servicii\nGlodeni\nstr. Tricolorului, 4\nGlodeni\nVezi pe hartă\n038 000 340\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 21,
+      "raw_name": "Hîncești",
+      "city": "Hîncești",
+      "street_address": "str. Mihalcea Hîncu, 158",
+      "locality": "Hîncești",
+      "address": "str. Mihalcea Hîncu, 158, Hîncești",
+      "phone": "+373 269 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Mihalcea%20H%C3%AEncu%2C%20158%2C%20H%C3%AEnce%C8%99ti%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Hîncești\n1 categorii servicii\nHîncești\nstr. Mihalcea Hîncu, 158\nHîncești\nVezi pe hartă\n0269 800 33\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 22,
+      "raw_name": "Leova",
+      "city": "Leova",
+      "street_address": "str. Ștefan cel Mare, 69",
+      "locality": "Leova",
+      "address": "str. Ștefan cel Mare, 69, Leova",
+      "phone": "+373 38 000 698",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20%C8%98tefan%20cel%20Mare%2C%2069%2C%20Leova%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Leova\n1 categorii servicii\nLeova\nstr. Ștefan cel Mare, 69\nLeova\nVezi pe hartă\n038 000 698\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 23,
+      "raw_name": "Ocnița",
+      "city": "Ocnița",
+      "street_address": "str. Independenței, 64",
+      "locality": "Ocnița",
+      "address": "str. Independenței, 64, Ocnița",
+      "phone": "+373 38 000 133",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:00 - 14:00",
+          "text": "Luni - Vineri: 07:00 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:00 - 11:00",
+          "text": "Colectare analize: 07:00 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Independen%C8%9Bei%2C%2064%2C%20Ocni%C8%9Ba%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Ocnița\n1 categorii servicii\nOcnița\nstr. Independenței, 64\nOcnița\nVezi pe hartă\n038 000 133\nLuni - Vineri\n07:00 - 14:00\nColectare analize\n07:00 - 11:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 24,
+      "raw_name": "or. Rîșcani",
+      "city": "Rîșcani",
+      "street_address": "str. Independenței, 40C",
+      "locality": "Rîșcani",
+      "address": "str. Independenței, 40C, Rîșcani",
+      "phone": "+373 38 000 283",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Independen%C8%9Bei%2C%2040C%2C%20R%C3%AE%C8%99cani%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Rîșcani\n3 categorii servicii\nor. Rîșcani\nstr. Independenței, 40C\nRîșcani\nVezi pe hartă\n038 000 283\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 25,
+      "raw_name": "Orhei",
+      "city": "Orhei",
+      "street_address": "str. Mihai Eminescu, 10",
+      "locality": "Orhei",
+      "address": "str. Mihai Eminescu, 10, Orhei",
+      "phone": "+373 235 80016",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 17:00",
+          "text": "Luni - Vineri: 08:00 - 17:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "08:00 - 14:00",
+          "text": "Sâmbătă: 08:00 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 14:00",
+          "text": "Colectare analize: 08:00 - 14:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 14:00",
+          "text": "Colectare analize: 08:00 - 14:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Mihai%20Eminescu%2C%2010%2C%20Orhei%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Orhei\n3 categorii servicii\nOrhei\nstr. Mihai Eminescu, 10\nOrhei\nVezi pe hartă\n0235 800 16\nLuni - Vineri\n08:00 - 17:00\nColectare analize\n08:00 - 14:00\nSâmbătă\n08:00 - 14:00\nColectare analize\n08:00 - 14:00\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 26,
+      "raw_name": "Rezina",
+      "city": "Rezina",
+      "street_address": "Alexei Șciusev, 5,",
+      "locality": "Rezina",
+      "address": "Alexei Șciusev, 5,, Rezina",
+      "phone": "+373 254 80014",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "07:00 - 14:00",
+          "text": "Luni - Vineri: 07:00 - 14:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "07:00 - 11:00",
+          "text": "Colectare analize: 07:00 - 11:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=Alexei%20%C8%98ciusev%2C%205%2C%2C%20Rezina%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Rezina\n1 categorii servicii\nRezina\nAlexei Șciusev, 5,\nRezina\nVezi pe hartă\n0254 800 14\nLuni - Vineri\n07:00 - 14:00\nColectare analize\n07:00 - 11:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 27,
+      "raw_name": "Soroca",
+      "city": "Soroca",
+      "street_address": "str. Mihai Eminescu, 4",
+      "locality": "Soroca",
+      "address": "str. Mihai Eminescu, 4, Soroca",
+      "phone": "+373 230 80030",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 17:00",
+          "text": "Luni - Vineri: 08:00 - 17:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă",
+          "value": "08:00 - 12:00",
+          "text": "Sâmbătă: 08:00 - 12:00",
+          "is_sample": false
+        },
+        {
+          "label": "Duminică",
+          "value": "zi liberă",
+          "text": "Duminică: zi liberă",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        },
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 10:00",
+          "text": "Colectare analize: 08:00 - 10:00",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Mihai%20Eminescu%2C%204%2C%20Soroca%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Soroca\n3 categorii servicii\nSoroca\nstr. Mihai Eminescu, 4\nSoroca\nVezi pe hartă\n0230 800 30\nLuni - Vineri\n08:00 - 17:00\nColectare analize\n08:00 - 12:00\nSâmbătă\n08:00 - 12:00\nColectare analize\n08:00 - 10:00\nDuminică\nzi liberă\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 28,
+      "raw_name": "Ștefan Vodă",
+      "city": "Ștefan Vodă",
+      "street_address": "str. Nicolae Testemițanu, 1",
+      "locality": "Ștefan Vodă",
+      "address": "str. Nicolae Testemițanu, 1, Ștefan Vodă",
+      "phone": "+373 38 000 697",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:30 - 11:30",
+          "text": "Colectare analize: 08:30 - 11:30",
+          "is_sample": true
+        }
+      ],
+      "services": [
+        "Analize de laborator",
+        "Servicii imagistice",
+        "Consultații specialiști"
+      ],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Nicolae%20Testemi%C8%9Banu%2C%201%2C%20%C8%98tefan%20Vod%C4%83%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Ștefan Vodă\n3 categorii servicii\nȘtefan Vodă\nstr. Nicolae Testemițanu, 1\nȘtefan Vodă\nVezi pe hartă\n038 000 697\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:30 - 11:30\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nServicii imagistice\nConsultații specialiști\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 29,
+      "raw_name": "Telenești",
+      "city": "Telenești",
+      "street_address": "str. 31 August 1989, 7",
+      "locality": "Telenești",
+      "address": "str. 31 August 1989, 7, Telenești",
+      "phone": "+373 38 000 284",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%2031%20August%201989%2C%207%2C%20Telene%C8%99ti%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Telenești\n1 categorii servicii\nTelenești\nstr. 31 August 1989, 7\nTelenești\nVezi pe hartă\n038 000 284\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    },
+    {
+      "index": 30,
+      "raw_name": "Ungheni",
+      "city": "Ungheni",
+      "street_address": "str. Vasile Alecsandri, 15",
+      "locality": "Ungheni",
+      "address": "str. Vasile Alecsandri, 15, Ungheni",
+      "phone": "+373 236 80033",
+      "hours_rows": [
+        {
+          "label": "Luni - Vineri",
+          "value": "08:00 - 15:00",
+          "text": "Luni - Vineri: 08:00 - 15:00",
+          "is_sample": false
+        },
+        {
+          "label": "Sâmbătă, Duminică",
+          "value": "zile libere",
+          "text": "Sâmbătă, Duminică: zile libere",
+          "is_sample": false
+        }
+      ],
+      "sample_hours_rows": [
+        {
+          "label": "Colectare analize",
+          "value": "08:00 - 12:00",
+          "text": "Colectare analize: 08:00 - 12:00",
+          "is_sample": true
+        }
+      ],
+      "services": ["Analize de laborator", "Servicii imagistice"],
+      "map_url": "https://www.google.com/maps/dir/?api=1&destination=str.%20Vasile%20Alecsandri%2C%2015%2C%20Ungheni%2C%20Moldova",
+      "has_lab_services": true,
+      "source_url": "https://medexpert.md/locatii/",
+      "raw_text": "Ungheni\n2 categorii servicii\nUngheni\nstr. Vasile Alecsandri, 15\nUngheni\nVezi pe hartă\n0236 800 33\nLuni - Vineri\n08:00 - 15:00\nColectare analize\n08:00 - 12:00\nSâmbătă, Duminică\nzile libere\nAnalize de laborator\nServicii imagistice\nVezi servicii\nDeschide harta",
+      "scraped_at": "2026-06-10T22:16:15.932361+00:00"
+    }
+  ]
+}

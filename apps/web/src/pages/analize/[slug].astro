@@ -1,0 +1,127 @@
+---
+import graph from "../../../../../packages/data/data/canonical-graph.json" with {
+  type: "json",
+};
+import { PRODUCT_GALLERY } from "../../components/product/data";
+import { Faq } from "../../components/product/faq";
+import { PriceComparison } from "../../components/product/price-comparison";
+import { ProductGallery } from "../../components/product/product-gallery";
+import { ProductHeader } from "../../components/product/product-header";
+import { ProductSpecs } from "../../components/product/product-specs";
+import Layout from "../../layouts/Layout.astro";
+
+type GraphItem = { id: string; role: string; tuple_key: string };
+
+export function getStaticPaths() {
+  const items = (graph as { items: GraphItem[] }).items.filter(
+    (i) => i.role === "comparison"
+  );
+  return items.map((it) => ({ params: { slug: it.id } }));
+}
+
+const { slug } = Astro.params;
+const item = (graph as { items: GraphItem[] }).items.find((i) => i.id === slug);
+if (!item) {
+  return Astro.redirect("/analize/vitamina-b12", 302);
+}
+
+const displayName =
+  slug === "vitamina-b12"
+    ? "Vitamina B12 (Cobalamină)"
+    : slug.replaceAll("-", " ");
+const title = `${displayName} | Laborata — Analize`;
+const description =
+  slug === "vitamina-b12"
+    ? "Vitamina B12 (Cobalamină). Măsoară B12 total circulant, rezultat în 1 zi, de la 175 lei. Comparație prețuri Synevo, Sante, Invitro, Alfa."
+    : `${displayName} — analiză disponibilă la Synevo, Sante, Invitro, Alfa. Compară prețuri, vezi taxa o singură dată.`;
+const url = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url.origin
+).toString();
+const isB12 = slug === "vitamina-b12";
+---
+
+<Layout
+  description={description}
+  lang="ro"
+  ogImage={PRODUCT_GALLERY[0]}
+  title={title}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MedicalTest",
+      name: isB12 ? "Vitamina B12 (Cobalamină)" : displayName,
+      alternateName: slug,
+      description,
+      url,
+      relevantSpecialty: "Hematology",
+      code: {
+        "@type": "MedicalCode",
+        code: (item as GraphItem).tuple_key,
+        codingSystem: "Laborata tuple_key",
+      },
+    })}
+  />
+  <!-- Hero: gallery + header -->
+  <section
+    class="grid gap-8 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10"
+  >
+    <ProductGallery
+      idSuffix={`${slug}-hero`}
+      images={PRODUCT_GALLERY}
+      client:load
+    />
+    <ProductHeader
+      idSuffix={`${slug}-hero`}
+      lang="ro"
+      priceAsOf="august 2026"
+      sourceUrl="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"
+      client:load
+    />
+  </section>
+
+  <!-- Specs -->
+  <section class="border-t bg-muted/20 px-4 py-10 sm:px-6">
+    <div class="mx-auto flex w-full max-w-7xl flex-col">
+      <ProductSpecs idSuffix={`${slug}-specs`} client:load />
+    </div>
+  </section>
+
+  <!-- Price comparison -->
+  <section class="px-4 py-10 sm:px-6">
+    <div class="mx-auto w-full max-w-7xl">
+      <PriceComparison
+        idSuffix={slug}
+        lang="ro"
+        priceAsOf="august 2026"
+        client:load
+      />
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="px-4 py-10 sm:px-6">
+    <div class="mx-auto w-full max-w-3xl">
+      <Faq idSuffix={slug} client:load />
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section class="border-t bg-card px-4 py-8 sm:px-6">
+    <div class="mx-auto max-w-7xl">
+      <p class="max-w-3xl text-xs leading-relaxed text-muted-foreground">
+        Informațiile oferite de Laborata au scop informativ și nu înlocuiesc
+        consultul medical. Pentru simptome persistente, anemie, sarcină sau
+        tratament cu suplimente, consultă medicul. Produsul prezentat nu include
+        B12 activă (holotranscobalamină), MMA sau homocisteină — recomandăm
+        testele conexe pentru context funcțional. Taxa recoltare:
+        Sante/MedExpert 0 lei — inclus, Synevo/Invitro 30 lei o singură dată,
+        Alfa 25 lei.
+      </p>
+    </div>
+  </section>
+</Layout>

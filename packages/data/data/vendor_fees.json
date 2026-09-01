@@ -1,0 +1,74 @@
+[
+  {
+    "vendor": "synevo",
+    "sampleType": "blood",
+    "fee_mdl": 30,
+    "location": null,
+    "sourceUrl": "https://synevo.md/shop/prelevarea-sangelui/",
+    "notes": "Inferred from Invitro/Alfa pattern and synevo cart; actual Synevo fee not separately listed, assumed 30 for blood draw. Verify via checkout."
+  },
+  {
+    "vendor": "synevo",
+    "sampleType": "swab",
+    "fee_mdl": 50,
+    "location": null,
+    "sourceUrl": "https://synevo.md/shop/prelevarea-sangelui/",
+    "notes": "Assumed for swab/secretie; Synevo does not list separately, using 50 as placeholder. Verify."
+  },
+  {
+    "vendor": "invitro",
+    "sampleType": "blood",
+    "fee_mdl": 30,
+    "location": null,
+    "sourceUrl": "https://www.invitro.md/ro/services/prelevarea-sangelui-venos",
+    "notes": "Prelevarea sângelui venos CM01 30 MDL (also capilar CM02 30). From snapshot."
+  },
+  {
+    "vendor": "invitro",
+    "sampleType": "swab",
+    "fee_mdl": 75,
+    "location": null,
+    "sourceUrl": "https://www.invitro.md/ro/services/prelevarea-materialului-biologic-urogenital-la-femei",
+    "notes": "Prelevarea materialului biologic urogenital la femei CM03 75 MDL (also CM04 125 for barbat). Using 75 as base swab fee."
+  },
+  {
+    "vendor": "invitro",
+    "sampleType": "other",
+    "fee_mdl": 20,
+    "location": null,
+    "sourceUrl": "https://www.invitro.md/ro/services/prelevarea-materialului-biologic-secreție-frotiu",
+    "notes": "Secreție/frotiu CM15 20 MDL"
+  },
+  {
+    "vendor": "sante",
+    "sampleType": "blood",
+    "fee_mdl": 0,
+    "location": null,
+    "sourceUrl": "https://online.sante.md/categorii/analize/",
+    "notes": "Sante does not list separate collection fee in snapshots; price appears all-inclusive. Set 0, verify via cart total vs sum."
+  },
+  {
+    "vendor": "medexpert",
+    "sampleType": "blood",
+    "fee_mdl": 0,
+    "location": null,
+    "sourceUrl": "https://medexpert.md/product/analize/",
+    "notes": "MedExpert fee is per-centre in raw_variations (e.g., chisinau 50 variations), not separate sampleType fee. Store as 0 and use variation price."
+  },
+  {
+    "vendor": "alfa",
+    "sampleType": "blood",
+    "fee_mdl": 25,
+    "location": null,
+    "sourceUrl": "https://alfalab.md/ro/analize-medicale/P/prelevarea-sangelui-venos-25",
+    "notes": "Prelevarea sângelui venos (>10 ani) PRL01 25 MDL (capilar PRL02 10, materiel biologic 45-50). From snapshot."
+  },
+  {
+    "vendor": "alfa",
+    "sampleType": "swab",
+    "fee_mdl": 50,
+    "location": null,
+    "sourceUrl": "https://alfalab.md/ro/analize-medicale/P/prelevarea-materialului-biologic-la-femei",
+    "notes": "Prelevarea materialului biologic la femei PRL03 45 / barbati PRL04 50 — using 50 for swab."
+  }
+]

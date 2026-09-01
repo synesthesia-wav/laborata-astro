@@ -1,0 +1,23 @@
+{
+  "name": "@workspace/data",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./types": "./src/types.ts",
+    "./canonical": "./src/canonical.ts",
+    "./branches": "./src/branches.ts",
+    "./fees": "./src/fees.ts",
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "~6"
+  }
+}
