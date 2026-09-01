@@ -1,0 +1,109 @@
+---
+import graph from "../../../../../packages/data/data/canonical-graph.json" with {
+  type: "json",
+};
+import archetypes from "../../../../../packages/data/data/panel-archetypes-final-llm.json" with {
+  type: "json",
+};
+import { BundleDetail } from "../../components/profil/BundleDetail";
+import Layout from "../../layouts/Layout.astro";
+
+type GraphItem = {
+  id: string;
+  type: string;
+  role: string;
+  tuple_key: string;
+  vendor_count: number;
+  vendors: string[];
+  member_count?: number;
+  referenceComponentIds?: string[];
+  quorum_size?: number;
+  provenance?: { quorum?: number; total?: number }[];
+};
+
+export function getStaticPaths() {
+  const items = (graph as { items: GraphItem[] }).items.filter(
+    (i) => i.type === "panel_archetype" && i.role === "comparison"
+  );
+  // 33 comparison panels
+  return items.map((it) => ({ params: { slug: it.id } }));
+}
+
+const { slug } = Astro.params;
+const item = (graph as { items: GraphItem[] }).items.find(
+  (i) => i.id === slug
+) as GraphItem | undefined;
+
+if (!item) {
+  return Astro.redirect("/analize", 302);
+}
+
+// enrich from panel-archetypes-final-llm.json for honest quorum/total
+const arch = (
+  archetypes as unknown as {
+    id: string;
+    quorum_size: number;
+    total_comps: number;
+    referenceComponentIds: string[];
+  }[]
+).find((a) => a.id === slug);
+
+const referenceComponentIds =
+  arch?.referenceComponentIds ?? item.referenceComponentIds ?? [];
+const quorumSize =
+  arch?.quorum_size ?? item.quorum_size ?? item.provenance?.[0]?.quorum ?? 0;
+const totalComps =
+  arch?.total_comps ??
+  item.provenance?.[0]?.total ??
+  referenceComponentIds.length;
+const vendors = item.vendors ?? [];
+const name = item.id
+  .replace(/^arch-/, "")
+  .replaceAll("-", " ")
+  .replaceAll("+", " + ");
+const displayName = name
+  .split(" ")
+  .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+  .join(" ");
+const title = `${displayName} — Profil | Laborata`;
+const description = `Profil ${displayName}: ${referenceComponentIds.length} teste, quorum ${quorumSize}/${totalComps}. Acoperire Sante 4/4 etc Not yet sold here never invent.`;
+---
+
+<Layout description={description} lang="ro" title={title}>
+  <section class="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
+    <div class="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
+      <a class="underline" href="/analize">Analize</a>
+      <span>›</span>
+      <span class="font-mono">{slug}</span>
+    </div>
+    <BundleDetail
+      id={item.id}
+      memberCount={item.member_count}
+      name={displayName}
+      quorumSize={quorumSize}
+      referenceComponentIds={referenceComponentIds}
+      totalComps={totalComps}
+      vendorCount={item.vendor_count}
+      vendors={vendors}
+      client:load
+    />
+    <div
+      class="mt-8 rounded-xl border border-dashed bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground"
+    >
+      <p class="font-medium text-foreground">Watcher / WhoFor / ReadNext</p>
+      <p>
+        Honest N-of-M: we show <span class="font-mono">quorum_size</span>/<span
+          class="font-mono"
+          >total_comps</span
+        >
+        and per-lab <span class="font-mono">4/4</span> or
+        <span class="font-mono">0/4 Not yet sold as a bundle here</span> — never
+        invent Sante protocol or reference intervals.
+      </p>
+      <p class="mt-2">
+        Add all or one-by-one via lists (soft 12). Lists persist in
+        localStorage, share token &lt;2k.
+      </p>
+    </div>
+  </section>
+</Layout>

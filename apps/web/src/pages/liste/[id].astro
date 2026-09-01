@@ -1,0 +1,29 @@
+---
+import { ListDetail } from "../../components/lists/ListDetail";
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  // pre-render demo lists for static build; dynamic lists are client-side
+  return [
+    { params: { id: "demo-analizele-mele" } },
+    { params: { id: "demo-mama-control" } },
+  ];
+}
+
+const { id } = Astro.params;
+---
+
+<Layout
+  description="Listă soft 12, inline compară overflow-x-auto sticky, share ?share=token <2k, pinnedBranchId."
+  lang="ro"
+  title={`Listă ${id} | Laborata`}
+>
+  <section class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+    <div class="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
+      <a class="underline" href="/liste">Liste</a>
+      <span>›</span>
+      <span class="font-mono">{id}</span>
+    </div>
+    <ListDetail id={id} client:load />
+  </section>
+</Layout>

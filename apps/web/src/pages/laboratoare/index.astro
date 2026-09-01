@@ -1,0 +1,77 @@
+---
+import { BRANCHES } from "@workspace/data/branches";
+import { LABS } from "@workspace/data/types";
+import { Badge } from "@workspace/ui/components/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+import { BranchesExplorer } from "../../components/branches/branches-explorer";
+import Layout from "../../layouts/Layout.astro";
+
+const total = BRANCHES.length;
+const counts: Record<string, number> = {};
+for (const b of BRANCHES) {
+  counts[b.labId] = (counts[b.labId] ?? 0) + 1;
+}
+---
+
+<Layout
+  description={`Laboratoare — 5 rețele, ${total} filiale. Alfa ${counts.alfa} · Sante ${counts.sante} · Synevo ${counts.synevo} · Invitro ${counts.invitro} · MedExpert ${counts.medexpert}. Vezi program, telefon, hartă.`}
+  lang="ro"
+  title={`Laboratoare — ${total} filiale | Laborata`}
+>
+  <div
+    class="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8"
+  >
+    <div class="flex flex-col gap-2">
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">
+        Laboratoare
+      </h1>
+      <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        5 rețele partenere — {total} filiale în Chișinău. Alege rețeaua, apoi
+        filtrează după probă × sector. Fiecare filială arată program real{" "}
+        <span class="font-mono text-xs"
+          >["07:30-15:00"] / ["08:00-11:30","12:30-16:00"]</span
+        >, telefon, Sânge/Urină/Frotiu și lat/lng.
+      </p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {LABS.map((lab) => (
+          <Card className="flex flex-col" id={`lab-card-${lab.id}`}>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between gap-2 text-base">
+                <span>{lab.name}</span>
+                <Badge variant={lab.renar ? "default" : "outline"}>
+                  {lab.renar ? "RENAR" : "—"}
+                </Badge>
+              </CardTitle>
+              <CardDescription>
+                {counts[lab.id] ?? 0} filiale · {lab.id}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="mt-auto flex flex-col gap-3">
+              <div class="text-xs text-muted-foreground">
+                {BRANCHES.filter((b) => b.labId === lab.id)
+                  .slice(0, 2)
+                  .map((b) => b.address)
+                  .join(" · ") || "—"}
+              </div>
+              <a
+                class="inline-flex h-9 items-center justify-center rounded-md border bg-card px-3 text-sm font-medium hover:bg-muted"
+                href={`/laboratoare/${lab.id}`}
+              >
+                Vezi filiale — {counts[lab.id] ?? 0}
+              </a>
+            </CardContent>
+          </Card>
+        ))}
+    </div>
+
+    <BranchesExplorer idSuffix="laboratoare-index" client:load />
+  </div>
+</Layout>

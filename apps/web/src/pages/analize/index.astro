@@ -1,0 +1,35 @@
+---
+import { AnalizeBrowse } from "../../components/analize/AnalizeBrowse";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  description="Browse 417 comparison + 7033 catalog. Diacritics-insensitive: tsh→TSH, feritina→Feritină, glicemie≡glucoza. Filter Concern×Lab×Sample."
+  lang="ro"
+  title="Analize — browse + typeahead | Laborata"
+>
+  <section class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+    <div class="flex flex-col gap-2">
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">
+        Analize
+      </h1>
+      <p class="max-w-prose text-sm text-muted-foreground leading-relaxed">
+        Browse 417 comparison (384 singles + 33 panel archetypes) + 7033 catalog
+        for SEO. Typeahead on
+        <span class="font-mono text-xs">search.json</span> (full) — hero uses
+        <span class="font-mono text-xs">search-light.json 417</span>. Folding:
+        <span class="font-medium text-foreground">feritina</span> finds
+        <span class="font-medium text-foreground">Feritină</span>,
+        <span class="font-medium text-foreground">tsh</span> finds
+        <span class="font-medium text-foreground">TSH</span>,
+        <span class="font-medium text-foreground">glicemie</span>≡<span
+          class="font-medium text-foreground"
+          >glucoza</span
+        >.
+      </p>
+    </div>
+    <div class="mt-6">
+      <AnalizeBrowse client:load />
+    </div>
+  </section>
+</Layout>

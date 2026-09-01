@@ -66,6 +66,32 @@ function build() {
       aliases.push("tsh", "tirotropina");
     }
 
+    // extract sampleType from tuple (3rd field) or heuristic
+    const tupleParts = tuple.split("|");
+    const rawSample = (tupleParts[2] ?? "").trim() || "blood";
+    const normalizedSample = (() => {
+      const v = rawSample.toLowerCase();
+      if (
+        v.includes("blood") ||
+        v.includes("sange") ||
+        v.includes("ser") ||
+        v.includes("plasma") ||
+        v === "sange-venos-urina" ||
+        v === "arch"
+      ) {
+        return "Sânge";
+      }
+      if (v.includes("urina") || v.includes("urine")) {
+        return "Urină";
+      }
+      if (v.includes("frotiu") || v.includes("swab") || v.includes("raclaj")) {
+        return "Frotiu";
+      }
+      if (!v) {
+        return "Sânge";
+      }
+      return "Sânge";
+    })();
     docs.push({
       aliases,
       foldedSlug,
@@ -73,6 +99,7 @@ function build() {
       foldedTuple,
       id,
       role,
+      sampleType: normalizedSample,
       // client tokenizes on these
       searchText: [
         foldedTitle,
@@ -85,6 +112,7 @@ function build() {
       tuple_key: tuple,
       type,
       vendor_count,
+      vendors: it.vendors ?? [],
     });
   }
 
@@ -98,11 +126,41 @@ function build() {
     spec_version: graph.spec_version ?? "canonical-v4-tuple-dedupe-correct",
   };
 
+  // Light index: 417 comparison only for home hero-search (~300k vs 3.9M)
+  const lightDocs = docs.filter((d) => d.role === "comparison");
+  const lightOut = {
+    catalog_count: lightDocs.length,
+    comparison_count: lightDocs.length,
+    count: lightDocs.length,
+    docs: lightDocs,
+    generated_at: new Date().toISOString(),
+    spec_version: graph.spec_version ?? "canonical-v4-tuple-dedupe-correct",
+  };
+
   const outputs = [
     join(root, "packages/data/data/search.json"),
     join(root, "apps/web/public/search.json"),
     join(root, "apps/web/dist/search.json"),
   ];
+
+  const lightOutputs = [
+    join(root, "packages/data/data/search-light.json"),
+    join(root, "apps/web/public/search-light.json"),
+    join(root, "apps/web/dist/search-light.json"),
+  ];
+
+  for (const p of lightOutputs) {
+    try {
+      const dir = dirname(p);
+      if (!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true });
+      }
+      writeFileSync(p, JSON.stringify(lightOut, null, 2));
+      console.log(`[build-search] wrote light ${p} (${lightDocs.length} docs)`);
+    } catch (e) {
+      console.warn(`[build-search] skip light ${p}: ${e.message}`);
+    }
+  }
 
   for (const p of outputs) {
     try {

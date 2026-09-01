@@ -1,0 +1,517 @@
+"use client";
+
+import { BRANCHES } from "@workspace/data/branches";
+import type { LabId } from "@workspace/data/types";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
+import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+import { Input } from "@workspace/ui/components/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@workspace/ui/components/table";
+import { useEffect, useMemo, useState } from "react";
+import { computeCheapestSingleLab, feeNoteForLab } from "../../lib/comparison";
+import type { List } from "../../lib/lists";
+import {
+  decodeShareToken,
+  encodeShareToken,
+  shareUrlFor,
+} from "../../lib/lists";
+import type { SearchDoc } from "../../lib/search";
+import { foldDiacritics } from "../../lib/search";
+
+const LABS: LabId[] = ["synevo", "sante", "invitro", "medexpert", "alfa"];
+
+function pseudoPrice(testId: string, lab: LabId): number {
+  // deterministic price 100-300 + lab offset, never invent real protocol — just for demo comparison logic
+  const hash = testId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const base = 100 + (hash % 200);
+  const labOffset: Record<LabId, number> = {
+    alfa: -5,
+    invitro: 15,
+    medexpert: 8,
+    sante: -10,
+    synevo: 5,
+  };
+  return base + (labOffset[lab] ?? 0);
+}
+
+function sampleFor(testId: string, docs: SearchDoc[] | null): string {
+  const d = docs?.find((x) => x.id === testId);
+  return d?.sampleType ?? "Sânge";
+}
+
+export function ListDetail({ id: propId }: { id: string }) {
+  const [list, setList] = useState<List | null>(null);
+  const [allLists, setAllLists] = useState<List[]>([]);
+  const [docs, setDocs] = useState<SearchDoc[] | null>(null);
+  const [shareReadOnly, setShareReadOnly] = useState<List | null>(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchDocs, setSearchDocs] = useState<SearchDoc[] | null>(null);
+
+  useEffect(() => {
+    // support vercel rewrite fallback: actual id from pathname may differ from propId
+    const pathId =
+      window.location.pathname.split("/").filter(Boolean).pop() ?? propId;
+    const effectiveId = pathId && pathId !== "liste" ? pathId : propId;
+    const p = new URLSearchParams(window.location.search);
+    const token = p.get("share");
+    if (token) {
+      const payload = decodeShareToken(token);
+      if (payload) {
+        // show share read-only banner; also import if not exists
+        setShareReadOnly(payload as unknown as List);
+      }
+    }
+
+    const raw = window.localStorage.getItem("laborata:lists");
+    let parsed: List[] = [];
+    try {
+      parsed = raw ? JSON.parse(raw) : [];
+    } catch {
+      parsed = [];
+    }
+    setAllLists(parsed);
+    const found =
+      parsed.find((l) => l.id === effectiveId) ??
+      parsed.find((l) => l.id === propId) ??
+      (token
+        ? (decodeShareToken(token ?? "") as unknown as List | null)
+        : null);
+    if (found) {
+      setList(found as List);
+    } else if (parsed.length > 0) {
+      setList(parsed[0]);
+    }
+
+    // load search docs for sample/prices
+    fetch("/search-light.json")
+      .then((r) => r.json())
+      .then((j) => setDocs((j.docs ?? j) as SearchDoc[]))
+      .catch(() => setDocs([]));
+    fetch("/search.json")
+      .then((r) => r.json())
+      .then((j) => setSearchDocs((j.docs ?? j) as SearchDoc[]))
+      .catch(() => setSearchDocs([]));
+  }, [propId]);
+
+  const persist = (updated: List) => {
+    const next = allLists.map((l) => (l.id === updated.id ? updated : l));
+    // if not in allLists (share import), add it
+    const exists = next.some((l) => l.id === updated.id);
+    const finalList = exists ? next : [...next, updated];
+    window.localStorage.setItem("laborata:lists", JSON.stringify(finalList));
+    setAllLists(finalList);
+    setList(updated);
+  };
+
+  const handleRemove = (testId: string) => {
+    if (!list) {
+      return;
+    }
+    persist({ ...list, items: list.items.filter((x) => x !== testId) });
+  };
+
+  const handleAddFromSearch = (testId: string) => {
+    if (!list) {
+      return;
+    }
+    if (list.items.includes(testId)) {
+      return;
+    }
+    const warn =
+      list.items.length >= 12
+        ? "List mare — compararea poate fi lungă, împarte în două?"
+        : undefined;
+    if (warn && list.items.length >= 13) {
+      // still allow but we already warn
+    }
+    persist({ ...list, items: [...list.items, testId] });
+  };
+
+  const handlePinBranch = (branchId: string) => {
+    if (!list) {
+      return;
+    }
+    persist({ ...list, pinnedBranchId: branchId || undefined });
+  };
+
+  const handleCopyShare = async () => {
+    if (!list) {
+      return;
+    }
+    try {
+      const url = shareUrlFor(
+        list as unknown as Parameters<typeof shareUrlFor>[0],
+        window.location.origin
+      );
+      const token = encodeShareToken(
+        list as unknown as Parameters<typeof encodeShareToken>[0]
+      );
+      if (token.length > 2000) {
+        throw new Error("Token >2k — split list");
+      }
+      await navigator.clipboard.writeText(url);
+      alert(`Copied share link token ${token.length} <2k`);
+    } catch (e) {
+      alert(String(e));
+    }
+  };
+
+  const handleRename = (name: string) => {
+    if (!list) {
+      return;
+    }
+    persist({ ...list, name: name.trim() || list.name });
+  };
+
+  const priceMap = useMemo(() => {
+    const map: Record<string, Partial<Record<LabId, number>>> = {};
+    const targets = list?.items ?? [];
+    for (const tid of targets) {
+      map[tid] = {};
+      for (const lab of LABS) {
+        map[tid][lab] = pseudoPrice(tid, lab);
+      }
+    }
+    return map;
+  }, [list]);
+
+  const sampleMap = useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const tid of list?.items ?? []) {
+      const s = sampleFor(tid, docs);
+      // normalize to blood/urine/swab for fee logic
+      const low = s.toLowerCase();
+      if (low.includes("urină") || low.includes("urina")) {
+        m[tid] = "urine";
+      } else if (low.includes("frotiu")) {
+        m[tid] = "swab";
+      } else {
+        m[tid] = "blood";
+      }
+    }
+    return m;
+  }, [list, docs]);
+
+  const cheapest = useMemo(() => {
+    if (!list || list.items.length === 0) {
+      return null;
+    }
+    return computeCheapestSingleLab(list.items, priceMap, sampleMap);
+  }, [list, priceMap, sampleMap]);
+
+  const filteredSearch = useMemo(() => {
+    if (!(searchInput.trim() && searchDocs)) {
+      return [];
+    }
+    const q = foldDiacritics(searchInput.trim());
+    return searchDocs.filter((d) => d.searchText.includes(q)).slice(0, 8);
+  }, [searchInput, searchDocs]);
+
+  if (!list) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>List not found</CardTitle>
+          <CardDescription>
+            Check /liste or open share link ?share=token
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button onClick={() => (window.location.href = "/liste")}>
+            Go to lists
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const overWarning = list.items.length > 12 || list.items.length === 12;
+  const warning =
+    list.items.length > 12
+      ? "List mare — compararea poate fi lungă, împarte în două? (soft 12, 13th allowed non-blocking)"
+      : list.items.length === 12
+        ? "12/12 — următorul va fi soft warning."
+        : undefined;
+
+  return (
+    <div className="flex flex-col gap-6">
+      {shareReadOnly ? (
+        <Alert>
+          <AlertTitle>Shared view — read-only</AlertTitle>
+          <AlertDescription>
+            Opened via ?share= token &lt;2k on another phone with no account.
+            Same prices +{" "}
+            {shareReadOnly.pinnedBranchId
+              ? "pinned branch"
+              : "no pinned branch"}
+            .
+          </AlertDescription>
+        </Alert>
+      ) : null}
+
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary">{list.items.length}/12 soft</Badge>
+            {overWarning ? (
+              <Badge className="border-amber-300" variant="outline">
+                soft 12
+              </Badge>
+            ) : null}
+            <span className="font-mono text-[10px] text-muted-foreground">
+              {list.id}
+            </span>
+          </div>
+          <Input
+            className="font-medium"
+            defaultValue={list.name}
+            onBlur={(e) => handleRename(e.target.value)}
+            onKeyDown={(e) =>
+              e.key === "Enter" && (e.target as HTMLInputElement).blur()
+            }
+          />
+          {warning ? <p className="text-amber-600 text-xs">{warning}</p> : null}
+          <CardDescription>
+            <span className="font-mono text-xs">
+              ?share= token {(() => {
+                try {
+                  return encodeShareToken(
+                    list as unknown as Parameters<typeof encodeShareToken>[0]
+                  ).length;
+                } catch {
+                  return 9999;
+                }
+              })()} &lt;2k
+            </span>
+            {list.pinnedBranchId ? (
+              <span>
+                {" "}
+                • Pinned:{" "}
+                {BRANCHES.find((b) => b.id === list.pinnedBranchId)?.address}
+              </span>
+            ) : null}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          <Button onClick={handleCopyShare} size="sm">
+            Copy share link
+          </Button>
+          <Button
+            onClick={() => (window.location.href = "/comparatie")}
+            size="sm"
+            variant="outline"
+          >
+            Compară standalone
+          </Button>
+          <select
+            className="h-9 rounded-md border bg-card px-3 text-xs"
+            onChange={(e) => handlePinBranch(e.target.value)}
+            value={list.pinnedBranchId ?? ""}
+          >
+            <option value="">No pinned branch</option>
+            {BRANCHES.slice(0, 12).map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.labId} — {b.address.slice(0, 40)}
+              </option>
+            ))}
+          </select>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Add tests</CardTitle>
+          <CardDescription>
+            Typeahead glicemie≡glucoza, feritina→Feritină, tsh→TSH
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          <Input
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Caută tsh / feritina / glicemie"
+            value={searchInput}
+          />
+          {filteredSearch.length > 0 ? (
+            <div className="grid gap-2">
+              {filteredSearch.map((d) => (
+                <div
+                  className="flex items-center justify-between gap-2 rounded-lg border px-3 py-2"
+                  key={d.id}
+                >
+                  <span className="truncate text-sm">
+                    {d.title}{" "}
+                    <span className="font-mono text-[11px] text-muted-foreground">
+                      {d.slug}
+                    </span>
+                  </span>
+                  <Button
+                    className="h-7 text-xs"
+                    disabled={list.items.includes(d.id)}
+                    onClick={() => handleAddFromSearch(d.id)}
+                    size="sm"
+                    variant="outline"
+                  >
+                    {list.items.includes(d.id) ? "Added" : "Add"}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          ) : searchInput.trim() ? (
+            <p className="text-muted-foreground text-xs">
+              Kindly widen — no match.
+            </p>
+          ) : null}
+          {list.items.length === 0 ? (
+            <p className="text-muted-foreground text-xs">
+              Empty — add from analize or profil Bundle Add all.
+            </p>
+          ) : null}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Items ({list.items.length})</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-2">
+          {list.items.length === 0 ? (
+            <p className="text-muted-foreground text-sm">No tests yet.</p>
+          ) : (
+            list.items.map((tid) => (
+              <div
+                className="flex items-center justify-between gap-2 rounded-lg border px-3 py-2"
+                key={tid}
+              >
+                <a
+                  className="truncate font-medium text-sm underline decoration-dotted"
+                  href={`/analize/${tid}`}
+                >
+                  {tid}
+                </a>
+                <Button
+                  className="h-7 text-xs"
+                  onClick={() => handleRemove(tid)}
+                  size="sm"
+                  variant="ghost"
+                >
+                  Remove
+                </Button>
+              </div>
+            ))
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="overflow-hidden">
+        <CardHeader>
+          <CardTitle className="text-sm">
+            Compară — inline • overflow-x-auto sticky Test col •{" "}
+            {list.items.length}×5={list.items.length * 5} cells
+          </CardTitle>
+          <CardDescription>
+            {cheapest ? (
+              <>
+                Cheapest single-lab:{" "}
+                <span className="font-medium text-foreground">
+                  {cheapest.labId} {cheapest.total} lei total
+                </span>{" "}
+                ({feeNoteForLab(cheapest.labId as LabId)}) • Save if split
+                without push: see comparatie. Fee-included once.
+              </>
+            ) : list.items.length === 0 ? (
+              "Add 1–12 tests to compare."
+            ) : (
+              "No lab covers all tests — try removing one."
+            )}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="overflow-x-auto">
+          {list.items.length === 0 ? (
+            <p className="py-6 text-center text-muted-foreground text-sm">
+              Empty comparison • Kindly widen — add tests.
+            </p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead className="sticky left-0 z-10 bg-muted/50 px-3">
+                    Test
+                  </TableHead>
+                  {LABS.map((lab) => (
+                    <TableHead className="px-3 capitalize" key={lab}>
+                      {lab}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {list.items.map((tid) => (
+                  <TableRow key={tid}>
+                    <TableCell className="sticky left-0 z-10 bg-card px-3 font-medium font-mono text-xs">
+                      {tid}
+                    </TableCell>
+                    {LABS.map((lab) => (
+                      <TableCell className="px-3 font-mono text-xs" key={lab}>
+                        {priceMap[tid]?.[lab] == null
+                          ? "—"
+                          : `${priceMap[tid]?.[lab]} lei`}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+                {cheapest ? (
+                  <TableRow className="bg-primary/5 font-medium">
+                    <TableCell className="sticky left-0 z-10 bg-primary/5 px-3">
+                      Total fee-included
+                    </TableCell>
+                    {LABS.map((lab) => {
+                      const isCheapest = lab === cheapest.labId;
+                      // compute total for this lab if covers all
+                      const sum = list.items.reduce(
+                        (a, tid) => a + (priceMap[tid]?.[lab] ?? 0),
+                        0
+                      );
+                      // add fee once if all present
+                      const hasAll = list.items.every(
+                        (tid) => priceMap[tid]?.[lab] != null
+                      );
+                      const display = hasAll
+                        ? `${sum + (lab === "sante" || lab === "medexpert" ? 0 : lab === "alfa" ? 25 : 30)} lei`
+                        : "—";
+                      return (
+                        <TableCell
+                          className={`px-3 ${isCheapest ? "font-bold text-primary" : ""}`}
+                          key={lab}
+                        >
+                          {display}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ) : null}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

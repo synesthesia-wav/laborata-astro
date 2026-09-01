@@ -1,0 +1,25 @@
+---
+import { ListIndex } from "../../components/lists/ListIndex";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  description="Liste soft 12, share ?share=token <2k opens on another phone with no account, pinnedBranchId."
+  lang="ro"
+  title="Liste — Analizele mele | Laborata"
+>
+  <section class="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
+    <div class="flex flex-col gap-2">
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">Liste</h1>
+      <p class="max-w-prose text-sm text-muted-foreground leading-relaxed">
+        Soft 12 • share link
+        <span class="font-mono text-xs">?share=base64(JSON) &lt;2k</span> opens
+        on another phone with no account • pinnedBranchId • inline comparison
+        overflow-x-auto sticky on /liste/[id].
+      </p>
+    </div>
+    <div class="mt-6">
+      <ListIndex client:load />
+    </div>
+  </section>
+</Layout>

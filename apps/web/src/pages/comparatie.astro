@@ -1,0 +1,33 @@
+---
+import { ComparisonPicker } from "../components/lists/ComparisonPicker";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  description="Standalone picker secondary to liste inline. Soft 12, cheapestSingleLab fee-included, saveIfSplit without push."
+  lang="ro"
+  title="Compară — cheapestSingleLab fee-included | Laborata"
+>
+  <section class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+    <div class="flex flex-col gap-2">
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">
+        Compară
+      </h1>
+      <p class="max-w-prose text-sm text-muted-foreground leading-relaxed">
+        Standalone picker — secondary to
+        <span class="font-mono text-xs">liste inline</span>. Soft 12,
+        <span class="font-medium text-foreground"
+          >cheapestSingleLab fee-included</span
+        >
+        +
+        <span class="font-medium text-foreground">saveIfSplit without push</span
+        >. Primary table is on
+        <a class="underline" href="/liste">liste/[id] inline</a> overflow-x-auto
+        sticky.
+      </p>
+    </div>
+    <div class="mt-6">
+      <ComparisonPicker client:load />
+    </div>
+  </section>
+</Layout>

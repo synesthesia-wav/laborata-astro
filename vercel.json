@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/liste/:id", "destination": "/liste/demo-analizele-mele" },
+    { "source": "/liste/:id/", "destination": "/liste/demo-analizele-mele" }
+  ]
+}

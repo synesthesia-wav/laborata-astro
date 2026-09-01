@@ -1,0 +1,60 @@
+---
+import { BRANCHES } from "@workspace/data/branches";
+import { LABS } from "@workspace/data/types";
+import { BranchesExplorer } from "../../components/branches/branches-explorer";
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return LABS.map((lab) => ({
+    params: { lab: lab.id },
+  }));
+}
+
+const { lab } = Astro.params;
+const labMeta = LABS.find((l) => l.id === lab);
+if (!labMeta) {
+  return Astro.redirect("/laboratoare", 302);
+}
+const count = BRANCHES.filter((b) => b.labId === lab).length;
+const labName = labMeta.name;
+---
+
+<Layout
+  description={`${labName} — ${count} filiale în Chișinău. Filtrează după probă × sector, vezi Open now / Opens at 8:00, telefon, program real ["07:30-15:00"].`}
+  lang="ro"
+  title={`${labName} — ${count} filiale | Laborata`}
+>
+  <div
+    class="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8"
+  >
+    <div class="flex flex-col gap-2">
+      <a
+        class="w-fit text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
+        href="/laboratoare"
+      >
+        ← Toate laboratoarele
+      </a>
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">
+        {labName}
+        — {count} filiale
+      </h1>
+      <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        Filtrează după tip probă (Sânge / Urină / Frotiu) × sector (botanica /
+        centru / riscani / ciocana / buiucani / telecentru). Fiecare filială
+        arată telefon, program real cu pauză{" "}
+        <span class="font-mono text-xs">["08:00-11:30","12:30-16:00"]</span>,
+        sampleTypes și geo lat/lng. Open now din{" "}
+        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
+          >isOpenNow</code
+        >.
+      </p>
+    </div>
+
+    <BranchesExplorer
+      hideLabFilter={true}
+      idSuffix={`lab-${lab}`}
+      initialLab={lab}
+      client:load
+    />
+  </div>
+</Layout>

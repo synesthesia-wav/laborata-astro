@@ -20,6 +20,7 @@
     "@workspace/data": "workspace:*",
     "@workspace/ui": "workspace:*",
     "astro": "^7",
+    "minisearch": "^7.2.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
