@@ -38,6 +38,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@workspace/ui/components/toggle-group";
+import { cn } from "@workspace/ui/lib/utils";
 import { useMemo, useState } from "react";
 
 const LABS_ORDER = ["all", "alfa", "sante", "synevo", "invitro", "medexpert"];
@@ -136,6 +137,10 @@ function haversineKm(
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
+function telHref(phone: string): string {
+  return `tel:${phone.replaceAll(/[^+\d]/g, "")}`;
+}
+
 interface Props {
   disabled?: boolean;
   error?: string;
@@ -227,8 +232,45 @@ export function BranchesExplorer({
           <Skeleton className="h-5 w-32" />
           <Skeleton className="h-4 w-full" />
         </CardHeader>
-        <CardContent>
-          <Skeleton className="h-[340px] w-full rounded-xl" />
+        <CardContent className="flex flex-col gap-(--gap) [--gap:--spacing(4)]">
+          <div className="inset-card flex flex-col gap-3 rounded-2xl">
+            <Skeleton className="h-4 w-20" />
+            <div className="flex flex-wrap gap-2">
+              <Skeleton className="h-7 w-16 rounded-full" />
+              <Skeleton className="h-7 w-14 rounded-full" />
+              <Skeleton className="h-7 w-20 rounded-full" />
+            </div>
+            <Skeleton className="h-4 w-20" />
+            <div className="flex flex-wrap gap-2">
+              <Skeleton className="h-7 w-16 rounded-full" />
+              <Skeleton className="h-7 w-14 rounded-full" />
+            </div>
+            <Skeleton className="h-4 w-20" />
+            <div className="flex flex-wrap gap-2">
+              <Skeleton className="h-7 w-16 rounded-full" />
+              <Skeleton className="h-7 w-20 rounded-full" />
+            </div>
+          </div>
+          <Skeleton className="h-4 w-32" />
+          <Skeleton className="h-[280px] w-full rounded-2xl" />
+          <div className="h-[320px] rounded-2xl bg-muted/20 p-1.5">
+            <ItemGroup className="p-1.5">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Item
+                  className="rounded-2xl bg-muted/20"
+                  key={i}
+                  size="sm"
+                  variant="outline"
+                >
+                  <Skeleton className="size-8 rounded-xl" />
+                  <ItemContent className="gap-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-full" />
+                  </ItemContent>
+                </Item>
+              ))}
+            </ItemGroup>
+          </div>
         </CardContent>
       </Card>
     );
@@ -269,81 +311,94 @@ export function BranchesExplorer({
           hartă.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        {!hideLabFilter && (
+      <CardContent className="flex flex-col gap-(--gap) [--gap:--spacing(4)]">
+        <div className="inset-card flex flex-col gap-3 rounded-2xl">
+          {!hideLabFilter && (
+            <>
+              <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
+                Laborator
+              </span>
+              <ToggleGroup
+                aria-label="Filtrează după laborator"
+                className="flex flex-wrap gap-2"
+                onValueChange={(v) => {
+                  const nv = (v as string[])[0] ?? "all";
+                  setLab(nv);
+                }}
+                size="sm"
+                spacing={2}
+                value={lab ? [lab] : []}
+                variant="outline"
+              >
+                {LABS_ORDER.map((v) => (
+                  <ToggleGroupItem
+                    aria-label={LAB_LABEL[v] ?? v}
+                    className="rounded-full"
+                    disabled={disabled}
+                    key={`lab-${v}`}
+                    value={v}
+                  >
+                    {LAB_LABEL[v] ?? v}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+            </>
+          )}
+          <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
+            Probă
+          </span>
           <ToggleGroup
-            aria-label="Filtrează după laborator"
+            aria-label="Filtrează după probă"
             className="flex flex-wrap gap-2"
             onValueChange={(v) => {
               const nv = (v as string[])[0] ?? "all";
-              setLab(nv);
+              setSample(String(nv));
             }}
             size="sm"
             spacing={2}
-            value={lab ? [lab] : []}
+            value={sample ? [String(sample)] : []}
             variant="outline"
           >
-            {LABS_ORDER.map((v) => (
+            {SAMPLE_OPTIONS.map((v) => (
               <ToggleGroupItem
-                aria-label={LAB_LABEL[v] ?? v}
+                aria-label={v === "all" ? "Toate probele" : String(v)}
                 className="rounded-full"
                 disabled={disabled}
-                key={`lab-${v}`}
-                value={v}
+                key={`sample-${v}`}
+                value={String(v)}
               >
-                {LAB_LABEL[v] ?? v}
+                {v === "all" ? "Toate" : String(v)}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
-        )}
-        <ToggleGroup
-          aria-label="Filtrează după probă"
-          className="flex flex-wrap gap-2"
-          onValueChange={(v) => {
-            const nv = (v as string[])[0] ?? "all";
-            setSample(String(nv));
-          }}
-          size="sm"
-          spacing={2}
-          value={sample ? [String(sample)] : []}
-          variant="outline"
-        >
-          {SAMPLE_OPTIONS.map((v) => (
-            <ToggleGroupItem
-              aria-label={v === "all" ? "Toate probele" : String(v)}
-              className="rounded-full"
-              disabled={disabled}
-              key={`sample-${v}`}
-              value={String(v)}
-            >
-              {v === "all" ? "Toate" : String(v)}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-        <ToggleGroup
-          aria-label="Filtrează după sector"
-          className="flex flex-wrap gap-2"
-          onValueChange={(v) => {
-            const nv = (v as string[])[0] ?? "all";
-            setStreet(nv);
-          }}
-          size="sm"
-          spacing={2}
-          value={street ? [street] : []}
-          variant="outline"
-        >
-          {STREET_OPTIONS.map((v) => (
-            <ToggleGroupItem
-              aria-label={v === "all" ? "Toate sectoarele" : v}
-              className="rounded-full"
-              disabled={disabled}
-              key={`street-${v}`}
-              value={v}
-            >
-              {v === "all" ? "Toate" : v}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
+          <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
+            Sector
+          </span>
+          <ToggleGroup
+            aria-label="Filtrează după sector"
+            className="flex flex-wrap gap-2"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "all";
+              setStreet(nv);
+            }}
+            size="sm"
+            spacing={2}
+            value={street ? [street] : []}
+            variant="outline"
+          >
+            {STREET_OPTIONS.map((v) => (
+              <ToggleGroupItem
+                aria-label={v === "all" ? "Toate sectoarele" : v}
+                className="rounded-full"
+                disabled={disabled}
+                key={`street-${v}`}
+                value={v}
+              >
+                {v === "all" ? "Toate" : v}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
         <div
           aria-live="polite"
           className="text-muted-foreground text-xs"
@@ -386,7 +441,7 @@ export function BranchesExplorer({
         {mapBranch ? (
           <iframe
             allowFullScreen={false}
-            className="h-[280px] w-full rounded-xl border"
+            className="h-[280px] w-full rounded-2xl border"
             id={`branches-map-${idSuffix}`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -395,17 +450,17 @@ export function BranchesExplorer({
           />
         ) : (
           <div
-            className="flex h-[280px] w-full items-center justify-center rounded-xl border bg-muted p-4 text-center text-muted-foreground text-xs"
+            className="flex h-[280px] w-full items-center justify-center rounded-2xl border bg-muted p-4 text-center text-muted-foreground text-xs"
             id={`branches-map-${idSuffix}`}
           >
             Nicio filială de afișat — încearcă „Toate sectoarele”
           </div>
         )}
-        <ScrollArea className="h-[340px] rounded-xl border">
-          <ItemGroup>
+        <ScrollArea className="h-[320px] rounded-2xl bg-muted/20 p-1.5">
+          <ItemGroup className="p-1.5">
             {sortedFiltered.length === 0 ? (
               <div className="p-6">
-                <Empty>
+                <Empty className="border border-dashed bg-transparent">
                   <EmptyHeader>
                     <EmptyTitle>Nicio filială potrivită</EmptyTitle>
                     <EmptyDescription>
@@ -426,13 +481,12 @@ export function BranchesExplorer({
                 const isSelected = selectedId === b.id;
                 return (
                   <Item
-                    aria-disabled={disabled}
                     aria-selected={isSelected}
-                    className={
-                      disabled
-                        ? "opacity-60"
-                        : "cursor-pointer hover:bg-accent/50"
-                    }
+                    className={cn(
+                      "rounded-2xl",
+                      disabled ? "opacity-60" : "cursor-pointer",
+                      isSelected && "ring-1 ring-ring"
+                    )}
                     key={b.id}
                     onClick={() => {
                       if (!disabled) {
@@ -448,12 +502,10 @@ export function BranchesExplorer({
                         setSelectedId(b.id);
                       }
                     }}
-                    role="button"
+                    render={<div />}
                     size="sm"
                     tabIndex={disabled ? -1 : 0}
-                    variant={
-                      isSelected ? "default" : open ? "muted" : "outline"
-                    }
+                    variant={isSelected ? "muted" : open ? "muted" : "outline"}
                   >
                     <ItemMedia variant="icon">🏥</ItemMedia>
                     <ItemContent>
@@ -470,12 +522,15 @@ export function BranchesExplorer({
                           {hoursLabel} {b.hoursNote ? `· ${b.hoursNote}` : ""}
                         </span>
                         <span className="flex flex-wrap items-center gap-1.5">
-                          <a
-                            className="underline underline-offset-4 hover:text-foreground"
-                            href={`tel:${b.phone.replaceAll(" ", "").replaceAll("(", "").replaceAll(")", "").replaceAll("-", "")}`}
+                          <Button
+                            className="h-auto p-0 text-xs underline underline-offset-4"
+                            render={<a href={telHref(b.phone)} />}
+                            size="sm"
+                            variant="ghost"
+                            onClick={(e) => e.stopPropagation()}
                           >
                             {b.phone}
-                          </a>
+                          </Button>
                           <span>·</span>
                           <span>{b.sampleTypes.join(", ")}</span>
                           <Badge

@@ -23,7 +23,12 @@ export function isComparisonOverSoftLimit(testIds: string[]): boolean {
 type PriceMap = Record<string, Partial<Record<LabId, number>>>;
 type SampleMap = Record<string, string>; // testId -> specimen sampleType blood|urine|swab
 
-function feeForLab(labId: LabId, sampleType: string): number {
+/**
+ * Resolve collection fee for a lab + sample type (falls back to blood fee).
+ * Exported for DRY re-use in picker/list details — keeps one-fee-per-visit honest
+ * (fee applied once per lab visit, not per row/test).
+ */
+export function feeForLab(labId: LabId, sampleType: string): number {
   const norm = sampleType.toLowerCase();
   const direct = VENDOR_FEES.find(
     (f) => f.vendor === labId && f.sampleType === norm
@@ -113,6 +118,14 @@ export function computeCheapestPerTestTotal(
   return sum;
 }
 
+/**
+ * Single-visit comparison: cheapest single-lab total (one fee) vs. hypothetical
+ * split saving. `saveIfSplit` is the one-visit saving you'd get by cherry-picking
+ * the cheapest price per test and still paying only ONE fee (cheapest lab's fee)
+ * — i.e. `cheapestSingleLab.total - (bestPerTestTotal + cheapestFee)`. It does NOT
+ * count distinct lab fees as multiple visits; it stays honest as a single-visit
+ * delta and is clamped to 0 to avoid pushing splits.
+ */
 export function computeComparison(
   testIds: string[],
   priceMap: PriceMap,
@@ -130,11 +143,8 @@ export function computeComparison(
     return null;
   }
   const bestPerTest = computeCheapestPerTestTotal(testIds, priceMap, sampleMap);
-  // saveIfSplit: how much you'd save if you split across cheapest per-test labs (fees excluded, honest)
-  // Add fee-included note: cheapestSingleLab already includes fee once.
-  // For simplicity save = cheapestSingleLab.total - (bestPerTest + cheapest fee) ?? 0 but never negative push
   const cheapestFee = feeForLab(cheapestSingleLab.labId, "blood");
-  const feeAdjustedBest = bestPerTest + cheapestFee; // compare fee-included vs fee-included single
+  const feeAdjustedBest = bestPerTest + cheapestFee;
   const saveIfSplit = Math.max(0, cheapestSingleLab.total - feeAdjustedBest);
   return {
     cheapestSingleLab,

@@ -47,7 +47,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@workspace/ui/components/toggle-group";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 function isOpenNow(
   hours: Record<string, string[] | null>,
@@ -55,7 +55,7 @@ function isOpenNow(
 ): boolean {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const day = days[now.getDay()];
-  const intervals = hours[day];
+  const intervals = hours[day as string];
   if (!intervals) {
     return false;
   }
@@ -64,9 +64,9 @@ function isOpenNow(
     const [a, b] = iv.split("-").map((s) => s.trim());
     const toMin = (t: string): number => {
       const [h, m] = t.split(":").map(Number);
-      return h * 60 + m;
+      return (h ?? 0) * 60 + (m ?? 0);
     };
-    if (minutes >= toMin(a) && minutes <= toMin(b)) {
+    if (minutes >= toMin(a as string) && minutes <= toMin(b as string)) {
       return true;
     }
   }
@@ -76,6 +76,15 @@ function isOpenNow(
 function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+
+const LAB_LABEL: Record<string, string> = {
+  alfa: "Alfa",
+  all: "Toate",
+  invitro: "Invitro",
+  medexpert: "MedExpert",
+  sante: "Sante",
+  synevo: "Synevo",
+};
 
 function telHref(phone: string): string {
   const cleaned = phone.replaceAll(/[^+\d]/g, "");
@@ -126,8 +135,27 @@ export function LabsTeaser({
   const count = filtered.length;
   const mapBranch: Branch | null = filtered[0] ?? sourceBranches[0] ?? null;
   const streetLabel = street === "all" ? "Harta" : capitalize(street);
-  const labLabel = lab === "all" ? "" : capitalize(lab);
+  const labLabel = lab === "all" ? "" : (LAB_LABEL[lab] ?? capitalize(lab));
   const isLabFiltered = lab !== "all";
+
+  // hydration-safe open state
+  const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
+  const [selectedOpen, setSelectedOpen] = useState(false);
+
+  useEffect(() => {
+    const next: Record<string, boolean> = {};
+    for (const b of filtered) {
+      next[b.id] = isOpenNow(b.hours as Record<string, string[] | null>);
+    }
+    if (mapBranch) {
+      const v = isOpenNow(mapBranch.hours as Record<string, string[] | null>);
+      next[mapBranch.id] = v;
+      setSelectedOpen(v);
+    } else {
+      setSelectedOpen(false);
+    }
+    setOpenMap(next);
+  }, [filtered, mapBranch]);
 
   if (loading) {
     return <LabsTeaserSkeleton idSuffix={idSuffix} />;
@@ -155,9 +183,6 @@ export function LabsTeaser({
     );
   }
 
-  const selectedOpen = mapBranch
-    ? isOpenNow(mapBranch.hours as Record<string, string[] | null>)
-    : false;
   const selectedLabMeta = mapBranch
     ? LABS.find((l) => l.id === mapBranch.labId)
     : undefined;
@@ -219,8 +244,8 @@ export function LabsTeaser({
           hartă.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <div className="inset-card flex flex-col gap-3">
+      <CardContent className="flex flex-col gap-(--gap) [--gap:--spacing(4)]">
+        <div className="inset-card flex flex-col gap-3 rounded-2xl">
           <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
             Laborator
           </span>
@@ -241,13 +266,13 @@ export function LabsTeaser({
             {["all", "synevo", "invitro", "sante", "medexpert", "alfa"].map(
               (v) => (
                 <ToggleGroupItem
-                  aria-label={v === "all" ? "Toate laboratoarele" : v}
+                  aria-label={v === "all" ? "Toate laboratoarele" : (LAB_LABEL[v] ?? capitalize(v))}
                   className="rounded-full px-3 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
                   disabled={disabled}
                   key={v}
                   value={v}
                 >
-                  {v === "all" ? "Toate" : v}
+                  {LAB_LABEL[v] ?? capitalize(v)}
                 </ToggleGroupItem>
               )
             )}
@@ -308,13 +333,13 @@ export function LabsTeaser({
               "telecentru",
             ].map((v) => (
               <ToggleGroupItem
-                aria-label={v === "all" ? "Toate sectoarele" : v}
+                aria-label={v === "all" ? "Toate sectoarele" : capitalize(v)}
                 className="rounded-full px-3 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
                 disabled={disabled}
                 key={v}
                 value={v}
               >
-                {v === "all" ? "Toate" : v}
+                {v === "all" ? "Toate" : capitalize(v)}
               </ToggleGroupItem>
             ))}
           </ToggleGroup>
@@ -324,18 +349,18 @@ export function LabsTeaser({
           className="inset-card py-2.5 font-medium text-muted-foreground text-xs"
         >
           <span className="tabular-nums">{count} filiale</span> găsite
-          {street === "all" ? "" : ` · ${street}`}{" "}
+          {street === "all" ? "" : ` · ${capitalize(street)}`}{" "}
           {sample === "all" ? "" : ` · ${sample}`} ·{" "}
           <span className={selectedOpen ? "text-primary" : ""}>
             {selectedOpen ? "deschis acum" : "închis"}
           </span>
         </div>
-        <div className="grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="grid gap-(--gap) [--gap:--spacing(3)] lg:grid-cols-[1.2fr_0.8fr]">
           <ScrollArea className="h-[320px] rounded-2xl border bg-muted/20">
             <ItemGroup className="p-1.5">
               {filtered.length === 0 ? (
                 <div className="p-8">
-                  <Empty className="border-0 bg-transparent">
+                  <Empty className="border border-dashed bg-transparent">
                     <EmptyHeader>
                       <EmptyTitle>Nicio filială potrivită</EmptyTitle>
                       <EmptyDescription>
@@ -347,9 +372,7 @@ export function LabsTeaser({
                 </div>
               ) : (
                 filtered.map((b) => {
-                  const open = isOpenNow(
-                    b.hours as Record<string, string[] | null>
-                  );
+                  const open = openMap[b.id] ?? false;
                   return (
                     <Item
                       className="rounded-xl"
@@ -379,10 +402,10 @@ export function LabsTeaser({
                       </ItemContent>
                       <ItemActions>
                         <Badge
-                          className="hidden rounded-full sm:inline-flex"
+                          className="rounded-full inline-flex"
                           variant="outline"
                         >
-                          {b.labId}
+                          {LAB_LABEL[b.labId] ?? capitalize(b.labId)}
                         </Badge>
                         <Badge className="rounded-full" variant="secondary">
                           {b.sampleTypes[0]}
@@ -406,7 +429,7 @@ export function LabsTeaser({
                 <div className="inset-card flex flex-col gap-3">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <Badge className="rounded-full" variant="outline">
-                      {mapBranch.labId}
+                      {LAB_LABEL[mapBranch.labId] ?? capitalize(mapBranch.labId)}
                     </Badge>
                     {selectedLabMeta?.renar ? (
                       <Badge className="rounded-full" variant="secondary">
@@ -454,17 +477,19 @@ export function LabsTeaser({
                     {weekdayOrder.map((d) => {
                       const v = mapBranch.hours[d];
                       return (
-                        <>
-                          <span className="font-medium" key={`${d}-lab`}>
+                        <div
+                          className="contents"
+                          key={d}
+                        >
+                          <span className="font-medium">
                             {weekdayLabel[d]}
                           </span>
                           <span
                             className="font-mono text-muted-foreground"
-                            key={d}
                           >
                             {v ? v.join(" · ") : "Închis"}
                           </span>
-                        </>
+                        </div>
                       );
                     })}
                   </div>
@@ -511,8 +536,58 @@ export function LabsTeaserSkeleton({
         <Skeleton className="h-6 w-32" />
         <Skeleton className="h-4 w-full" />
       </CardHeader>
-      <CardContent>
-        <Skeleton className="h-[280px] w-full" />
+      <CardContent className="flex flex-col gap-(--gap) [--gap:--spacing(4)]">
+        <div className="inset-card flex flex-col gap-3 rounded-2xl">
+          <Skeleton className="h-3 w-16" />
+          <div className="flex flex-wrap gap-1.5">
+            <Skeleton className="h-7 w-16 rounded-full" />
+            <Skeleton className="h-7 w-14 rounded-full" />
+            <Skeleton className="h-7 w-20 rounded-full" />
+          </div>
+          <Skeleton className="h-3 w-12" />
+          <div className="flex flex-wrap gap-1.5">
+            <Skeleton className="h-7 w-12 rounded-full" />
+            <Skeleton className="h-7 w-14 rounded-full" />
+          </div>
+          <Skeleton className="h-3 w-14" />
+          <div className="flex flex-wrap gap-1.5">
+            <Skeleton className="h-7 w-16 rounded-full" />
+            <Skeleton className="h-7 w-20 rounded-full" />
+          </div>
+        </div>
+        <Skeleton className="h-9 w-full rounded-2xl" />
+        <div className="grid gap-(--gap) [--gap:--spacing(3)] lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="h-[320px] rounded-2xl bg-muted/20 p-1.5">
+            <ItemGroup className="p-1.5">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Item
+                  className="rounded-xl bg-muted/20"
+                  key={i}
+                  size="sm"
+                  variant="outline"
+                >
+                  <Skeleton className="size-8 rounded-xl" />
+                  <ItemContent className="gap-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-full" />
+                  </ItemContent>
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </Item>
+              ))}
+            </ItemGroup>
+          </div>
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-[200px] w-full rounded-2xl" />
+            <div className="inset-card flex flex-col gap-3">
+              <div className="flex flex-wrap gap-1.5">
+                <Skeleton className="h-5 w-14 rounded-full" />
+                <Skeleton className="h-5 w-16 rounded-full" />
+              </div>
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

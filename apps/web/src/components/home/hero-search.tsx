@@ -18,7 +18,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandItem,
   CommandList,
 } from "@workspace/ui/components/command";
 import { Field, FieldGroup, FieldLabel } from "@workspace/ui/components/field";
@@ -27,6 +26,13 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@workspace/ui/components/input-group";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
 import {
   Popover,
   PopoverContent,
@@ -57,6 +63,7 @@ export function HeroSearch({
 
   const inputId = `hero-search-${idSuffix}`;
   const listboxId = `hero-listbox-${idSuffix}`;
+  const contentId = `hero-content-${idSuffix}`;
   const trimmed = value.trim();
 
   const load = () => {
@@ -140,7 +147,7 @@ export function HeroSearch({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex flex-col gap-(--gap) [--gap:--spacing(4)]">
         <FieldGroup>
           <Field>
             <FieldLabel className="sr-only" htmlFor={inputId}>
@@ -148,7 +155,7 @@ export function HeroSearch({
             </FieldLabel>
             <form
               aria-label="Search tests"
-              className="flex w-full"
+              className="flex w-full min-w-0"
               onSubmit={(e) => {
                 e.preventDefault();
                 onSearch?.(value);
@@ -158,14 +165,14 @@ export function HeroSearch({
               }}
               role="search"
             >
-              <div className="relative w-full">
+              <div className="relative w-full min-w-0">
                 <Popover
                   onOpenChange={setOpen}
                   open={open && trimmed.length > 0}
                 >
                   <PopoverTrigger asChild>
-                    <div className="w-full">
-                      <InputGroup className="h-12 rounded-2xl bg-muted/40">
+                    <div className="w-full min-w-0">
+                      <InputGroup className="h-11 rounded-xl border-0 bg-muted/50 focus-within:ring-2 focus-within:ring-ring/30 min-w-0">
                         <InputGroupAddon align="inline-start">
                           <RiSearchLine
                             aria-hidden="true"
@@ -177,7 +184,7 @@ export function HeroSearch({
                           aria-controls={listboxId}
                           aria-expanded={open && trimmed.length > 0}
                           autoComplete="off"
-                          className="bg-transparent"
+                          className="bg-transparent min-w-0"
                           disabled={disabled || isLoading}
                           enterKeyHint="search"
                           id={inputId}
@@ -186,7 +193,7 @@ export function HeroSearch({
                             setOpen(true);
                           }}
                           onFocus={() => setOpen(true)}
-                          placeholder="Try: tsh / feritină / glicemie / vitamina d"
+                          placeholder="tsh, feritină, glicemie…"
                           value={value}
                         />
                         <InputGroupAddon align="inline-end" className="pr-1.5">
@@ -206,14 +213,16 @@ export function HeroSearch({
                   <PopoverContent
                     align="start"
                     className="w-[var(--radix-popover-trigger-width)] overflow-hidden rounded-2xl p-0"
-                    id={listboxId}
+                    id={contentId}
                     sideOffset={8}
                   >
                     <Command shouldFilter={false}>
                       <CommandList id={listboxId} role="listbox">
                         {isLoading ? (
-                          <div className="p-2">
-                            <Skeleton className={cn("h-12 w-full")} />
+                          <div className="flex flex-col gap-1.5 p-2">
+                            <Skeleton className={cn("h-9 w-full rounded-xl")} />
+                            <Skeleton className={cn("h-9 w-full rounded-xl")} />
+                            <Skeleton className={cn("h-9 w-full rounded-xl")} />
                           </div>
                         ) : null}
                         {hasError ? (
@@ -236,30 +245,28 @@ export function HeroSearch({
                         ) : null}
                         {shouldShowResults ? (
                           <CommandGroup className="p-1">
-                            {results.map((r) => (
-                              <CommandItem
-                                aria-selected={false}
-                                asChild
-                                className="rounded-xl"
-                                key={r.id}
-                                onMouseDown={(e) => e.preventDefault()}
-                                role="option"
-                                value={r.title}
-                              >
-                                <a
-                                  className="flex min-w-0 items-center justify-between gap-2 px-3 py-2"
-                                  href={`/analize/${r.slug}`}
+                            <ItemGroup className="gap-1.5">
+                              {results.map((r) => (
+                                <Item
+                                  key={r.id}
+                                  variant="outline"
+                                  size="sm"
+                                  className="rounded-xl"
+                                  render={<a href={`/analize/${r.slug}`} />}
                                   onMouseDown={(e) => e.preventDefault()}
+                                  role="option"
                                 >
-                                  <span className="min-w-0 flex-1 truncate font-medium text-sm">
-                                    {r.title}
-                                  </span>
-                                  <span className="ml-2 shrink-0 break-all font-mono text-[11px] text-muted-foreground">
-                                    {r.slug}
-                                  </span>
-                                </a>
-                              </CommandItem>
-                            ))}
+                                  <ItemContent className="min-w-0">
+                                    <ItemTitle className="truncate text-sm">
+                                      {r.title}
+                                    </ItemTitle>
+                                    <ItemDescription className="font-mono text-[11px]">
+                                      {r.slug}
+                                    </ItemDescription>
+                                  </ItemContent>
+                                </Item>
+                              ))}
+                            </ItemGroup>
                           </CommandGroup>
                         ) : null}
                         {shouldShowEmpty ? (
@@ -295,8 +302,8 @@ export function HeroSearch({
           </Field>
         </FieldGroup>
 
-        {/* Suggestions — inset muted strip like Savings Targets cards */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Suggestions — inset-card */}
+        <div className="inset-card flex flex-wrap items-center gap-2">
           <span className="font-medium text-muted-foreground text-xs">
             Try:
           </span>

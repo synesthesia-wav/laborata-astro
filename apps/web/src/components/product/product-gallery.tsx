@@ -3,6 +3,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@workspace/ui/components/alert";
+import { AspectRatio } from "@workspace/ui/components/aspect-ratio";
 import { Button } from "@workspace/ui/components/button";
 import {
   Carousel,
@@ -11,8 +12,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@workspace/ui/components/carousel";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@workspace/ui/components/empty";
 import { Skeleton } from "@workspace/ui/components/skeleton";
-import { cn } from "@workspace/ui/lib/utils";
 
 interface Props {
   disabled?: boolean;
@@ -70,11 +76,14 @@ export function ProductGallery({
 
   if (images.length === 0) {
     return (
-      <div className="flex aspect-square w-full items-center justify-center rounded-xl border border-dashed bg-muted p-6 text-center">
-        <p className="max-w-xs text-muted-foreground text-sm">
-          Fără imagine — adaugă o ilustrație pentru acest test.
-        </p>
-      </div>
+      <Empty className="aspect-square border border-dashed bg-muted">
+        <EmptyHeader>
+          <EmptyTitle className="text-sm">Fără imagine</EmptyTitle>
+          <EmptyDescription className="max-w-xs">
+            Adaugă o ilustrație pentru acest test.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
     );
   }
 
@@ -89,23 +98,24 @@ export function ProductGallery({
           {images.map((src, i) => (
             <CarouselItem key={src}>
               <div className="overflow-hidden rounded-xl border bg-muted">
-                <div
-                  aria-label={`Imagine produs ${i + 1} din ${images.length}`}
-                  className={cn(
-                    "aspect-square w-full bg-center bg-cover",
-                    "bg-muted"
-                  )}
-                  role="img"
-                  style={{ backgroundImage: `url(${src})` }}
-                />
+                <AspectRatio ratio={1}>
+                  <img
+                    alt={`Imagine produs ${i + 1} din ${images.length}`}
+                    src={src}
+                    width={800}
+                    height={800}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </AspectRatio>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
         {images.length > 1 ? (
           <>
-            <CarouselPrevious className="left-2 size-8 opacity-0 transition-opacity group-focus-within/gallery:opacity-100 group-hover/gallery:opacity-100" />
-            <CarouselNext className="right-2 size-8 opacity-0 transition-opacity group-focus-within/gallery:opacity-100 group-hover/gallery:opacity-100" />
+            <CarouselPrevious className="left-2 size-8 opacity-0 transition-opacity focus-visible:opacity-100 group-focus-within/gallery:opacity-100 group-hover/gallery:opacity-100" />
+            <CarouselNext className="right-2 size-8 opacity-0 transition-opacity focus-visible:opacity-100 group-focus-within/gallery:opacity-100 group-hover/gallery:opacity-100" />
           </>
         ) : null}
       </Carousel>

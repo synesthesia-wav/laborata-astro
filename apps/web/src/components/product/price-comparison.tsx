@@ -14,15 +14,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
-import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table";
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@workspace/ui/components/empty";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 import { PRICE_OFFERS_B12, type PriceOffer } from "./data";
 
@@ -55,7 +61,6 @@ const LAB_LABEL: Record<LabId, string> = {
 } as const;
 
 function formatMdl(n: number): string {
-  // ro-RO grouping: 1.250.000
   return new Intl.NumberFormat("ro-RO").format(n);
 }
 
@@ -129,9 +134,14 @@ export function PriceComparison({
           <CardDescription>Dezactivat</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="rounded-lg border bg-muted/20 px-3 py-6 text-center text-muted-foreground text-sm">
-            Conținut dezactivat
-          </div>
+          <Empty className="border border-dashed bg-muted/20 py-8">
+            <EmptyHeader>
+              <EmptyTitle className="text-sm">Conținut dezactivat</EmptyTitle>
+              <EmptyDescription>
+                Comparația de prețuri este dezactivată.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
         </CardContent>
       </Card>
     );
@@ -139,13 +149,31 @@ export function PriceComparison({
 
   if (loading) {
     return (
-      <Card>
+      <Card id={`price-comparison-${idSuffix}`}>
         <CardHeader>
           <Skeleton className="h-6 w-64" />
           <Skeleton className="h-4 w-full" />
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-64 w-full" />
+          <ItemGroup className="gap-2" data-size="sm">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Item
+                className="rounded-2xl bg-muted/20"
+                key={i}
+                variant="outline"
+                size="sm"
+              >
+                <ItemContent>
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-3 w-32" />
+                </ItemContent>
+                <ItemActions>
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-7 w-20 rounded-full" />
+                </ItemActions>
+              </Item>
+            ))}
+          </ItemGroup>
         </CardContent>
       </Card>
     );
@@ -198,7 +226,10 @@ export function PriceComparison({
 
   if (availableRows.length === 0) {
     return (
-      <div className="flex flex-col gap-6" id={`price-comparison-${idSuffix}`}>
+      <div
+        className="flex flex-col gap-(--gap) [--gap:--spacing(6)]"
+        id={`price-comparison-${idSuffix}`}
+      >
         <div className="flex flex-col gap-2">
           <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">
             Cât costă testul
@@ -210,24 +241,26 @@ export function PriceComparison({
           </p>
         </div>
         <Card className="overflow-hidden p-0">
-          <CardHeader className="px-5 pt-5">
+          <CardHeader className="px-(--card-spacing) pt-(--card-spacing)">
             <CardTitle className="text-base">Comparație prețuri</CardTitle>
             <CardDescription>
               Nicio ofertă disponibilă pentru acest test în acest moment.
             </CardDescription>
           </CardHeader>
-          <CardContent className="px-5 pb-5">
-            <div
+          <CardContent className="px-(--card-spacing) pb-(--card-spacing)">
+            <Empty
+              className="border border-dashed bg-muted/30"
               aria-live="polite"
-              className="rounded-lg border border-dashed bg-muted/30 px-4 py-8 text-center"
             >
-              <p className="font-medium text-sm">Indisponibil</p>
-              <p className="mx-auto mt-1 max-w-md text-muted-foreground text-xs leading-relaxed">
-                Testul nu este listat momentan la cei 5 parteneri. Încearcă un
-                sinonim (ex. TSH / feritină) sau revino — actualizăm zilnic.
-              </p>
-            </div>
-            <div className="mt-4 border-t bg-muted/20 px-3 py-3 text-muted-foreground text-xs leading-relaxed">
+              <EmptyHeader>
+                <EmptyTitle className="text-sm">Indisponibil</EmptyTitle>
+                <EmptyDescription className="mx-auto max-w-md">
+                  Testul nu este listat momentan la cei 5 parteneri. Încearcă un
+                  sinonim (ex. TSH / feritină) sau revino — actualizăm zilnic.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+            <div className="mt-4 border-t bg-muted/20 px-(--card-spacing) py-3 text-muted-foreground text-xs leading-relaxed">
               {lang === "en" ? (
                 <>
                   plus 30 MDL once — collection fee paid once per visit, even
@@ -260,7 +293,10 @@ export function PriceComparison({
       : `De la ${formatMdl(lowest)} lei`;
 
   return (
-    <div className="flex flex-col gap-6" id={`price-comparison-${idSuffix}`}>
+    <div
+      className="flex flex-col gap-(--gap) [--gap:--spacing(6)]"
+      id={`price-comparison-${idSuffix}`}
+    >
       <div className="flex flex-col gap-2">
         <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">
           Cât costă testul
@@ -273,7 +309,7 @@ export function PriceComparison({
       </div>
 
       <Card className="overflow-hidden p-0">
-        <CardHeader className="px-5 pt-5">
+        <CardHeader className="px-(--card-spacing) pt-(--card-spacing)">
           <div className="flex flex-wrap items-center gap-2">
             <CardTitle className="text-base">Comparație prețuri</CardTitle>
             <Badge variant="secondary">{badgeLabel}</Badge>
@@ -287,118 +323,102 @@ export function PriceComparison({
             singură dată în footer.
           </CardDescription>
         </CardHeader>
-        <CardContent className="px-0 pb-0">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead className="px-5">Laborator</TableHead>
-                  <TableHead className="px-5 text-right">Preț test</TableHead>
-                  <TableHead className="px-5 text-right">
-                    {lang === "en" ? "Book" : "Rezervă"}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rows.map((row) => {
-                  const isCheapest =
-                    row.available &&
-                    row.price !== null &&
-                    row.price === cheapestPrice &&
-                    row.vendor === cheapestVendor;
-                  if (!row.available || row.price === null) {
-                    return (
-                      <TableRow
-                        aria-label={`${row.lab} indisponibil`}
-                        className="bg-muted/10"
-                        key={row.vendor}
-                      >
-                        <TableCell className="px-5">
-                          <div className="flex flex-col">
-                            <span className="whitespace-nowrap text-muted-foreground">
-                              {row.lab}
-                            </span>
-                            <span className="text-muted-foreground text-xs">
-                              Indisponibil
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell className="px-5 text-right text-muted-foreground text-sm">
-                          — <span className="text-xs">Not available</span>
-                        </TableCell>
-                        <TableCell className="px-5 text-right text-muted-foreground text-xs">
-                          —
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }
-                  return (
-                    <TableRow
-                      className={
-                        isCheapest ? "bg-primary/5 font-medium" : undefined
-                      }
-                      data-state={isCheapest ? "selected" : undefined}
-                      key={row.vendor}
-                    >
-                      <TableCell className="px-5">
-                        <div className="flex flex-col">
-                          <span className="whitespace-nowrap">
-                            {row.lab}
-                            {row.variant ? (
-                              <span className="ml-1 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-none">
-                                {row.variant}
-                              </span>
-                            ) : null}
+        <CardContent className="flex flex-col gap-3 px-(--card-spacing) pb-(--card-spacing)">
+          <ItemGroup className="gap-2" data-size="sm">
+            {rows.map((row) => {
+              const isCheapest =
+                row.available &&
+                row.price !== null &&
+                row.price === cheapestPrice &&
+                row.vendor === cheapestVendor;
+              if (!row.available || row.price === null) {
+                return (
+                  <Item
+                    key={row.vendor}
+                    variant="outline"
+                    size="sm"
+                    className="rounded-2xl bg-muted/20 opacity-60"
+                    aria-label={`${row.lab} indisponibil`}
+                  >
+                    <ItemContent>
+                      <ItemTitle className="text-muted-foreground">
+                        {row.lab}
+                        {row.variant ? (
+                          <span className="ml-1 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-none">
+                            {row.variant}
                           </span>
-                          {isCheapest ? (
-                            <span className="font-normal text-primary text-xs">
-                              Recomandat · cel mai mic preț
-                            </span>
-                          ) : null}
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-5 text-right font-medium">
-                        <span className="tabular-nums">
-                          {formatMdl(row.price)} {lang === "en" ? "MDL" : "lei"}
+                        ) : null}
+                      </ItemTitle>
+                      <ItemDescription>Indisponibil</ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <span className="text-muted-foreground text-sm tabular-nums">
+                        — <span className="text-xs">Not available</span>
+                      </span>
+                      <span className="text-muted-foreground text-xs">—</span>
+                    </ItemActions>
+                  </Item>
+                );
+              }
+              return (
+                <Item
+                  key={row.vendor}
+                  variant={isCheapest ? "muted" : "outline"}
+                  size="sm"
+                  className={cn("rounded-2xl", !isCheapest && "bg-muted/20")}
+                  data-state={isCheapest ? "selected" : undefined}
+                >
+                  <ItemContent>
+                    <ItemTitle>
+                      {row.lab}
+                      {row.variant ? (
+                        <span className="ml-1 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-none">
+                          {row.variant}
                         </span>
-                      </TableCell>
-                      <TableCell className="px-5 text-right">
-                        {row.sourceUrl ? (
-                          <a
-                            href={row.sourceUrl}
-                            target="_blank"
-                            rel="noopener"
-                            onClick={() =>
-                              trackClickout(row.vendor, row.lab, row.sourceUrl)
-                            }
-                            className={cn(
-                              buttonVariants({ variant: "ghost", size: "sm" }),
-                              "h-7 gap-1 rounded-full px-2 text-xs"
-                            )}
-                            aria-label={`Deschide ${row.lab} — vezi testul pe site-ul laboratorului`}
-                          >
-                            <RiExternalLinkLine
-                              aria-hidden="true"
-                              className="size-3.5"
-                            />
-                            <span className="hidden sm:inline">
-                              Vezi la {row.lab}
-                            </span>
-                            <span className="sr-only">Vezi la {row.lab}</span>
-                          </a>
-                        ) : (
-                          <span className="text-muted-foreground text-xs">
-                            —
-                          </span>
+                      ) : null}
+                    </ItemTitle>
+                    <ItemDescription>
+                      {isCheapest
+                        ? "Recomandat · cel mai mic preț"
+                        : "Disponibil"}
+                    </ItemDescription>
+                  </ItemContent>
+                  <ItemActions className="gap-3">
+                    <span className="font-medium text-sm tabular-nums">
+                      {formatMdl(row.price)} {lang === "en" ? "MDL" : "lei"}
+                    </span>
+                    {row.sourceUrl ? (
+                      <a
+                        href={row.sourceUrl}
+                        target="_blank"
+                        rel="noopener"
+                        onClick={() =>
+                          trackClickout(row.vendor, row.lab, row.sourceUrl)
+                        }
+                        className={cn(
+                          buttonVariants({ variant: "ghost", size: "sm" }),
+                          "h-7 gap-1 rounded-full px-2 text-xs"
                         )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="border-t bg-muted/20 px-5 py-3 text-muted-foreground text-xs leading-relaxed">
+                        aria-label={`Deschide ${row.lab} — vezi testul pe site-ul laboratorului`}
+                      >
+                        <RiExternalLinkLine
+                          aria-hidden="true"
+                          className="size-3.5"
+                        />
+                        <span className="hidden sm:inline">
+                          Vezi la {row.lab}
+                        </span>
+                        <span className="sr-only">Vezi la {row.lab}</span>
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground text-xs">—</span>
+                    )}
+                  </ItemActions>
+                </Item>
+              );
+            })}
+          </ItemGroup>
+          <div className="border-t bg-muted/20 px-(--card-spacing) py-3 text-muted-foreground text-xs leading-relaxed">
             {lang === "en" ? (
               <>
                 plus 30 MDL once — collection fee paid once per visit, even if

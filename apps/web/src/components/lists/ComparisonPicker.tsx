@@ -2,6 +2,7 @@
 
 import { PRICE_MIN_BY_ID } from "@workspace/data/prices";
 import type { LabId } from "@workspace/data/types";
+import { Alert, AlertDescription } from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -12,6 +13,13 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Input } from "@workspace/ui/components/input";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
 import { Label } from "@workspace/ui/components/label";
 import {
   Table,
@@ -23,8 +31,8 @@ import {
 } from "@workspace/ui/components/table";
 import { useEffect, useMemo, useState } from "react";
 import {
-  computeCheapestPerTestTotal,
-  computeCheapestSingleLab,
+  computeComparison,
+  feeForLab,
   feeNoteForLab,
 } from "../../lib/comparison";
 import type { SearchDoc } from "../../lib/search";
@@ -81,32 +89,15 @@ export function ComparisonPicker() {
     return m;
   }, [selected]);
 
-  const cheapest = useMemo(() => {
+  const comparison = useMemo(() => {
     if (selected.length === 0) {
       return null;
     }
-    return computeCheapestSingleLab(selected, priceMap, sampleMap);
+    return computeComparison(selected, priceMap, sampleMap);
   }, [selected, priceMap, sampleMap]);
 
-  const bestPerTest = useMemo(() => {
-    if (selected.length === 0) {
-      return 0;
-    }
-    return computeCheapestPerTestTotal(selected, priceMap, sampleMap);
-  }, [selected, priceMap, sampleMap]);
-
-  const saveIfSplit = cheapest
-    ? Math.max(
-        0,
-        cheapest.total -
-          (bestPerTest +
-            (cheapest.labId === "sante" || cheapest.labId === "medexpert"
-              ? 0
-              : cheapest.labId === "alfa"
-                ? 25
-                : 30))
-      )
-    : 0;
+  const cheapest = comparison?.cheapestSingleLab ?? null;
+  const saveIfSplit = comparison?.saveIfSplit ?? 0;
 
   const add = (id: string) => {
     if (selected.includes(id)) {
@@ -121,7 +112,7 @@ export function ComparisonPicker() {
   const remove = (id: string) => setSelected((s) => s.filter((x) => x !== id));
 
   return (
-    <div className="flex min-w-0 flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-(--gap) [--gap:--spacing(6)]">
       <Card>
         <CardHeader>
           <CardTitle className="text-base">
@@ -144,30 +135,36 @@ export function ComparisonPicker() {
             value={query}
           />
           {filtered.length > 0 ? (
-            <div className="grid gap-2">
+            <ItemGroup className="gap-2" data-size="sm">
               {filtered.map((d) => (
-                <div
-                  className="flex items-center justify-between gap-2 rounded-lg border px-3 py-2"
+                <Item
                   key={d.id}
+                  variant="outline"
+                  size="sm"
+                  className="rounded-2xl bg-muted/20"
                 >
-                  <span className="truncate text-sm">
-                    {d.title}{" "}
-                    <span className="font-mono text-[11px] text-muted-foreground">
-                      {d.slug}
-                    </span>
-                  </span>
-                  <Button
-                    className="h-7 text-xs"
-                    disabled={selected.includes(d.id)}
-                    onClick={() => add(d.id)}
-                    size="sm"
-                    variant="outline"
-                  >
-                    {selected.includes(d.id) ? "Added" : "Add"}
-                  </Button>
-                </div>
+                  <ItemContent className="min-w-0">
+                    <ItemTitle className="truncate text-sm">
+                      {d.title}{" "}
+                      <span className="font-mono text-[11px] text-muted-foreground">
+                        {d.slug}
+                      </span>
+                    </ItemTitle>
+                  </ItemContent>
+                  <ItemActions>
+                    <Button
+                      className="h-7 rounded-full px-3 text-xs"
+                      disabled={selected.includes(d.id)}
+                      onClick={() => add(d.id)}
+                      size="sm"
+                      variant="outline"
+                    >
+                      {selected.includes(d.id) ? "Added" : "Add"}
+                    </Button>
+                  </ItemActions>
+                </Item>
               ))}
-            </div>
+            </ItemGroup>
           ) : query.trim() ? (
             <p className="text-muted-foreground text-xs">
               Kindly widen — no match.
@@ -180,17 +177,20 @@ export function ComparisonPicker() {
           <div className="flex flex-wrap gap-1.5">
             {selected.map((id) => (
               <Badge
-                className="gap-1 font-mono text-xs"
                 key={id}
                 variant="secondary"
+                className="gap-1.5 py-1 pr-1 pl-2.5 font-mono text-xs"
               >
                 {id}
-                <button
-                  className="ml-1 rounded-full bg-muted px-1 text-[10px]"
+                <Button
+                  aria-label={`Remove ${id}`}
+                  variant="ghost"
+                  size="icon-sm"
+                  className="-mr-0.5 size-5 rounded-full"
                   onClick={() => remove(id)}
                 >
                   ×
-                </button>
+                </Button>
               </Badge>
             ))}
             {selected.length === 0 ? (
@@ -200,9 +200,12 @@ export function ComparisonPicker() {
             ) : null}
           </div>
           {selected.length >= 12 ? (
-            <p className="text-amber-600 text-xs">
-              List mare — compararea poate fi lungă, împarte în două? (soft 12)
-            </p>
+            <Alert>
+              <AlertDescription className="text-xs">
+                List mare — compararea poate fi lungă, împarte în două? (soft
+                12)
+              </AlertDescription>
+            </Alert>
           ) : null}
           <div className="flex gap-2">
             <Button onClick={() => setSelected([])} size="sm" variant="ghost">
@@ -240,7 +243,7 @@ export function ComparisonPicker() {
             )}
           </CardDescription>
         </CardHeader>
-        <CardContent className="min-w-0 overflow-x-auto">
+        <CardContent className="min-w-0 overflow-x-auto px-(--card-spacing)">
           {selected.length === 0 ? (
             <p className="py-6 text-center text-muted-foreground text-sm">
               Empty — add tests above.
@@ -249,11 +252,14 @@ export function ComparisonPicker() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50">
-                  <TableHead className="sticky left-0 z-10 bg-muted/50 px-3">
+                  <TableHead className="sticky left-0 z-10 bg-muted/50 px-(--card-spacing)">
                     Test
                   </TableHead>
                   {LABS.map((lab) => (
-                    <TableHead className="px-3 capitalize" key={lab}>
+                    <TableHead
+                      className="px-(--card-spacing) capitalize"
+                      key={lab}
+                    >
                       {lab}
                     </TableHead>
                   ))}
@@ -262,11 +268,14 @@ export function ComparisonPicker() {
               <TableBody>
                 {selected.map((tid) => (
                   <TableRow key={tid}>
-                    <TableCell className="sticky left-0 z-10 bg-card px-3 font-mono text-xs">
+                    <TableCell className="sticky left-0 z-10 bg-card px-(--card-spacing) font-mono text-xs">
                       {tid}
                     </TableCell>
                     {LABS.map((lab) => (
-                      <TableCell className="px-3 font-mono text-xs" key={lab}>
+                      <TableCell
+                        className="px-(--card-spacing) font-mono text-xs"
+                        key={lab}
+                      >
                         {priceMap[tid]?.[lab] == null
                           ? "—"
                           : `${priceMap[tid]?.[lab]} lei`}
@@ -276,7 +285,7 @@ export function ComparisonPicker() {
                 ))}
                 {cheapest ? (
                   <TableRow className="bg-primary/5 font-medium">
-                    <TableCell className="sticky left-0 z-10 bg-primary/5 px-3">
+                    <TableCell className="sticky left-0 z-10 bg-primary/5 px-(--card-spacing)">
                       Total fee-included
                     </TableCell>
                     {LABS.map((lab) => {
@@ -285,7 +294,7 @@ export function ComparisonPicker() {
                       );
                       if (!hasAll) {
                         return (
-                          <TableCell className="px-3" key={lab}>
+                          <TableCell className="px-(--card-spacing)" key={lab}>
                             —
                           </TableCell>
                         );
@@ -294,15 +303,16 @@ export function ComparisonPicker() {
                         (a, tid) => a + (priceMap[tid]?.[lab] ?? 0),
                         0
                       );
-                      const fee =
-                        lab === "sante" || lab === "medexpert"
-                          ? 0
-                          : lab === "alfa"
-                            ? 25
-                            : 30;
+                      const anyBlood = selected.some(
+                        (id) => (sampleMap[id] ?? "blood") === "blood"
+                      );
+                      const feeSample = anyBlood
+                        ? "blood"
+                        : (sampleMap[selected[0]] ?? "blood");
+                      const fee = feeForLab(lab as LabId, feeSample);
                       return (
                         <TableCell
-                          className={`px-3 ${lab === cheapest.labId ? "font-bold text-primary" : ""}`}
+                          className={`px-(--card-spacing) ${lab === cheapest.labId ? "font-bold text-primary" : ""}`}
                           key={lab}
                         >
                           {sum + fee} lei

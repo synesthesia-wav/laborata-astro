@@ -11,19 +11,20 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
 import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table";
 import { addToList, createList, getOrCreateAnonToken } from "../../lib/lists";
 
 interface Props {
@@ -192,17 +193,19 @@ export function BundleDetail({
   };
 
   return (
-    <div className="flex min-w-0 flex-col gap-6">
+    <div className="flex min-w-0 flex-col gap-(--gap) [--gap:--spacing(6)]">
       <Card>
         <CardHeader>
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">Pachet • {total} teste</Badge>
           </div>
           <CardTitle className="text-balance text-xl">{name}</CardTitle>
-          <CardDescription>{referenceComponentIds.join(" · ")}</CardDescription>
+          <CardDescription className="break-words [overflow-wrap:anywhere]">
+            {referenceComponentIds.join(" · ")}
+          </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2 rounded-lg border bg-muted/20 p-3">
+          <div className="inset-card flex flex-col gap-2 rounded-2xl">
             <p className="text-xs leading-relaxed">
               <span className="font-medium">Watches:</span>{" "}
               {watcherInfo.watcher}
@@ -215,23 +218,16 @@ export function BundleDetail({
               {watcherInfo.readNext}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button onClick={handleAddAll} size="sm">
-              Adaugă toate {total} în listă
-            </Button>
-            <Button
-              onClick={() => (window.location.href = "/liste")}
-              size="sm"
-              variant="outline"
-            >
-              Vezi liste
-            </Button>
-          </div>
           <p className="text-muted-foreground text-xs">
             {vendorCount} laboratoare · {total} teste în pachetul de referință —
             afișăm lipsurile onest.
           </p>
         </CardContent>
+        <CardFooter>
+          <Button onClick={handleAddAll} className="w-full">
+            Adaugă toate {total} în listă
+          </Button>
+        </CardFooter>
       </Card>
 
       <Card className="overflow-hidden">
@@ -243,52 +239,43 @@ export function BundleDetail({
             4/4 = tot pachetul la laborator; 0/4 = nu e pachet aici.
           </CardDescription>
         </CardHeader>
-        <CardContent className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead className="px-3">Lab</TableHead>
-                <TableHead className="px-3">Coverage</TableHead>
-                <TableHead className="px-3">Missing</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {LABS.map((lab) => {
-                const has = vendors.includes(lab);
-                const covered = has ? quorumSize : 0;
-                const missingCount = total - covered;
-                const notSold = !has;
-                return (
-                  <TableRow
-                    className={
-                      has && covered === total ? "bg-primary/5" : undefined
-                    }
-                    key={lab}
-                  >
-                    <TableCell className="px-3 font-medium capitalize">
-                      {lab}
-                    </TableCell>
-                    <TableCell className="px-3">
-                      <Badge
-                        variant={
-                          has && covered === total ? "secondary" : "outline"
-                        }
-                      >
-                        {covered}/{total}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="px-3 text-muted-foreground text-xs">
+        <CardContent>
+          <ItemGroup className="gap-2" data-size="sm">
+            {LABS.map((lab) => {
+              const has = vendors.includes(lab);
+              const covered = has ? quorumSize : 0;
+              const missingCount = total - covered;
+              const notSold = !has;
+              const isFull = has && covered === total;
+              return (
+                <Item
+                  key={lab}
+                  variant={isFull ? "muted" : "outline"}
+                  size="sm"
+                  className="rounded-2xl bg-muted/20"
+                >
+                  <ItemContent>
+                    <ItemTitle className="capitalize">{lab}</ItemTitle>
+                    <ItemDescription>
                       {notSold
                         ? "Nu e pachet aici"
                         : missingCount === 0
-                          ? "—"
+                          ? "Acoperire completă"
                           : `${missingCount} lipsă`}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                    </ItemDescription>
+                  </ItemContent>
+                  <ItemActions>
+                    <Badge
+                      variant={isFull ? "secondary" : "outline"}
+                      className="rounded-full tabular-nums"
+                    >
+                      {covered}/{total}
+                    </Badge>
+                  </ItemActions>
+                </Item>
+              );
+            })}
+          </ItemGroup>
         </CardContent>
       </Card>
 
@@ -299,34 +286,47 @@ export function BundleDetail({
             Adaugă tot pachetul sau teste individual în liste (max. 12)
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-2">
-          {referenceComponentIds.map((cid) => (
-            <div
-              className="flex items-center justify-between gap-2 rounded-lg border px-3 py-2"
-              key={cid}
-            >
-              <a
-                className="min-w-0 flex-1 truncate break-all font-medium font-mono text-sm underline decoration-dotted underline-offset-4 hover:text-primary"
-                href={`/analize/${cid}`}
-              >
-                {cid}
-              </a>
-              <Button
-                className="h-7 text-xs"
-                id={`added-${cid}`}
-                onClick={() => handleAddOne(cid)}
-                size="sm"
+        <CardContent className="flex flex-col gap-3">
+          <ItemGroup className="gap-2" data-size="sm">
+            {referenceComponentIds.map((cid) => (
+              <Item
+                key={cid}
                 variant="outline"
+                size="sm"
+                className="rounded-2xl bg-muted/20"
               >
-                Adaugă
-              </Button>
-            </div>
-          ))}
+                <ItemContent className="min-w-0">
+                  <a
+                    className="min-w-0 break-words font-medium font-mono text-sm underline decoration-dotted underline-offset-4 [overflow-wrap:anywhere] hover:text-primary"
+                    href={`/analize/${cid}`}
+                  >
+                    {cid}
+                  </a>
+                </ItemContent>
+                <ItemActions>
+                  <Button
+                    className="h-7 text-xs"
+                    id={`added-${cid}`}
+                    onClick={() => handleAddOne(cid)}
+                    size="sm"
+                    variant="outline"
+                  >
+                    Adaugă
+                  </Button>
+                </ItemActions>
+              </Item>
+            ))}
+          </ItemGroup>
           <Separator />
           <div className="flex flex-wrap gap-2 text-muted-foreground text-xs">
             <span>{vendors.join(", ") || "—"}</span>
           </div>
         </CardContent>
+        <CardFooter>
+          <Button onClick={handleAddAll} className="w-full">
+            Adaugă toate {total} în listă
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );

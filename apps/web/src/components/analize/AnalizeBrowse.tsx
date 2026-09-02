@@ -1,5 +1,6 @@
 "use client";
 
+import { RiAddLine } from "@remixicon/react";
 import {
   Alert,
   AlertDescription,
@@ -10,6 +11,7 @@ import { Button } from "@workspace/ui/components/button";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
@@ -20,6 +22,16 @@ import {
   EmptyTitle,
 } from "@workspace/ui/components/empty";
 import { Input } from "@workspace/ui/components/input";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@workspace/ui/components/item";
+import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
   ToggleGroup,
@@ -80,6 +92,10 @@ const CONCERNS: { label: string; value: string; keywords: string[] }[] = [
 
 const LABS = ["synevo", "sante", "invitro", "medexpert", "alfa"] as const;
 const SAMPLES = ["Sânge", "Urină", "Frotiu"] as const;
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 function concernMatches(doc: SearchDoc, concern: string): boolean {
   if (!concern) {
@@ -265,23 +281,62 @@ export function AnalizeBrowse({
     ? docs.filter((d) => d.role === "comparison").length
     : 0;
 
+  const handleAdd = (docId: string) => {
+    const anon = getOrCreateAnonToken();
+    const listsRaw = window.localStorage.getItem("laborata:lists");
+    let lists: ReturnType<typeof createList>[] = [];
+    try {
+      lists = listsRaw ? JSON.parse(listsRaw) : [];
+    } catch {
+      lists = [];
+    }
+    if (lists.length === 0) {
+      const nl = createList("Analizele mele", anon);
+      lists = [nl];
+    }
+    const updated = addToList(
+      lists[0] as unknown as Parameters<typeof addToList>[0],
+      docId
+    );
+    lists[0] = updated as unknown as (typeof lists)[0];
+    window.localStorage.setItem("laborata:lists", JSON.stringify(lists));
+    window.location.href = `/liste/${lists[0].id}`;
+  };
+
   if (loading) {
     return (
-      <div className="flex flex-col gap-4">
-        <Skeleton className="h-10 w-full rounded-xl" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Card className="overflow-hidden" key={i}>
-              <CardHeader className="gap-2">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-4 w-full" />
-              </CardHeader>
-              <CardContent>
-                <Skeleton className="h-20 w-full" />
-              </CardContent>
-            </Card>
-          ))}
+      <div className="flex flex-col gap-(--gap) [--gap:--spacing(6)]">
+        <div className="inset-card flex flex-col gap-3 rounded-2xl">
+          <Skeleton className="h-10 w-full rounded-xl" />
+          <Skeleton className="h-3 w-24" />
         </div>
+        <Card className="overflow-hidden p-0">
+          <CardContent className="p-2">
+            <ItemGroup className="gap-2">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Item
+                  className="rounded-2xl bg-muted/20"
+                  key={i}
+                  size="sm"
+                  variant="outline"
+                >
+                  <Skeleton className="size-9 rounded-xl" />
+                  <ItemContent className="gap-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <div className="flex gap-1.5">
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                      <Skeleton className="h-5 w-20 rounded-full" />
+                    </div>
+                  </ItemContent>
+                  <ItemActions>
+                    <Skeleton className="h-7 w-16 rounded-full" />
+                    <Skeleton className="size-7 rounded-full" />
+                  </ItemActions>
+                </Item>
+              ))}
+            </ItemGroup>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -323,8 +378,8 @@ export function AnalizeBrowse({
   }
 
   return (
-    <div className="flex min-w-0 flex-col gap-6">
-      <div className="flex min-w-0 flex-col gap-3">
+    <div className="flex min-w-0 flex-col gap-(--gap) [--gap:--spacing(6)]">
+      <div className="flex min-w-0 flex-col gap-(--gap) [--gap:--spacing(4)]">
         <div className="flex flex-col gap-2">
           <label className="font-medium text-sm" htmlFor="analize-search">
             Caută analiză
@@ -347,109 +402,113 @@ export function AnalizeBrowse({
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <span className="py-1 font-medium text-muted-foreground text-xs">
-            Concernare:
-          </span>
-          <ToggleGroup
-            className="flex flex-wrap gap-2"
-            onValueChange={(v) => {
-              const nv = (v as string[])[0] ?? "";
-              setConcern(nv);
-              updateUrl({ concern: nv });
-            }}
-            value={concern ? [concern] : []}
-            variant="outline"
-          >
-            {CONCERNS.map((c) => (
-              <ToggleGroupItem
-                aria-label={c.label}
-                className="h-7 rounded-full text-xs"
-                key={c.value}
-                value={c.value}
+        <div className="inset-card flex flex-col gap-3 rounded-2xl">
+          <div className="flex flex-wrap gap-2">
+            <span className="py-1 font-medium text-muted-foreground text-xs">
+              Concernare:
+            </span>
+            <ToggleGroup
+              className="flex flex-wrap gap-1.5"
+              onValueChange={(v) => {
+                const nv = (v as string[])[0] ?? "";
+                setConcern(nv);
+                updateUrl({ concern: nv });
+              }}
+              value={concern ? [concern] : []}
+              variant="outline"
+            >
+              {CONCERNS.map((c) => (
+                <ToggleGroupItem
+                  aria-label={c.label}
+                  className="h-7 rounded-full text-xs"
+                  key={c.value}
+                  value={c.value}
+                >
+                  {c.label}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+            {concern ? (
+              <Button
+                className="h-7 text-xs"
+                onClick={() => {
+                  setConcern("");
+                  updateUrl({ concern: "" });
+                }}
+                size="sm"
+                variant="ghost"
               >
-                {c.label}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-          {concern ? (
-            <Button
-              className="h-7 text-xs"
-              onClick={() => {
-                setConcern("");
-                updateUrl({ concern: "" });
+                Resetează
+              </Button>
+            ) : null}
+          </div>
+
+          <Separator />
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="py-1 font-medium text-muted-foreground text-xs">
+              Laborator:
+            </span>
+            <ToggleGroup
+              aria-label="Filter by lab"
+              className="flex flex-wrap gap-1.5"
+              onValueChange={(v) => {
+                const nv = (v as string[])[0] ?? "";
+                setLab(nv);
+                updateUrl({ lab: nv });
               }}
               size="sm"
-              variant="ghost"
+              spacing={2}
+              value={lab ? [lab] : []}
+              variant="outline"
             >
-              Resetează
-            </Button>
-          ) : null}
+              {LABS.map((l) => (
+                <ToggleGroupItem
+                  aria-label={l}
+                  className="h-7 rounded-full text-xs"
+                  key={l}
+                  value={l}
+                >
+                  {capitalize(l)}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="py-1 font-medium text-muted-foreground text-xs">
+              Probă:
+            </span>
+            <ToggleGroup
+              aria-label="Filter by sample"
+              className="flex flex-wrap gap-1.5"
+              onValueChange={(v) => {
+                const nv = (v as string[])[0] ?? "";
+                setSample(nv);
+                updateUrl({ sample: nv });
+              }}
+              size="sm"
+              spacing={2}
+              value={sample ? [sample] : []}
+              variant="outline"
+            >
+              {SAMPLES.map((s) => (
+                <ToggleGroupItem
+                  aria-label={String(s)}
+                  className="h-7 rounded-full text-xs"
+                  key={String(s)}
+                  value={String(s)}
+                >
+                  {String(s)}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="py-1 font-medium text-muted-foreground text-xs">
-            Laborator:
-          </span>
-          <ToggleGroup
-            aria-label="Filter by lab"
-            className="flex flex-wrap gap-2"
-            onValueChange={(v) => {
-              const nv = (v as string[])[0] ?? "";
-              setLab(nv);
-              updateUrl({ lab: nv });
-            }}
-            size="sm"
-            spacing={2}
-            value={lab ? [lab] : []}
-            variant="outline"
-          >
-            {LABS.map((l) => (
-              <ToggleGroupItem
-                aria-label={l}
-                className="h-7 rounded-full text-xs"
-                key={l}
-                value={l}
-              >
-                {l}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="py-1 font-medium text-muted-foreground text-xs">
-            Probă:
-          </span>
-          <ToggleGroup
-            aria-label="Filter by sample"
-            className="flex flex-wrap gap-2"
-            onValueChange={(v) => {
-              const nv = (v as string[])[0] ?? "";
-              setSample(nv);
-              updateUrl({ sample: nv });
-            }}
-            size="sm"
-            spacing={2}
-            value={sample ? [sample] : []}
-            variant="outline"
-          >
-            {SAMPLES.map((s) => (
-              <ToggleGroupItem
-                aria-label={String(s)}
-                className="h-7 rounded-full text-xs"
-                key={String(s)}
-                value={String(s)}
-              >
-                {String(s)}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-        </div>
-
-        <div aria-live="polite" className="text-muted-foreground text-xs">
-          {filtered.length} rezultate {query ? `pentru “${query}”` : ""}{" "}
-          {concern ? `• ${concern}` : ""} {lab ? `• ${lab}` : ""}{" "}
+        <div aria-live="polite" className="inset-card py-2.5 text-muted-foreground text-xs">
+          <span className="font-medium tabular-nums">{filtered.length} rezultate</span> {query ? `pentru “${query}”` : ""}{" "}
+          {concern ? `• ${concern}` : ""} {lab ? `• ${capitalize(lab)}` : ""}{" "}
           {sample ? `• ${sample}` : ""}
         </div>
       </div>
@@ -457,7 +516,7 @@ export function AnalizeBrowse({
       {filtered.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="py-10">
-            <Empty>
+            <Empty className="border border-dashed bg-transparent">
               <EmptyHeader>
                 <EmptyTitle>Niciun rezultat</EmptyTitle>
                 <EmptyDescription>
@@ -494,70 +553,86 @@ export function AnalizeBrowse({
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((d) => (
-            <Card className="flex flex-col overflow-hidden" key={d.id}>
-              <CardHeader className="pb-2">
-                <div className="flex gap-2">
-                  <Badge className="text-[10px]" variant="secondary">
-                    {d.sampleType ?? "Sânge"}
-                  </Badge>
-                  <Badge className="text-[10px]" variant="outline">
-                    {d.role === "comparison" ? "comparison" : "catalog"}
-                  </Badge>
-                </div>
-                <CardTitle className="line-clamp-2 text-sm leading-tight">
-                  {d.title}
-                </CardTitle>
-                <p className="line-clamp-1 break-all font-mono text-[11px] text-muted-foreground">
-                  {d.slug} • {d.vendors?.join(", ") || `${d.vendor_count} labs`}
-                </p>
-              </CardHeader>
-              <CardContent className="mt-auto flex gap-2">
-                <Button
-                  className="flex-1"
-                  onClick={() => (window.location.href = `/analize/${d.slug}`)}
-                  size="sm"
-                  variant="outline"
-                >
-                  Vezi
-                </Button>
-                <Button
-                  className="flex-1"
-                  onClick={() => {
-                    const anon = getOrCreateAnonToken();
-                    const listsRaw =
-                      window.localStorage.getItem("laborata:lists");
-                    let lists: ReturnType<typeof createList>[] = [];
-                    try {
-                      lists = listsRaw ? JSON.parse(listsRaw) : [];
-                    } catch {
-                      lists = [];
-                    }
-                    if (lists.length === 0) {
-                      const nl = createList("Analizele mele", anon);
-                      lists = [nl];
-                    }
-                    // add to first list
-                    const updated = addToList(
-                      lists[0] as unknown as Parameters<typeof addToList>[0],
-                      d.id
-                    );
-                    lists[0] = updated as unknown as (typeof lists)[0];
-                    window.localStorage.setItem(
-                      "laborata:lists",
-                      JSON.stringify(lists)
-                    );
-                    window.location.href = `/liste/${lists[0].id}`;
-                  }}
-                  size="sm"
-                >
-                  Adaugă
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <Card className="overflow-hidden p-0">
+          <CardContent className="p-2">
+            <ItemGroup className="gap-2">
+              {filtered.map((d) => {
+                const labs = (d.vendors as string[] | undefined) ?? [];
+                const labCount = labs.length || d.vendor_count;
+                const sampleLabel = d.sampleType ?? "Sânge";
+                return (
+                  <Item
+                    key={d.id}
+                    variant="outline"
+                    size="sm"
+                    className="rounded-2xl bg-muted/20"
+                    render={<a href={`/analize/${d.slug}`} />}
+                  >
+                    <ItemMedia variant="icon" className="bg-muted rounded-xl size-9">
+                      <span aria-hidden="true" className="text-sm">🧪</span>
+                    </ItemMedia>
+                    <ItemContent className="min-w-0">
+                      <ItemTitle className="line-clamp-2 leading-tight">
+                        {d.title}
+                      </ItemTitle>
+                      <ItemDescription className="flex flex-wrap items-center gap-1.5">
+                        <Badge className="rounded-full text-[11px]" variant="secondary">
+                          {sampleLabel}
+                        </Badge>
+                        <Badge className="rounded-full text-[11px]" variant="outline">
+                          {labCount} labs
+                        </Badge>
+                        {labs.slice(0, 3).map((v) => (
+                          <Badge
+                            key={v}
+                            className="hidden sm:inline-flex rounded-full text-[11px]"
+                            variant="outline"
+                          >
+                            {capitalize(v)}
+                          </Badge>
+                        ))}
+                        {labs.length > 3 ? (
+                          <span className="hidden sm:inline text-[11px] text-muted-foreground">
+                            +{labs.length - 3}
+                          </span>
+                        ) : null}
+                      </ItemDescription>
+                    </ItemContent>
+                    <ItemActions className="shrink-0 gap-2">
+                      <Button
+                        size="sm"
+                        variant="default"
+                        className="rounded-full h-7 px-3 text-xs"
+                        render={<a href={`/analize/${d.slug}`} />}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Vezi
+                      </Button>
+                      <Button
+                        aria-label={`Adaugă ${d.title}`}
+                        size="icon-sm"
+                        variant="ghost"
+                        className="rounded-full"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAdd(d.id);
+                        }}
+                      >
+                        <RiAddLine className="size-4" aria-hidden="true" />
+                      </Button>
+                    </ItemActions>
+                  </Item>
+                );
+              })}
+            </ItemGroup>
+          </CardContent>
+          <CardFooter className="border-t bg-muted/20 px-(--card-spacing) py-3 text-muted-foreground text-xs leading-relaxed">
+            plus 30 lei o singură dată — taxa de recoltare se plătește o singură
+            dată per vizită, chiar dacă adaugi mai multe teste. Sante și
+            MedExpert: 0 lei — inclus. Alfa: 25 lei.
+          </CardFooter>
+        </Card>
       )}
     </div>
   );

@@ -153,8 +153,11 @@ export const PRICE_OFFERS_VARIANT: readonly PriceOffer[] = [
   },
 ] as const;
 
-/** Deprecated demo — kept for type compat, do not use in PriceComparison */
-export const PRICE_COMPARISON: PriceRow[] = [
+/**
+ * @deprecated — invented labs demo, kept only for compat. Use PRICE_OFFERS_B12 instead.
+ * Hidden behind __deprecated__ prefix so new code can't import without noticing.
+ */
+export const __deprecated__PRICE_COMPARISON: PriceRow[] = [
   {
     collectionFee: 15,
     highlight: true,

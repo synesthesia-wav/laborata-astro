@@ -6,6 +6,13 @@ import {
 } from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
+import { Card, CardContent, CardFooter } from "@workspace/ui/components/card";
+import {
+  Item,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@workspace/ui/components/item";
 import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 
@@ -95,39 +102,38 @@ export function ProductHeader({
 
   if (permissionDenied) {
     return (
-      <div
-        className="flex flex-col gap-6 rounded-xl border bg-card p-4"
-        id={`product-header-${idSuffix}`}
-      >
-        <div className="flex flex-col gap-3">
-          <h1 className="text-balance font-heading font-semibold text-3xl tracking-tight">
-            {name}
-          </h1>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            Acces restricționat — nu ai permisiunea să vezi prețul pentru acest
-            test. Cere acces la lista partajată sau autentifică-te.
-          </p>
-        </div>
-        <div
-          aria-live="polite"
-          className="rounded-lg border border-dashed bg-muted/20 px-3 py-6 text-center"
-        >
-          <p className="font-medium text-sm">Permission denied</p>
-          <p className="mt-1 text-muted-foreground text-xs">
-            Stare showcase — nu este eroare de date.
-          </p>
-        </div>
-        <Button
-          aria-label="Adaugă în listă — indisponibil"
-          className="w-full"
-          disabled
-          id={`add-to-list-${idSuffix}`}
-          size="lg"
-        >
-          <RiShoppingBagLine aria-hidden="true" data-icon="inline-start" />
-          Indisponibil
-        </Button>
-      </div>
+      <Card id={`product-header-${idSuffix}`}>
+        <CardContent className="flex flex-col gap-6 pt-(--card-spacing)">
+          <div className="flex flex-col gap-3">
+            <h1 className="text-balance font-heading font-semibold text-3xl tracking-tight">
+              {name}
+            </h1>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Acces restricționat — nu ai permisiunea să vezi prețul pentru
+              acest test. Cere acces la lista partajată sau autentifică-te.
+            </p>
+          </div>
+          <div
+            aria-live="polite"
+            className="rounded-lg border border-dashed bg-muted/20 px-3 py-6 text-center"
+          >
+            <p className="font-medium text-sm">Permission denied</p>
+            <p className="mt-1 text-muted-foreground text-xs">
+              Stare showcase — nu este eroare de date.
+            </p>
+          </div>
+          <Button
+            aria-label="Adaugă în listă — indisponibil"
+            className="w-full"
+            disabled
+            id={`add-to-list-${idSuffix}`}
+            size="lg"
+          >
+            <RiShoppingBagLine aria-hidden="true" data-icon="inline-start" />
+            Indisponibil
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
@@ -145,8 +151,11 @@ export function ProductHeader({
     lang === "en" ? `Updated: ${priceAsOf}` : `Actualizat: ${priceAsOf}`;
 
   return (
-    <div className="flex flex-col gap-6" id={`product-header-${idSuffix}`}>
-      <div className="flex flex-wrap gap-3">
+    <div
+      className="flex flex-col gap-(--gap) [--gap:--spacing(6)]"
+      id={`product-header-${idSuffix}`}
+    >
+      <div className="flex flex-wrap gap-2.5">
         <Badge variant="secondary">Test de sânge</Badge>
         {sampleType && specimenShort(sampleType) ? (
           <Badge
@@ -173,7 +182,7 @@ export function ProductHeader({
           {name}
         </h1>
         {priceLabel ? (
-          <span className="break-all font-heading font-semibold text-2xl tabular-nums tracking-tight">
+          <span className="break-words font-heading font-semibold text-2xl tabular-nums tracking-tight [overflow-wrap:anywhere]">
             {priceLabel}
           </span>
         ) : (
@@ -201,47 +210,55 @@ export function ProductHeader({
         </p>
       </div>
 
-      <div className="flex flex-col gap-6 rounded-xl border bg-card p-4">
-        <div className="flex flex-col gap-3 text-sm">
-          <span className="inline-flex items-center gap-2">
-            <RiCheckboxCircleLine
-              aria-hidden="true"
-              className="size-4 shrink-0 text-primary"
-            />
-            Fără trimitere necesară — rezervi direct
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <RiCheckboxCircleLine
-              aria-hidden="true"
-              className="size-4 shrink-0 text-primary"
-            />
-            Recoltare 5 min în rețeaua parteneră
-          </span>
-          <span className="inline-flex items-center gap-2">
-            <RiCheckboxCircleLine
-              aria-hidden="true"
-              className="size-4 shrink-0 text-primary"
-            />
-            Rezultat cu interval explicat în 24h
-          </span>
-        </div>
-        <Separator />
-        <Button
-          aria-label={`Adaugă în listă — ${name}${priceLabel ? ` — ${priceLabel}` : ""}`}
-          className="w-full"
-          disabled={disabled}
-          id={`add-to-list-${idSuffix}`}
-          onClick={onAddToCart}
-          size="lg"
-        >
-          <RiShoppingBagLine aria-hidden="true" data-icon="inline-start" />
-          {priceLabel ? `Adaugă în listă — ${priceLabel}` : "Adaugă în listă"}
-        </Button>
-        <p className="text-center text-muted-foreground text-xs">
-          Taxa de recoltare se adaugă o singură dată la final (Sante/MedExpert:
-          0 lei — inclus). Poți adăuga mai multe teste într-o singură vizită.
-        </p>
-      </div>
+      <Card>
+        <CardContent className="flex flex-col gap-(--gap) [--gap:--spacing(4)]">
+          <ItemGroup className="gap-2">
+            <Item variant="muted" size="sm" className="rounded-2xl">
+              <ItemMedia variant="icon" className="text-primary">
+                <RiCheckboxCircleLine aria-hidden="true" className="size-4" />
+              </ItemMedia>
+              <ItemTitle className="font-normal text-sm">
+                Fără trimitere necesară — rezervi direct
+              </ItemTitle>
+            </Item>
+            <Item variant="muted" size="sm" className="rounded-2xl">
+              <ItemMedia variant="icon" className="text-primary">
+                <RiCheckboxCircleLine aria-hidden="true" className="size-4" />
+              </ItemMedia>
+              <ItemTitle className="font-normal text-sm">
+                Recoltare 5 min în rețeaua parteneră
+              </ItemTitle>
+            </Item>
+            <Item variant="muted" size="sm" className="rounded-2xl">
+              <ItemMedia variant="icon" className="text-primary">
+                <RiCheckboxCircleLine aria-hidden="true" className="size-4" />
+              </ItemMedia>
+              <ItemTitle className="font-normal text-sm">
+                Rezultat cu interval explicat în 24h
+              </ItemTitle>
+            </Item>
+          </ItemGroup>
+          <Separator />
+        </CardContent>
+        <CardFooter className="flex flex-col gap-3">
+          <Button
+            aria-label={`Adaugă în listă — ${name}${priceLabel ? ` — ${priceLabel}` : ""}`}
+            className="w-full"
+            disabled={disabled}
+            id={`add-to-list-${idSuffix}`}
+            onClick={onAddToCart}
+            size="lg"
+          >
+            <RiShoppingBagLine aria-hidden="true" data-icon="inline-start" />
+            {priceLabel ? `Adaugă în listă — ${priceLabel}` : "Adaugă în listă"}
+          </Button>
+          <p className="text-center text-muted-foreground text-xs">
+            Taxa de recoltare se adaugă o singură dată la final
+            (Sante/MedExpert: 0 lei — inclus). Poți adăuga mai multe teste
+            într-o singură vizită.
+          </p>
+        </CardFooter>
+      </Card>
 
       <p className="text-muted-foreground text-xs leading-relaxed">
         Afișăm mereu unitatea sursă (pg/mL). Nu amesteca valori în pmol/L fără

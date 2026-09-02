@@ -12,6 +12,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
 import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
@@ -215,23 +222,27 @@ export function ProductSpecs({
             Specificații per partener — lipsă = „—”.
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-0">
-          <dl className="divide-y">
-            {/* Specimen 91% */}
-            <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <dt className="font-medium text-muted-foreground text-sm">
+        <CardContent className="px-(--card-spacing)">
+          <ItemGroup className="gap-3">
+            {/* Probă */}
+            <Item
+              variant="outline"
+              className="flex-col items-start gap-2 rounded-2xl bg-muted/20 sm:flex-row sm:items-center sm:gap-4"
+              size="sm"
+            >
+              <ItemTitle className="w-full shrink-0 font-medium text-muted-foreground text-sm sm:w-[160px]">
                 Probă
-              </dt>
-              <dd className="flex flex-col gap-1 text-sm">
-                <span className="font-medium">
+              </ItemTitle>
+              <ItemContent className="min-w-0 flex-1">
+                <ItemDescription className="break-words font-medium text-foreground text-sm">
                   {specimenValues.length > 0
                     ? specimenValues
                         .map((x) => specimenLabel(x.v))
                         .filter((v, i, a) => a.indexOf(v) === i)
                         .join(" · ")
                     : "—"}
-                </span>
-                <span className="text-muted-foreground text-xs">
+                </ItemDescription>
+                <ItemDescription className="break-words text-xs">
                   {specimenValues
                     .map((x) => `${x.lab}: ${specimenLabel(x.v)}`)
                     .join(" · ")}
@@ -241,25 +252,29 @@ export function ProductSpecs({
                         .map((d) => d.lab)
                         .join(", ")}: — (lipsă în sursă)`
                     : null}
-                </span>
-              </dd>
-            </div>
+                </ItemDescription>
+              </ItemContent>
+            </Item>
 
-            {/* Method 69% */}
-            <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <dt className="font-medium text-muted-foreground text-sm">
+            {/* Metodă */}
+            <Item
+              variant="outline"
+              className="flex-col items-start gap-2 rounded-2xl bg-muted/20 sm:flex-row sm:items-center sm:gap-4"
+              size="sm"
+            >
+              <ItemTitle className="w-full shrink-0 font-medium text-muted-foreground text-sm sm:w-[160px]">
                 Metodă
-              </dt>
-              <dd className="flex flex-col gap-1 text-sm">
-                <span className="font-medium">
+              </ItemTitle>
+              <ItemContent className="min-w-0 flex-1">
+                <ItemDescription className="break-words font-medium text-foreground text-sm">
                   {methodValues.length > 0
                     ? methodValues
                         .map((x) => methodLabel(x.v))
                         .filter((v, i, a) => a.indexOf(v) === i)
                         .join(" · ")
                     : "—"}
-                </span>
-                <span className="text-muted-foreground text-xs">
+                </ItemDescription>
+                <ItemDescription className="break-words text-xs">
                   {methodValues.length > 0
                     ? methodValues
                         .map((x) => `${x.lab}: ${methodLabel(x.v)}`)
@@ -271,24 +286,28 @@ export function ProductSpecs({
                         .map((d) => d.lab)
                         .join(", ")}: —`
                     : null}
-                </span>
-              </dd>
-            </div>
+                </ItemDescription>
+              </ItemContent>
+            </Item>
 
-            {/* TAT 93% — Synevo 1 zi, Sante 14 zile */}
-            <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <dt className="font-medium text-muted-foreground text-sm">
+            {/* TAT */}
+            <Item
+              variant="outline"
+              className="flex-col items-start gap-2 rounded-2xl bg-muted/20 sm:flex-row sm:items-center sm:gap-4"
+              size="sm"
+            >
+              <ItemTitle className="w-full shrink-0 font-medium text-muted-foreground text-sm sm:w-[160px]">
                 Timp rezultat
-              </dt>
-              <dd className="flex flex-col gap-1 text-sm">
-                <span className="font-medium">
+              </ItemTitle>
+              <ItemContent className="min-w-0 flex-1">
+                <ItemDescription className="break-words font-medium text-foreground text-sm">
                   {tatValues.length > 0
                     ? tatValues
                         .map((d) => `${d.lab}: ${d.turnaround}`)
                         .join(" · ")
                     : "—"}
-                </span>
-                <span className="text-muted-foreground text-xs">
+                </ItemDescription>
+                <ItemDescription className="break-words text-xs">
                   Synevo 1 zi · Sante 14 zile lucrătoare
                   {data.some((d) => d.turnaround === null)
                     ? ` · ${data
@@ -296,22 +315,26 @@ export function ProductSpecs({
                         .map((d) => d.lab)
                         .join(", ")}: —`
                     : null}
-                </span>
-              </dd>
-            </div>
+                </ItemDescription>
+              </ItemContent>
+            </Item>
 
-            {/* Collection protocol 53% */}
-            <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <dt className="font-medium text-muted-foreground text-sm">
+            {/* Pregătire */}
+            <Item
+              variant="outline"
+              className="flex-col items-start gap-2 rounded-2xl bg-muted/20 sm:flex-row sm:items-center sm:gap-4"
+              size="sm"
+            >
+              <ItemTitle className="w-full shrink-0 font-medium text-muted-foreground text-sm sm:w-[160px]">
                 Pregătire
-              </dt>
-              <dd className="flex flex-col gap-1 text-sm">
+              </ItemTitle>
+              <ItemContent className="min-w-0 flex-1">
                 {protocolValues.length > 0 ? (
                   <>
-                    <span className="font-medium">
+                    <ItemDescription className="break-words font-medium text-foreground text-sm">
                       {protocolValues[0].collection_protocol}
-                    </span>
-                    <span className="text-muted-foreground text-xs">
+                    </ItemDescription>
+                    <ItemDescription className="break-words text-xs">
                       {protocolValues
                         .map((d) => `${d.lab}: ${d.collection_protocol}`)
                         .join(" · ")}
@@ -322,60 +345,69 @@ export function ProductSpecs({
                             .map((d) => d.lab)
                             .join(", ")}: Nespecifică`
                         : null}
-                    </span>
+                    </ItemDescription>
                   </>
                 ) : (
                   <>
-                    <span className="font-medium">Nespecifică</span>
-                    <span className="text-muted-foreground text-xs">
+                    <ItemDescription className="break-words font-medium text-foreground text-sm">
+                      Nespecifică
+                    </ItemDescription>
+                    <ItemDescription className="break-words text-xs">
                       Niciun protocol listat pentru acest test.
-                    </span>
+                    </ItemDescription>
                   </>
                 )}
-              </dd>
-            </div>
+              </ItemContent>
+            </Item>
 
-            {/* Reference ranges 6.9% — hide if missing, honest null */}
-            {hasRefs ? (
-              <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-                <dt className="font-medium text-muted-foreground text-sm">
-                  Intervale de referință
-                </dt>
-                <dd className="flex flex-col gap-1 text-sm">
-                  <span className="font-medium">
-                    {refRanges
-                      .map((r) => `${r.range} ${r.unit ?? ""}`.trim())
-                      .join(" · ")}
-                  </span>
-                  <span className="text-muted-foreground text-xs">
-                    Sursă:{" "}
-                    {data.find((d) => d.reference_ranges.length > 0)?.lab ??
-                      "Synevo"}{" "}
-                    — afișăm doar când există.
-                  </span>
-                </dd>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-                <dt className="font-medium text-muted-foreground text-sm">
-                  Intervale de referință
-                </dt>
-                <dd className="text-muted-foreground text-xs">
-                  Indisponibil — niciun interval listat pentru acest test.
-                  Afișăm intervalul sursă pe buletin când există.
-                </dd>
-              </div>
-            )}
+            {/* Reference ranges */}
+            <Item
+              variant="outline"
+              className="flex-col items-start gap-2 rounded-2xl bg-muted/20 sm:flex-row sm:items-center sm:gap-4"
+              size="sm"
+            >
+              <ItemTitle className="w-full shrink-0 font-medium text-muted-foreground text-sm sm:w-[160px]">
+                Intervale de referință
+              </ItemTitle>
+              <ItemContent className="min-w-0 flex-1">
+                {hasRefs ? (
+                  <>
+                    <ItemDescription className="break-words font-medium text-foreground text-sm">
+                      {refRanges
+                        .map((r) => `${r.range} ${r.unit ?? ""}`.trim())
+                        .join(" · ")}
+                    </ItemDescription>
+                    <ItemDescription className="break-words text-xs">
+                      Sursă:{" "}
+                      {data.find((d) => d.reference_ranges.length > 0)?.lab ??
+                        "Synevo"}{" "}
+                      — afișăm doar când există.
+                    </ItemDescription>
+                  </>
+                ) : (
+                  <ItemDescription className="break-words text-xs">
+                    Indisponibil — niciun interval listat pentru acest test.
+                    Afișăm intervalul sursă pe buletin când există.
+                  </ItemDescription>
+                )}
+              </ItemContent>
+            </Item>
 
-            <div className="grid grid-cols-1 gap-3 px-5 py-3 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <dt className="font-medium text-muted-foreground text-sm">
+            <Item
+              variant="outline"
+              className="flex-col items-start gap-2 rounded-2xl bg-muted/20 sm:flex-row sm:items-center sm:gap-4"
+              size="sm"
+            >
+              <ItemTitle className="w-full shrink-0 font-medium text-muted-foreground text-sm sm:w-[160px]">
                 Acoperire
-              </dt>
-              <dd className="text-muted-foreground text-xs">
-                {available.length}/{data.length} parteneri cu date.
-              </dd>
-            </div>
-          </dl>
+              </ItemTitle>
+              <ItemContent className="min-w-0 flex-1">
+                <ItemDescription className="break-words text-muted-foreground text-xs">
+                  {available.length}/{data.length} parteneri cu date.
+                </ItemDescription>
+              </ItemContent>
+            </Item>
+          </ItemGroup>
         </CardContent>
       </Card>
 

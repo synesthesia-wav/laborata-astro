@@ -1,5 +1,6 @@
 ---
 import "@workspace/ui/globals.css";
+import { buttonVariants } from "@workspace/ui/components/button";
 import { Toaster } from "@workspace/ui/components/toast";
 import { MobileNav } from "../components/layout/mobile-nav";
 
@@ -14,6 +15,9 @@ interface Props {
 const { title, description, lang = "ro", ogImage, canonical } = Astro.props;
 const site = Astro.site?.toString() ?? Astro.url.origin;
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  pathname === href || pathname.startsWith(href + "/");
 ---
 
 <html lang={lang}>
@@ -43,45 +47,53 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
       role="banner"
     >
       <div
-        class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
+        class="mx-auto flex w-full max-w-7xl items-center justify-between gap-(--gap) p-(--gap) [--gap:--spacing(4)] py-3"
       >
         <a class="font-heading text-sm font-semibold tracking-tight" href="/"
           >Laborata</a
         >
         <nav aria-label="Principal" class="hidden items-center gap-1 md:flex">
           <a
-            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            aria-current={isActive("/analize") ? "page" : undefined}
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
             href="/analize"
             >Analize</a
           >
           <a
-            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            aria-current={isActive("/laboratoare") ? "page" : undefined}
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
             href="/laboratoare"
             >Laboratoare</a
           >
           <a
-            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            aria-current={isActive("/harta") ? "page" : undefined}
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
             href="/harta"
             >Harta</a
           >
           <a
-            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            aria-current={isActive("/liste") ? "page" : undefined}
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
             href="/liste"
             >Liste</a
           >
           <a
-            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            aria-current={isActive("/comparatie") ? "page" : undefined}
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30 aria-[current=page]:bg-muted aria-[current=page]:text-foreground"
             href="/comparatie"
             >Compară</a
           >
         </nav>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-(--gap) [--gap:--spacing(2)]">
           <span class="hidden text-xs text-muted-foreground lg:inline"
             >MDL • Laboratoare acreditate</span
           >
           <a
-            class="inline-flex h-8 items-center rounded-full border bg-card px-3 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             href="/analize"
+            class:list={[
+              buttonVariants({ variant: "outline", size: "sm" }),
+              "hidden sm:inline-flex rounded-full",
+            ]}
             >Vezi analize</a
           >
           <div class="md:hidden">
