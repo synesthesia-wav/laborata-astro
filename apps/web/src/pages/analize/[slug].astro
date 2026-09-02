@@ -58,7 +58,9 @@ const primarySourceUrl =
   rawPrices?.[0]?.sourceUrl ??
   "https://www.invitro.md/ro/services/prelevarea-sangelui-venos";
 const tupleSpecimen = (item as GraphItem).tuple_key.split("|")[2] || null;
-const sampleTypeRaw = rawPrices?.[0]?.specimen ?? (tupleSpecimen && tupleSpecimen.trim() ? tupleSpecimen : null);
+const sampleTypeRaw =
+  rawPrices?.[0]?.specimen ??
+  (tupleSpecimen && tupleSpecimen.trim() ? tupleSpecimen : null);
 const turnaroundRaw = rawPrices?.[0]?.turnaround ?? null;
 const rawSpecs = getSpecsForId(slug);
 const specOffers = rawSpecs ?? undefined;

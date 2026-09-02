@@ -198,7 +198,7 @@ export function BranchesExplorer({
         setLocError("Nu am putut obține locația — verifică permisiunile");
         setLocating(false);
       },
-      { enableHighAccuracy: false, maximumAge: 60000, timeout: 8000 }
+      { enableHighAccuracy: false, maximumAge: 60_000, timeout: 8000 }
     );
   };
 
@@ -362,7 +362,9 @@ export function BranchesExplorer({
             disabled={disabled || locating}
             className="h-7 rounded-full px-3 text-xs"
             aria-label={
-              userLoc ? "Anulează sortarea după apropiere" : "Sortează după apropiere"
+              userLoc
+                ? "Anulează sortarea după apropiere"
+                : "Sortează după apropiere"
             }
           >
             {locating
@@ -492,7 +494,8 @@ export function BranchesExplorer({
                                 userLoc.lng,
                                 b.geo.lat,
                                 b.geo.lng
-                              ).toFixed(1)} km
+                              ).toFixed(1)}{" "}
+                              km
                             </Badge>
                           ) : null}
                         </span>

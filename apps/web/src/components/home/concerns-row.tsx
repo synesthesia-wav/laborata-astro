@@ -65,7 +65,7 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
       <div className="flex flex-wrap gap-2">
         {CONCERNS.map((c) => (
           <a
-            className="inline-flex h-6 items-center rounded-full border px-2.5 text-[11px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="inline-flex h-6 items-center rounded-full border px-2.5 font-medium text-[11px] text-muted-foreground hover:bg-muted hover:text-foreground"
             href={`/categorie/${c.slug}`}
             key={`cat-${c.value}`}
           >

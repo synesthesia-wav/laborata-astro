@@ -34,7 +34,9 @@ function formatMdl(n: number): string {
 }
 
 function specimenShort(v: string | null | undefined): string | null {
-  if (!v) return null;
+  if (!v) {
+    return null;
+  }
   const m: Record<string, string> = {
     blood: "Sânge",
     frotiu: "Frotiu",
@@ -148,7 +150,7 @@ export function ProductHeader({
         <Badge variant="secondary">Test de sânge</Badge>
         {sampleType && specimenShort(sampleType) ? (
           <Badge
-            className="text-[12px] tracking-wider uppercase"
+            className="text-[12px] uppercase tracking-wider"
             variant="outline"
           >
             {specimenShort(sampleType)}
@@ -156,7 +158,7 @@ export function ProductHeader({
         ) : null}
         {turnaround ? (
           <Badge
-            className="text-[12px] tracking-wider uppercase"
+            className="text-[12px] uppercase tracking-wider"
             variant="outline"
           >
             {turnaround}

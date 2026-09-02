@@ -7,7 +7,6 @@ import {
 } from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button, buttonVariants } from "@workspace/ui/components/button";
-import { cn } from "@workspace/ui/lib/utils";
 import {
   Card,
   CardContent,
@@ -24,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@workspace/ui/components/table";
+import { cn } from "@workspace/ui/lib/utils";
 import { PRICE_OFFERS_B12, type PriceOffer } from "./data";
 
 interface Props {
@@ -387,7 +387,9 @@ export function PriceComparison({
                             <span className="sr-only">Vezi la {row.lab}</span>
                           </a>
                         ) : (
-                          <span className="text-muted-foreground text-xs">—</span>
+                          <span className="text-muted-foreground text-xs">
+                            —
+                          </span>
                         )}
                       </TableCell>
                     </TableRow>

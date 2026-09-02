@@ -74,8 +74,11 @@ const cheapestMdlEn =
 const primarySourceUrlEn =
   rawPricesEn?.[0]?.sourceUrl ??
   "https://www.invitro.md/ro/services/prelevarea-sangelui-venos";
-const tupleSpecimenEn = (item as GraphItem | undefined)?.tuple_key?.split("|")[2] || null;
-const sampleTypeRawEn = rawPricesEn?.[0]?.specimen ?? (tupleSpecimenEn && tupleSpecimenEn.trim() ? tupleSpecimenEn : null);
+const tupleSpecimenEn =
+  (item as GraphItem | undefined)?.tuple_key?.split("|")[2] || null;
+const sampleTypeRawEn =
+  rawPricesEn?.[0]?.specimen ??
+  (tupleSpecimenEn && tupleSpecimenEn.trim() ? tupleSpecimenEn : null);
 const turnaroundRawEn = rawPricesEn?.[0]?.turnaround ?? null;
 const rawSpecsEn = getSpecsForId(roSlug);
 const specOffersEn = rawSpecsEn ?? undefined;
