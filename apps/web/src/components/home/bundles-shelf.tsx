@@ -3,13 +3,29 @@
 import { PANEL_COMPARISON } from "@workspace/data/canonical";
 import type { CanonicalItem } from "@workspace/data/types";
 import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
+import { Separator } from "@workspace/ui/components/separator";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 
 interface Coverage {
   covered: number;
@@ -121,16 +137,57 @@ const DEFAULT_BUNDLES: Panel[] = getCuratedPanels();
 
 interface Props {
   bundles?: Panel[];
+  disabled?: boolean;
+  error?: string;
   idSuffix?: string;
+  loading?: boolean;
+  onRetry?: () => void;
 }
 
 export function BundlesShelf({
   bundles = DEFAULT_BUNDLES,
+  disabled = false,
+  error,
   idSuffix = "home-bundles",
+  loading = false,
+  onRetry,
 }: Props) {
+  if (loading) {
+    return (
+      <div className="grid gap-4 lg:grid-cols-2">
+        {[0, 1].map((i) => (
+          <Card key={i}>
+            <CardHeader>
+              <Skeleton className="h-5 w-32" />
+              <Skeleton className="h-4 w-full" />
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3">
+              <Skeleton className="h-16 rounded-2xl" />
+              <Skeleton className="h-24 rounded-2xl" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertTitle>Could not load bundles</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+        {onRetry ? (
+          <Button onClick={onRetry} size="sm" variant="outline" className="mt-3">
+            Retry
+          </Button>
+        ) : null}
+      </Alert>
+    );
+  }
+
   return (
     <div
-      className="flex min-w-0 flex-col gap-5"
+      className="flex min-w-0 flex-col gap-5 [--gap:--spacing(4)]"
       id={`bundles-shelf-${idSuffix}`}
     >
       <div className="flex flex-col gap-1.5">
@@ -166,8 +223,8 @@ export function BundlesShelf({
                 {b.members.join(" · ")}
               </CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col gap-4">
-              <div className="inset-card flex flex-col gap-1.5">
+            <CardContent className="flex flex-col gap-3">
+              <div className="inset-card flex flex-col gap-1.5 rounded-2xl">
                 <p className="break-words text-xs leading-relaxed">
                   <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
                     Watches
@@ -184,24 +241,35 @@ export function BundlesShelf({
                   {b.readNext}
                 </p>
               </div>
+              <Separator />
               <div className="flex flex-col gap-1.5">
                 <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
                   Coverage per lab
                 </span>
-                <div className="grid grid-cols-1 gap-1.5">
+                <ItemGroup className="gap-1.5">
                   {b.coverage.map((c) => (
-                    <div
+                    <Item
+                      key={c.lab}
+                      variant={
+                        c.notSold
+                          ? "outline"
+                          : c.covered === c.total
+                            ? "muted"
+                            : "outline"
+                      }
+                      size="sm"
                       className={
                         c.notSold
-                          ? "inset-card flex items-center justify-between gap-2 py-2.5 opacity-60"
+                          ? "opacity-60"
                           : c.covered === c.total
-                            ? "inset-card flex items-center justify-between gap-2 bg-primary/5 py-2.5 ring-1 ring-primary/15 dark:bg-primary/10"
-                            : "inset-card flex items-center justify-between gap-2 py-2.5"
+                            ? "ring-1 ring-primary/15 bg-primary/5 dark:bg-primary/10"
+                            : "bg-muted/20"
                       }
-                      key={c.lab}
                     >
-                      <span className="font-medium text-sm">{c.lab}</span>
-                      <span className="flex items-center gap-2">
+                      <ItemContent>
+                        <ItemTitle className="text-sm">{c.lab}</ItemTitle>
+                      </ItemContent>
+                      <ItemActions>
                         <Badge
                           className="rounded-full px-2 py-0 text-xs tabular-nums"
                           variant={
@@ -219,15 +287,26 @@ export function BundlesShelf({
                             ? "Not sold as bundle"
                             : c.missing?.join(", ") || "complete"}
                         </span>
-                      </span>
-                    </div>
+                      </ItemActions>
+                    </Item>
                   ))}
-                </div>
+                </ItemGroup>
                 <p className="text-muted-foreground text-xs">
                   Not yet sold as a bundle here.
                 </p>
               </div>
             </CardContent>
+            <CardFooter className="mt-auto border-t pt-[--card-spacing]">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full rounded-full"
+                disabled={disabled}
+                render={<a href={`/profil/${b.slug}`} />}
+              >
+                Vezi detalii pachet
+              </Button>
+            </CardFooter>
           </Card>
         ))}
       </div>

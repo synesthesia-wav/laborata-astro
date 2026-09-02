@@ -5,6 +5,12 @@ import { CatalogShelf } from "../components/home/catalog-shelf";
 import { ConcernsRow } from "../components/home/concerns-row";
 import { HeroSearch } from "../components/home/hero-search";
 import { LabsTeaser } from "../components/home/labs-teaser";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
 import Layout from "../layouts/Layout.astro";
 
 const site = "https://laborata.md";
@@ -69,58 +75,58 @@ const breadcrumbLd = {
     type="application/ld+json"
     set:html={JSON.stringify(breadcrumbLd)}
   />
-  <main class="flex w-full flex-col">
+  <main class="flex w-full flex-col gap-(--gap) [--gap:--spacing(4)] md:[--gap:--spacing(10)]">
     <!-- Hero full-bleed -->
-    <section class="w-full px-4 py-10 sm:px-6">
+    <section class="w-full px-(--gap) py-[calc(var(--gap)*2)]">
       <div class="mx-auto w-full max-w-7xl">
         <HeroSearch client:load />
       </div>
     </section>
 
     <!-- Concerns -->
-    <section class="w-full px-4 sm:px-6">
+    <section class="w-full px-(--gap)">
       <div class="mx-auto w-full max-w-7xl">
         <ConcernsRow client:load />
       </div>
     </section>
 
     <!-- Common tests bento 1-2-3 -->
-    <section class="w-full px-4 py-10 sm:px-6">
+    <section class="w-full px-(--gap) py-[calc(var(--gap)*1.5)]">
       <div class="mx-auto w-full max-w-7xl">
         <CatalogShelf client:load />
       </div>
     </section>
 
     <!-- Bundles -->
-    <section class="w-full border-y bg-muted/20 px-4 py-10 sm:px-6">
+    <section class="w-full bg-muted/10 px-(--gap) py-[calc(var(--gap)*1.5)]">
       <div class="mx-auto w-full max-w-7xl">
         <BundlesShelf client:load />
       </div>
     </section>
 
     <!-- Labs + Map -->
-    <section class="w-full px-4 py-10 sm:px-6">
+    <section class="w-full px-(--gap) py-[calc(var(--gap)*1.5)]">
       <div class="mx-auto w-full max-w-7xl">
         <LabsTeaser client:load />
       </div>
     </section>
 
     <!-- Coming soon -->
-    <section class="w-full px-4 pb-10 sm:px-6">
+    <section class="w-full px-(--gap) pb-[calc(var(--gap)*2)]">
       <div class="mx-auto w-full max-w-7xl">
-        <div class="rounded-xl border border-dashed bg-card p-6 text-center">
-          <h2 class="font-heading text-base font-semibold">
-            În curând poți rezerva aici.
-          </h2>
-          <p class="mx-auto max-w-prose text-sm text-muted-foreground">
-            Deocamdată, scrie-ne la
-            <a
-              class="underline underline-offset-4 hover:text-foreground"
-              href="mailto:hello@laborata.md"
-              >hello@laborata.md</a
-            >.
-          </p>
-        </div>
+        <Card className="border-dashed">
+          <CardHeader className="text-center">
+            <CardTitle className="text-base">În curând poți rezerva aici.</CardTitle>
+            <CardDescription>
+              Deocamdată, scrie-ne la
+              <a
+                class="underline underline-offset-4 hover:text-foreground"
+                href="mailto:hello@laborata.md"
+                >hello@laborata.md</a
+              >.
+            </CardDescription>
+          </CardHeader>
+        </Card>
       </div>
     </section>
   </main>

@@ -1,5 +1,7 @@
 "use client";
 
+import { Badge } from "@workspace/ui/components/badge";
+import { Separator } from "@workspace/ui/components/separator";
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -27,9 +29,10 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
       className="flex flex-col gap-3"
     >
       <div className="flex items-center gap-2">
-        <span className="font-medium text-muted-foreground text-xs tracking-wide">
+        <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
           Filtrează după
         </span>
+        <Separator orientation="vertical" className="h-3" />
         <h2 className="sr-only" id={`concerns-heading-${idSuffix}`}>
           Filtrează după concern
         </h2>
@@ -46,17 +49,18 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
         {CONCERNS.map((c) => (
           <ToggleGroupItem
             aria-label={c.label}
-            className="rounded-full px-3.5 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+            className="rounded-full px-3.5"
             key={c.value}
-            onClick={() => {
-              const next = value === c.value ? "" : c.value;
-              if (next) {
-                window.location.href = `/analize?concern=${next}`;
-              } else {
-                window.location.href = "/analize";
-              }
-            }}
             value={c.value}
+            render={
+              <a
+                href={
+                  value === c.value
+                    ? "/analize"
+                    : `/analize?concern=${c.value}`
+                }
+              />
+            }
           >
             {c.label}
           </ToggleGroupItem>
@@ -64,13 +68,14 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
       </ToggleGroup>
       <div className="flex flex-wrap gap-2">
         {CONCERNS.map((c) => (
-          <a
-            className="inline-flex h-6 items-center rounded-full border px-2.5 font-medium text-[11px] text-muted-foreground hover:bg-muted hover:text-foreground"
-            href={`/categorie/${c.slug}`}
+          <Badge
             key={`cat-${c.value}`}
+            variant="outline"
+            className="rounded-full text-[11px] font-medium"
+            render={<a href={`/categorie/${c.slug}`} />}
           >
             {c.label} →
-          </a>
+          </Badge>
         ))}
       </div>
     </section>
