@@ -125,6 +125,8 @@ interface Props {
   hideLabFilter?: boolean;
   idSuffix?: string;
   initialLab?: string;
+  initialSample?: string;
+  initialStreet?: string;
   loading?: boolean;
   onRetry?: () => void;
 }
@@ -132,6 +134,8 @@ interface Props {
 export function BranchesExplorer({
   idSuffix = "explorer",
   initialLab = "all",
+  initialSample = "all",
+  initialStreet = "all",
   hideLabFilter = false,
   loading = false,
   error,
@@ -139,8 +143,8 @@ export function BranchesExplorer({
   disabled = false,
 }: Props) {
   const [lab, setLab] = useState(initialLab);
-  const [sample, setSample] = useState("all");
-  const [street, setStreet] = useState("all");
+  const [sample, setSample] = useState(initialSample);
+  const [street, setStreet] = useState(initialStreet);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filtered: Branch[] = useMemo(

@@ -305,6 +305,7 @@ export function LabsTeaser({
               "riscani",
               "buiucani",
               "ciocana",
+              "telecentru",
             ].map((v) => (
               <ToggleGroupItem
                 aria-label={v === "all" ? "Toate sectoarele" : v}

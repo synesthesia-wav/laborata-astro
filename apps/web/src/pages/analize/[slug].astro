@@ -1,11 +1,9 @@
 ---
+import { getPricesForId } from "@workspace/data/prices";
 import graph from "../../../../../packages/data/data/canonical-graph.json" with {
   type: "json",
 };
-import {
-  PRICE_OFFERS_B12,
-  PRODUCT_GALLERY,
-} from "../../components/product/data";
+import { PRODUCT_GALLERY } from "../../components/product/data";
 import { Faq } from "../../components/product/faq";
 import { PriceComparison } from "../../components/product/price-comparison";
 import { ProductGallery } from "../../components/product/product-gallery";
@@ -37,17 +35,36 @@ const rawName = (item as GraphItem).name_ro ?? slug.replaceAll("-", " ");
 const displayName =
   slug === "vitamina-b12" ? "Vitamina B12 (Cobalamină)" : rawName;
 const compactName = slug === "vitamina-b12" ? "Vitamina B12" : rawName;
-const isB12 = slug === "vitamina-b12";
+const LAB_LABEL: Record<string, string> = {
+  alfa: "Alfa",
+  invitro: "Invitro",
+  medexpert: "MedExpert",
+  sante: "Sante",
+  synevo: "Synevo",
+};
+const rawPrices = getPricesForId(slug);
+const priceOffers = (rawPrices ?? []).map((o) => ({
+  lab: LAB_LABEL[o.vendor] ?? o.vendor,
+  price_mdl: o.price_mdl,
+  variant: o.variant,
+  vendor: o.vendor,
+}));
+const cheapestMdl =
+  priceOffers.length > 0
+    ? Math.min(...priceOffers.map((o) => o.price_mdl))
+    : null;
+const primarySourceUrl =
+  rawPrices?.[0]?.sourceUrl ??
+  "https://www.invitro.md/ro/services/prelevarea-sangelui-venos";
 const title = `${displayName} | Laborata — Analize`;
 const description =
   slug === "vitamina-b12"
-    ? "Vitamina B12 (Cobalamină). Măsoară B12 total circulant, rezultat în 1 zi, de la 175 lei. Comparație prețuri Synevo, Sante, Invitro, Alfa."
+    ? `Vitamina B12 (Cobalamină). Măsoară B12 total circulant, rezultat în 1 zi, de la ${cheapestMdl ?? 166} lei. Comparație prețuri Synevo, Sante, Invitro, Alfa.`
     : `${displayName} — analiză disponibilă la partenerii Laborata. Compară prețuri, taxa de recoltare o singură dată.`;
 const url = new URL(
   Astro.url.pathname,
   Astro.site ?? Astro.url.origin
 ).toString();
-const priceOffers = isB12 ? PRICE_OFFERS_B12 : [];
 ---
 
 <Layout
@@ -88,9 +105,9 @@ const priceOffers = isB12 ? PRICE_OFFERS_B12 : [];
       idSuffix={`${slug}-hero`}
       lang="ro"
       name={displayName}
-      lowestPrice={isB12 ? 175 : null}
+      lowestPrice={cheapestMdl}
       priceAsOf="august 2026"
-      sourceUrl="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"
+      sourceUrl={primarySourceUrl}
       client:load
     />
   </section>

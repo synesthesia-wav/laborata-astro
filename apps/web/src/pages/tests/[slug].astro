@@ -1,4 +1,5 @@
 ---
+import { getPricesForId } from "@workspace/data/prices";
 import graph from "../../../../../packages/data/data/canonical-graph.json" with {
   type: "json",
 };
@@ -51,6 +52,27 @@ const url = new URL(
   Astro.url.pathname,
   Astro.site ?? Astro.url.origin
 ).toString();
+const LAB_LABEL_EN: Record<string, string> = {
+  alfa: "Alfa",
+  invitro: "Invitro",
+  medexpert: "MedExpert",
+  sante: "Sante",
+  synevo: "Synevo",
+};
+const rawPricesEn = getPricesForId(roSlug);
+const priceOffersEn = (rawPricesEn ?? []).map((o) => ({
+  lab: LAB_LABEL_EN[o.vendor] ?? o.vendor,
+  price_mdl: o.price_mdl,
+  variant: o.variant,
+  vendor: o.vendor,
+}));
+const cheapestMdlEn =
+  priceOffersEn.length > 0
+    ? Math.min(...priceOffersEn.map((o) => o.price_mdl))
+    : null;
+const primarySourceUrlEn =
+  rawPricesEn?.[0]?.sourceUrl ??
+  "https://www.invitro.md/ro/services/prelevarea-sangelui-venos";
 ---
 
 <Layout
@@ -89,8 +111,10 @@ const url = new URL(
     <ProductHeader
       idSuffix={`${slug}-hero-en`}
       lang="en"
+      lowestPrice={cheapestMdlEn}
+      name={displayName}
       priceAsOf="August 2026"
-      sourceUrl="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"
+      sourceUrl={primarySourceUrlEn}
       client:load
     />
   </section>
@@ -106,6 +130,7 @@ const url = new URL(
       <PriceComparison
         idSuffix={`${slug}-en`}
         lang="en"
+        offers={priceOffersEn}
         priceAsOf="August 2026"
         client:load
       />

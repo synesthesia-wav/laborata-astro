@@ -2,6 +2,7 @@
 import "@workspace/ui/globals.css";
 import { BRANCHES } from "@workspace/data/branches";
 import { TESTS } from "@workspace/data/canonical";
+import { getPricesForId } from "@workspace/data/prices";
 import {
   Alert,
   AlertDescription,
@@ -53,6 +54,21 @@ import { ProductGallery } from "../components/product/product-gallery";
 import { ProductHeader } from "../components/product/product-header";
 import { ProductSpecs } from "../components/product/product-specs";
 import { BundleDetail } from "../components/profil/BundleDetail";
+
+const _labLabel: Record<string, string> = {
+  alfa: "Alfa",
+  invitro: "Invitro",
+  medexpert: "MedExpert",
+  sante: "Sante",
+  synevo: "Synevo",
+};
+const _rawB12 = getPricesForId("vitamina-b12");
+const PRICE_OFFERS_REAL_B12 = (_rawB12 ?? []).map((o) => ({
+  lab: _labLabel[o.vendor] ?? o.vendor,
+  price_mdl: o.price_mdl,
+  variant: o.variant,
+  vendor: o.vendor,
+}));
 ---
 
 <html lang="ro">
@@ -560,6 +576,115 @@ import { BundleDetail } from "../components/profil/BundleDetail";
         </Card>
       </section>
 
+      <section class="flex flex-col gap-4" id="showcase-product-price-real">
+        <h2 class="font-heading text-sm font-semibold tracking-tight">
+          Price wired — real getPricesForId('vitamina-b12') 4 vendors vs mock
+          175
+        </h2>
+        <p class="text-muted-foreground text-xs leading-relaxed">
+          Mock Sante 175 / Synevo 195 / Alfa 190 / Invitro 210 → Real Sante 166
+          / Alfa 240 / Synevo 245 / Invitro 250 · MedExpert — Not available ·
+          cheapest 166 fee-included (Sante 0 lei). 417 slugs now have real
+          prices, 274 with ≥2 vendors; catalog_only honest [] no invent.
+        </p>
+        <div class="grid gap-4 lg:grid-cols-2">
+          <Card id="showcase-price-real-b12">
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >Real — vitamina-b12 166 lei</CardTitle
+              >
+              <CardDescription
+                >getPricesForId + mapped to PriceOffer, priceAsOf august 2026,
+                sourceUrl provenance</CardDescription
+              >
+            </CardHeader>
+            <CardContent>
+              <PriceComparison
+                idSuffix="showcase-product-price-real"
+                offers={PRICE_OFFERS_REAL_B12}
+                priceAsOf="august 2026"
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card id="showcase-price-mock-vs-real">
+            <CardHeader>
+              <CardTitle className="text-sm">Mock vs Real table</CardTitle>
+              <CardDescription
+                >Shows honesty: Sante cheapest holds but value
+                corrected</CardDescription
+              >
+            </CardHeader>
+            <CardContent className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Lab</TableHead>
+                    <TableHead className="text-right">Mock</TableHead>
+                    <TableHead className="text-right">Real</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow
+                    ><TableCell>Sante</TableCell
+                    ><TableCell className="text-right">175</TableCell
+                    ><TableCell className="text-right font-medium text-primary"
+                      >166</TableCell
+                    ></TableRow
+                  >
+                  <TableRow
+                    ><TableCell>Synevo</TableCell
+                    ><TableCell className="text-right">195</TableCell
+                    ><TableCell className="text-right">245</TableCell></TableRow
+                  >
+                  <TableRow
+                    ><TableCell>Alfa</TableCell
+                    ><TableCell className="text-right">190</TableCell
+                    ><TableCell className="text-right">240</TableCell></TableRow
+                  >
+                  <TableRow
+                    ><TableCell>Invitro</TableCell
+                    ><TableCell className="text-right">210</TableCell
+                    ><TableCell className="text-right">250</TableCell></TableRow
+                  >
+                  <TableRow className="bg-muted/10"
+                    ><TableCell>MedExpert</TableCell
+                    ><TableCell className="text-right">—</TableCell
+                    ><TableCell className="text-right"
+                      >— Not available</TableCell
+                    ></TableRow
+                  >
+                </TableBody>
+              </Table>
+              <p class="mt-2 text-muted-foreground text-xs">
+                Cheapest 166 lei (Sante, 0 lei fee) · plus 30 lei o dată
+                Synevo/Invitro · 417 ids, 274 ≥2 vendors · sitemap 417 +
+                MedicalTest JSON-LD per slug
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+        <Card className="overflow-hidden" id="showcase-price-real-empty">
+          <CardHeader>
+            <CardTitle className="text-sm"
+              >Catalog only — honest empty []</CardTitle
+            >
+            <CardDescription
+              >Quorum 0 → no price invented · PriceComparison shows
+              Indisponibil</CardDescription
+            >
+          </CardHeader>
+          <CardContent
+            ><PriceComparison
+              idSuffix="showcase-price-real-empty"
+              offers={[]}
+              priceAsOf="august 2026"
+              client:load
+            /></CardContent
+          >
+        </Card>
+      </section>
+
       <Separator />
 
       <Faq idSuffix="showcase-faq" client:load />
@@ -1037,6 +1162,79 @@ import { BundleDetail } from "../components/profil/BundleDetail";
 
       <Separator />
 
+      <!-- B1 harta — lab×sample×streetKey filtered + count + Open now + kindly widen -->
+      <section class="flex flex-col gap-4" id="showcase-harta">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-heading text-sm font-semibold tracking-tight">
+            Harta — lab×sample×streetKey · 12 branches match · Open now · kindly
+            widen
+          </h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Filter lab×sample×streetKey
+            (botanica/centru/riscani/buiucani/ciocana/telecentru per
+            deriveStreetKey) · honest count · hours
+            Record&lt;Weekday,string[]|null&gt; · phone · sampleTypes · geo
+            lat/lng · hoursNote · empty kindly widen (ooux 04:52). idSuffix
+            showcase-harta-* izolat.
+          </p>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-2">
+          <Card id="showcase-harta-botanica">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Filtered — botanica ·
+                {BRANCHES.filter((b) => b.streetKey === "botanica").length}
+                branches match</CardTitle
+              ><CardDescription
+                >lab×streetKey botanica · honest count · phone ·
+                geo</CardDescription
+              ></CardHeader
+            >
+            <CardContent
+              ><BranchesExplorer
+                idSuffix="showcase-harta-botanica"
+                initialLab="all"
+                initialStreet="botanica"
+                client:load
+              /></CardContent
+            >
+          </Card>
+          <Card id="showcase-harta-empty">
+            <CardHeader
+              ><CardTitle className="text-sm"
+                >Empty — 0 match · kindly widen</CardTitle
+              ><CardDescription
+                >Frotiu → 0 (no branch has Frotiu) · ooux 04:52</CardDescription
+              ></CardHeader
+            >
+            <CardContent
+              ><LabsTeaser
+                idSuffix="showcase-harta-empty"
+                initialSample="Frotiu"
+                initialStreet="telecentru"
+                client:load
+              /></CardContent
+            >
+          </Card>
+        </div>
+        <Card id="showcase-harta-320">
+          <CardHeader
+            ><CardTitle className="text-sm"
+              >320px wrapper — harta many</CardTitle
+            ><CardDescription
+              >w-[320px] verified · no horizontal bleed</CardDescription
+            ></CardHeader
+          >
+          <CardContent>
+            <div class="mx-auto w-[320px] max-w-full">
+              <BranchesExplorer idSuffix="showcase-harta-320" client:load />
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
       <!-- Home matrix — append-only: HeroSearch + CatalogShelf + BundlesShelf + ConcernsRow + LabsTeaser -->
       <section class="flex flex-col gap-8" id="showcase-home">
         <div class="flex flex-col gap-1">
@@ -1425,9 +1623,12 @@ import { BundleDetail } from "../components/profil/BundleDetail";
           </h3>
           <Card id="showcase-home-bundles-many">
             <CardHeader
-              ><CardTitle className="text-sm">Many — 2 bundles real</CardTitle
+              ><CardTitle className="text-sm"
+                >Many — 2 bundles real (33 archetypes, 2 preview)</CardTitle
               ><CardDescription
-                >idSuffix home-bundles-many</CardDescription
+                >idSuffix home-bundles-many · PANEL_COMPARISON 33 panel
+                archetypes quorum≥2 (36 market / 22 catalog_only) · honest 2
+                preview, counts 4/4 vs Not yet sold</CardDescription
               ></CardHeader
             >
             <CardContent
