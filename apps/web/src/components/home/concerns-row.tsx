@@ -6,12 +6,12 @@ import {
 } from "@workspace/ui/components/toggle-group";
 
 const CONCERNS = [
-  { label: "Energie și somn", value: "energy-sleep" },
-  { label: "Inimă", value: "heart" },
-  { label: "Hormoni", value: "hormones" },
-  { label: "Digestiv", value: "gut" },
-  { label: "Deficit nutrienți", value: "nutrient-gaps" },
-  { label: "Inflamație", value: "inflammation" },
+  { label: "Energie", slug: "energie", value: "energy" },
+  { label: "Hormoni", slug: "hormoni", value: "hormones" },
+  { label: "Inimă", slug: "inima", value: "heart" },
+  { label: "Digestiv", slug: "digestiv", value: "gut" },
+  { label: "Inflamație", slug: "inflamatie", value: "inflammation" },
+  { label: "Diabet", slug: "diabet", value: "diabetes" },
 ] as const;
 
 interface Props {
@@ -62,6 +62,17 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
+      <div className="flex flex-wrap gap-2">
+        {CONCERNS.map((c) => (
+          <a
+            className="inline-flex h-6 items-center rounded-full border px-2.5 text-[11px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            href={`/categorie/${c.slug}`}
+            key={`cat-${c.value}`}
+          >
+            {c.label} →
+          </a>
+        ))}
+      </div>
     </section>
   );
 }

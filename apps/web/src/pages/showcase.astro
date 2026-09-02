@@ -1236,6 +1236,84 @@ const PRICE_OFFERS_REAL_B12 = (_rawB12 ?? []).map((o) => ({
 
       <Separator />
 
+      <!-- Categorie — 6 concern landings calm entry before search -->
+      <section class="flex flex-col gap-4" id="showcase-categorie">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-heading text-sm font-semibold tracking-tight">
+            Categorie — 6 concern landings · energie · hormoni · inima · digestiv · inflamatie · diabet
+          </h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Calm entry before search, Mito Browse by concern. Each page: 7 tests + 3 bundles via foldDiacritics title/slug/tuple. idSuffix showcase-categorie-* izolat.
+          </p>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-3">
+          <Card id="showcase-categorie-many">
+            <CardHeader><CardTitle className="text-sm">Many — energie · 7 tests + 3 bundles</CardTitle><CardDescription>idSuffix showcase-categorie-many · foldDiacritics energie → Oboseală, somn, fier</CardDescription></CardHeader>
+            <CardContent className="flex flex-col gap-2">
+              <div class="flex flex-wrap gap-1.5">
+                <Badge>Energie</Badge><Badge variant="outline">energie</Badge><Badge variant="secondary">Oboseală, somn, fier</Badge>
+              </div>
+              <div class="grid gap-1.5">
+                {TESTS.slice(0, 7).map((t) => (
+                  <div id={`showcase-categorie-many-${t.id}`} class="truncate rounded border bg-muted/20 px-2 py-1.5 text-xs">{t.id} · {t.tuple_key.slice(0, 32)}</div>
+                ))}
+              </div>
+              <div class="text-xs text-muted-foreground">+ 3 bundles · /categorie/energie → 7 tests</div>
+            </CardContent>
+          </Card>
+          <Card id="showcase-categorie-empty">
+            <CardHeader><CardTitle className="text-sm">Empty — no match · kindly</CardTitle><CardDescription>idSuffix showcase-categorie-empty · filtered 0</CardDescription></CardHeader>
+            <CardContent>
+              <Empty className="border border-dashed"><EmptyHeader><EmptyMedia variant="icon">🔍</EmptyMedia><EmptyTitle>Nicio analiză</EmptyTitle><EmptyDescription>Încearcă alt concern — energie, hormoni, inima, digestiv, inflamatie, diabet.</EmptyDescription></EmptyHeader></Empty>
+            </CardContent>
+          </Card>
+          <Card id="showcase-categorie-320">
+            <CardHeader><CardTitle className="text-sm">320px wrapper</CardTitle><CardDescription>idSuffix showcase-categorie-320 · w-[320px] verified</CardDescription></CardHeader>
+            <CardContent>
+              <div class="mx-auto w-[320px] max-w-full rounded-xl border p-3">
+                <div class="flex flex-col gap-2">
+                  <Badge>Energie</Badge><span class="text-xs">Oboseală, somn, fier</span><a class="text-xs underline" href="/categorie/energie">/categorie/energie →</a>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <Separator />
+
+      <!-- PDP badge sample — Sânge/Urină/Frotiu + turnaround next to Test de sânge -->
+      <section class="flex flex-col gap-4" id="showcase-pdp-badge">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-heading text-sm font-semibold tracking-tight">
+            PDP badge — sampleType + turnaround · next to Test de sânge · before Adaugă în listă
+          </h2>
+          <p class="text-muted-foreground text-xs leading-relaxed">
+            Badge outline 12px tracking-wider uppercase · blood→Sânge, urine→Urină, frotiu→Frotiu · turnaround 1 zi / large · fee once footer unchanged
+          </p>
+        </div>
+        <div class="grid gap-4 lg:grid-cols-3">
+          <Card id="showcase-pdp-badge-blood">
+            <CardHeader><CardTitle className="text-sm">Blood — Sânge · 1 zi</CardTitle><CardDescription>idSuffix showcase-pdp-badge-blood · specimen blood + turnaround 1 zi</CardDescription></CardHeader>
+            <CardContent><ProductHeader idSuffix="showcase-pdp-badge-blood" name="Vitamina B12 (Cobalamină)" lowestPrice={166} sampleType="blood" turnaround="1 zi" client:load /></CardContent>
+          </Card>
+          <Card id="showcase-pdp-badge-urine">
+            <CardHeader><CardTitle className="text-sm">Urine — Urină · 1 zi</CardTitle><CardDescription>idSuffix showcase-pdp-badge-urine · specimen urine + turnaround 1 zi</CardDescription></CardHeader>
+            <CardContent><ProductHeader idSuffix="showcase-pdp-badge-urine" name="Urocultură" lowestPrice={120} sampleType="urine" turnaround="1 zi" client:load /></CardContent>
+          </Card>
+          <Card id="showcase-pdp-badge-frotiu-large">
+            <CardHeader><CardTitle className="text-sm">Frotiu · 14 zile · large turnaround</CardTitle><CardDescription>idSuffix showcase-pdp-badge-frotiu-large · specimen frotiu + turnaround 14 zile (large)</CardDescription></CardHeader>
+            <CardContent><ProductHeader idSuffix="showcase-pdp-badge-frotiu-large" name="Test Frotiu extins" lowestPrice={240} sampleType="frotiu" turnaround="14 zile" client:load /></CardContent>
+          </Card>
+        </div>
+        <Card id="showcase-pdp-badge-null" class="border-dashed">
+          <CardHeader><CardTitle className="text-sm">Null — no badge fallback</CardTitle><CardDescription>idSuffix showcase-pdp-badge-null · sampleType null, turnaround null → only Test de sânge</CardDescription></CardHeader>
+          <CardContent><ProductHeader idSuffix="showcase-pdp-badge-null" name="Analiză fără probă" lowestPrice={null} sampleType={null} turnaround={null} client:load /></CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
       <!-- Home matrix — append-only: HeroSearch + CatalogShelf + BundlesShelf + ConcernsRow + LabsTeaser -->
       <section class="flex flex-col gap-8" id="showcase-home">
         <div class="flex flex-col gap-1">

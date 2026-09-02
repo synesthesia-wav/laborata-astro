@@ -1,0 +1,102 @@
+---
+import { Badge } from "@workspace/ui/components/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+import Layout from "../../layouts/Layout.astro";
+
+const CONCERNS = [
+  {
+    label: "Energie",
+    oneLiner: "Oboseală, somn, fier",
+    slug: "energie",
+    keywords: ["vitamina b12", "feritina", "vitamina d", "b12", "hemoleucograma"],
+  },
+  {
+    label: "Hormoni",
+    oneLiner: "Tiroidă, ciclu, stres",
+    slug: "hormoni",
+    keywords: ["tsh", "ft4", "ft3", "testosteron", "estradiol", "progesteron", "cortizol"],
+  },
+  {
+    label: "Inimă",
+    oneLiner: "Colesterol, risc cardiac",
+    slug: "inima",
+    keywords: ["colesterol", "hdl", "ldl", "trigliceride", "lipid"],
+  },
+  {
+    label: "Digestiv",
+    oneLiner: "Intestin, intoleranțe",
+    slug: "digestiv",
+    keywords: ["helicobacter", "calprotectina", "celiacia"],
+  },
+  {
+    label: "Inflamație",
+    oneLiner: "PCR, VSH, inflamație",
+    slug: "inflamatie",
+    keywords: ["pcr", "vsh", "fibrinogen"],
+  },
+  {
+    label: "Diabet",
+    oneLiner: "Glicemie, HbA1c",
+    slug: "diabet",
+    keywords: ["glucoza", "glicemie", "hba1c", "insulina"],
+  },
+] as const;
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Acasă", item: "https://laborata.md/" },
+    { "@type": "ListItem", position: 2, name: "Categorie", item: "https://laborata.md/categorie" },
+  ],
+};
+---
+
+<Layout
+  description="Alege după nevoie — Energie, Hormoni, Inimă, Digestiv, Inflamație, Diabet. 6 categorii calme înainte de căutare."
+  lang="ro"
+  title="Categorie — Analize pe nevoi | Laborata"
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  <div class="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8">
+    <div class="flex flex-col gap-2">
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">Categorie</h1>
+      <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        Alege după nevoie — 6 categorii calme înainte de căutare, ca Mito Browse by concern. Fiecare categorie arată 7 analize + 3 pachete.
+      </p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {CONCERNS.map((c) => (
+        <Card className="flex flex-col" id={`categorie-card-${c.slug}`}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <span>{c.label}</span>
+              <Badge variant="outline">{c.slug}</Badge>
+            </CardTitle>
+            <CardDescription>{c.oneLiner}</CardDescription>
+          </CardHeader>
+          <CardContent className="mt-auto flex flex-col gap-3">
+            <div class="flex flex-wrap gap-1.5">
+              {c.keywords.slice(0, 3).map((k) => (
+                <Badge variant="secondary" className="text-[10px]">{k}</Badge>
+              ))}
+            </div>
+            <a
+              class="inline-flex h-9 items-center justify-center rounded-md border bg-card px-3 text-sm font-medium hover:bg-muted"
+              href={`/categorie/${c.slug}`}
+            >
+              Vezi {c.label} →
+            </a>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </div>
+</Layout>

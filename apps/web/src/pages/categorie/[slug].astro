@@ -1,0 +1,180 @@
+---
+import { PANEL_COMPARISON, TESTS } from "@workspace/data/canonical";
+import { Badge } from "@workspace/ui/components/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@workspace/ui/components/card";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemTitle,
+} from "@workspace/ui/components/item";
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: "energie" } },
+    { params: { slug: "hormoni" } },
+    { params: { slug: "inima" } },
+    { params: { slug: "digestiv" } },
+    { params: { slug: "inflamatie" } },
+    { params: { slug: "diabet" } },
+  ];
+}
+
+const CONCERNS = [
+  {
+    label: "Energie",
+    oneLiner: "Oboseală, somn, fier",
+    slug: "energie",
+    keywords: ["vitamina b12", "feritina", "vitamina d", "b12", "hemoleucograma"],
+  },
+  {
+    label: "Hormoni",
+    oneLiner: "Tiroidă, ciclu, stres",
+    slug: "hormoni",
+    keywords: ["tsh", "ft4", "ft3", "testosteron", "estradiol", "progesteron", "cortizol"],
+  },
+  {
+    label: "Inimă",
+    oneLiner: "Colesterol, risc cardiac",
+    slug: "inima",
+    keywords: ["colesterol", "hdl", "ldl", "trigliceride", "lipid"],
+  },
+  {
+    label: "Digestiv",
+    oneLiner: "Intestin, intoleranțe",
+    slug: "digestiv",
+    keywords: ["helicobacter", "calprotectina", "celiacia"],
+  },
+  {
+    label: "Inflamație",
+    oneLiner: "PCR, VSH, inflamație",
+    slug: "inflamatie",
+    keywords: ["pcr", "vsh", "fibrinogen"],
+  },
+  {
+    label: "Diabet",
+    oneLiner: "Glicemie, HbA1c",
+    slug: "diabet",
+    keywords: ["glucoza", "glicemie", "hba1c", "insulina"],
+  },
+] as const;
+
+function foldDiacritics(s: string): string {
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+const { slug } = Astro.params;
+const concern = CONCERNS.find((c) => c.slug === slug);
+if (!concern) {
+  return Astro.redirect("/categorie", 302);
+}
+
+function matchesTest(t: (typeof TESTS)[number]): boolean {
+  const hay = foldDiacritics(`${t.name_ro ?? ""} ${t.name_en ?? ""} ${t.id} ${t.tuple_key}`);
+  return concern!.keywords.some((k) => hay.includes(foldDiacritics(k)));
+}
+
+function matchesPanel(p: (typeof PANEL_COMPARISON)[number]): boolean {
+  const hay = foldDiacritics(`${p.name_ro ?? ""} ${p.id} ${p.tuple_key}`);
+  return concern!.keywords.some((k) => hay.includes(foldDiacritics(k)));
+}
+
+const matchedTests = TESTS.filter(matchesTest).slice(0, 7);
+const matchedPanels = PANEL_COMPARISON.filter(matchesPanel).slice(0, 3);
+
+const title = `${concern!.label} — Analize | Laborata`;
+const description = `${concern!.label} — ${concern.oneLiner}. ${matchedTests.length} analize + ${matchedPanels.length} pachete. Alege calm înainte de căutare.`;
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Acasă", item: "https://laborata.md/" },
+    { "@type": "ListItem", position: 2, name: "Categorie", item: "https://laborata.md/categorie" },
+    { "@type": "ListItem", position: 3, name: concern!.label, item: `https://laborata.md/categorie/${concern!.slug}` },
+  ],
+};
+---
+
+<Layout description={description} lang="ro" title={title}>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+  <div class="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8">
+    <div class="flex flex-col gap-2">
+      <a class="w-fit text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground" href="/categorie">
+        ← Toate categoriile
+      </a>
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">
+        {concern.label}
+        <Badge variant="secondary" className="ml-2 align-middle text-[11px]">{concern.slug}</Badge>
+      </h1>
+      <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
+        {concern.oneLiner} — {matchedTests.length} analize · {matchedPanels.length} pachete
+      </p>
+      <div class="flex flex-wrap gap-1.5">
+        {concern.keywords.map((k) => (
+          <Badge variant="outline" className="text-[10px]">{k}</Badge>
+        ))}
+      </div>
+    </div>
+
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">Analize — {matchedTests.length} rezultate</CardTitle>
+        <CardDescription>Filtrare via foldDiacritics pe titlu/slug/tuple — aceeași logică ca AnalizeBrowse</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {matchedTests.length === 0 ? (
+          <p class="py-6 text-center text-sm text-muted-foreground">Nicio analiză potrivită pentru {concern.label}.</p>
+        ) : (
+          <ItemGroup>
+            {matchedTests.map((t) => (
+              <Item size="sm" variant="outline">
+                <ItemContent>
+                  <ItemTitle className="gap-1.5">
+                    <a class="truncate underline-offset-4 hover:underline" href={`/analize/${t.id}`}>{t.name_ro ?? t.name_en ?? t.id}</a>
+                    <Badge variant="outline" className="text-[10px]">{t.id}</Badge>
+                  </ItemTitle>
+                  <ItemDescription className="line-clamp-1 font-mono text-[11px]">{t.tuple_key}</ItemDescription>
+                </ItemContent>
+              </Item>
+            ))}
+          </ItemGroup>
+        )}
+      </CardContent>
+    </Card>
+
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">Pachete — {matchedPanels.length} rezultate</CardTitle>
+        <CardDescription>Panel archetypes filtrate similar — 33 total, 3 pe concern</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {matchedPanels.length === 0 ? (
+          <p class="py-6 text-center text-sm text-muted-foreground">Niciun pachet potrivit.</p>
+        ) : (
+          <ItemGroup>
+            {matchedPanels.map((p) => (
+              <Item size="sm" variant="outline">
+                <ItemContent>
+                  <ItemTitle className="gap-1.5">
+                    <a class="truncate underline-offset-4 hover:underline" href={`/profil/${p.id}`}>{p.name_ro ?? p.id}</a>
+                    <Badge variant="secondary" className="text-[10px]">{p.id}</Badge>
+                  </ItemTitle>
+                  <ItemDescription className="line-clamp-1 font-mono text-[11px]">{p.tuple_key} · {p.vendor_count} labs</ItemDescription>
+                </ItemContent>
+              </Item>
+            ))}
+          </ItemGroup>
+        )}
+      </CardContent>
+    </Card>
+  </div>
+</Layout>
