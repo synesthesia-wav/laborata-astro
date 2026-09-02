@@ -4,17 +4,10 @@ import { BranchesExplorer } from "../components/branches/branches-explorer";
 import Layout from "../layouts/Layout.astro";
 
 const total = BRANCHES.length;
-const byLab = {
-  alfa: BRANCHES.filter((b) => b.labId === "alfa").length,
-  invitro: BRANCHES.filter((b) => b.labId === "invitro").length,
-  medexpert: BRANCHES.filter((b) => b.labId === "medexpert").length,
-  sante: BRANCHES.filter((b) => b.labId === "sante").length,
-  synevo: BRANCHES.filter((b) => b.labId === "synevo").length,
-};
 ---
 
 <Layout
-  description={`Harta — ${total} filiale (alfa ${byLab.alfa} · sante ${byLab.sante} · synevo ${byLab.synevo} · invitro ${byLab.invitro} · medexpert ${byLab.medexpert}). Filtrează lab×sample×sector, vezi Open now / Opens at 8:00, telefon, sampleTypes, geo.`}
+  description={`Harta — ${total} filiale în Chișinău. Filtrează după laborator, probă și sector; vezi program, telefon și hartă.`}
   lang="ro"
   title={`Harta — ${total} filiale | Laborata`}
 >
@@ -26,44 +19,12 @@ const byLab = {
         Harta laboratoarelor
       </h1>
       <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
-        Walk 3 — găsește filiala în &lt;30s pe telefon. Filtrează după laborator
-        × tip probă × sector (botanica / centru / riscani / ciocana / buiucani /
-        telecentru), vezi
-        <span class="font-medium text-foreground">Open now / Opens at 8:00</span
-        >, telefon,
-        <span class="font-mono text-xs"
-          >["07:30-15:00"] / ["08:00-11:30","12:30-16:00"]</span
-        >, sampleTypes Sânge/Urină/Frotiu și coordonate geo. Fără librărie grea
-        — listă + embed static.
-      </p>
-      <p class="text-xs text-muted-foreground">
-        {total}
-        filiale reale din
-        <code class="rounded bg-muted px-1 py-0.5 font-mono"
-          >@workspace/data/branches</code
-        >
-        · alfa {byLab.alfa} · sante {byLab.sante} · synevo {byLab.synevo} ·
-        invitro
-        {byLab.invitro}
-        · medexpert {byLab.medexpert} · centru
-        {BRANCHES.filter((b) => b.streetKey === "centru").length}
-        · botanica
-        {BRANCHES.filter((b) => b.streetKey === "botanica").length}
-        · riscani
-        {BRANCHES.filter((b) => b.streetKey === "riscani").length}
+        Găsește filiala aproape: filtrează după laborator, probă și sector
+        (botanica, centru, riscani, ciocana, buiucani, telecentru) și vezi
+        program, telefon și hartă.
       </p>
     </div>
 
     <BranchesExplorer idSuffix="harta" client:load />
-
-    <div
-      class="rounded-xl border border-dashed bg-card p-4 text-xs leading-relaxed text-muted-foreground"
-    >
-      <span class="font-medium text-foreground"
-        >Empty kindly widen, not empty map:</span
-      >
-      când niciun rezultat, harta rămâne — lista arată „Kindly widen your search
-      — try All sectors”. Nu ascundem harta.
-    </div>
   </div>
 </Layout>

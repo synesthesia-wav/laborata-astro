@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -35,7 +40,7 @@ const CONCERNS: { label: string; value: string; keywords: string[] }[] = [
       "b12",
       "hemoleucograma",
     ],
-    label: "Energy",
+    label: "Energie",
     value: "energy",
   },
   {
@@ -48,27 +53,27 @@ const CONCERNS: { label: string; value: string; keywords: string[] }[] = [
       "progesteron",
       "cortizol",
     ],
-    label: "Hormones",
+    label: "Hormoni",
     value: "hormones",
   },
   {
     keywords: ["colesterol", "hdl", "ldl", "trigliceride", "lipid"],
-    label: "Heart",
+    label: "Inimă",
     value: "heart",
   },
   {
     keywords: ["helicobacter", "calprotectina", "celiacia"],
-    label: "Gut",
+    label: "Digestiv",
     value: "gut",
   },
   {
     keywords: ["pcr", "vsh", "fibrinogen"],
-    label: "Inflammation",
+    label: "Inflamație",
     value: "inflammation",
   },
   {
     keywords: ["glucoza", "glicemie", "hba1c", "insulina"],
-    label: "Diabetes",
+    label: "Diabet",
     value: "diabetes",
   },
 ];
@@ -88,14 +93,33 @@ function concernMatches(doc: SearchDoc, concern: string): boolean {
   return c.keywords.some((k) => folded.includes(foldDiacritics(k)));
 }
 
-export function AnalizeBrowse() {
+interface Props {
+  disabled?: boolean;
+  docs?: SearchDoc[] | null;
+  error?: string | null;
+  loading?: boolean;
+  onRetry?: () => void;
+}
+
+export function AnalizeBrowse({
+  disabled = false,
+  docs: docsProp,
+  error: errorProp,
+  loading: loadingProp,
+  onRetry,
+}: Props = {}) {
   const [query, setQuery] = useState("");
   const [concern, setConcern] = useState("");
   const [lab, setLab] = useState("");
   const [sample, setSample] = useState("");
-  const [docs, setDocs] = useState<SearchDoc[] | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [docsInternal, setDocsInternal] = useState<SearchDoc[] | null>(null);
+  const [loadingInternal, setLoadingInternal] = useState(true);
+  const [errorInternal, setErrorInternal] = useState<string | null>(null);
+
+  const docs = docsProp === undefined ? docsInternal : docsProp;
+  const loading = loadingProp === undefined ? loadingInternal : loadingProp;
+  const error = errorProp === undefined ? errorInternal : errorProp;
+  const handleRetry = onRetry ?? (() => window.location.reload());
 
   // hydrate from URL on mount
   useEffect(() => {
@@ -107,6 +131,9 @@ export function AnalizeBrowse() {
   }, []);
 
   useEffect(() => {
+    if (docsProp !== undefined || loadingProp !== undefined) {
+      return;
+    }
     fetch("/search.json")
       .then((r) => {
         if (!r.ok) {
@@ -116,16 +143,14 @@ export function AnalizeBrowse() {
       })
       .then((j) => {
         const fetched = (j.docs ?? j) as SearchDoc[];
-        // keep only comparison for browse? But task says keep full 7033 for SEO — show comparison primary but also catalog? For browse we show comparison (417) as main, but allow catalog as well? We'll show comparison only for UX, catalog reachable via direct link.
-        // To allow SEO long-tail, we keep full but default filter to comparison for performance; user can see all if they search catalog term.
-        setDocs(fetched);
-        setLoading(false);
+        setDocsInternal(fetched);
+        setLoadingInternal(false);
       })
       .catch((e) => {
-        setError(e instanceof Error ? e.message : String(e));
-        setLoading(false);
+        setErrorInternal(e instanceof Error ? e.message : String(e));
+        setLoadingInternal(false);
       });
-  }, []);
+  }, [docsProp, loadingProp]);
 
   const mini = useMemo(() => {
     if (!docs) {
@@ -266,18 +291,32 @@ export function AnalizeBrowse() {
       <Card className="border-destructive/50">
         <CardHeader>
           <CardTitle className="text-destructive text-sm">
-            Could not load analize
+            Nu am putut încărca analizele
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground text-xs">{error}</p>
-          <Button
-            onClick={() => window.location.reload()}
-            size="sm"
-            variant="outline"
-          >
-            Retry
+        <CardContent className="flex flex-col gap-3">
+          <Alert variant="destructive">
+            <AlertTitle>Eroare</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          <Button onClick={handleRetry} size="sm" variant="outline">
+            Reîncearcă
           </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (disabled) {
+    return (
+      <Card className="opacity-60">
+        <CardHeader>
+          <CardTitle className="text-sm">Analize</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border bg-muted/20 px-3 py-6 text-center text-muted-foreground text-sm">
+            Conținut dezactivat
+          </div>
         </CardContent>
       </Card>
     );
@@ -303,15 +342,14 @@ export function AnalizeBrowse() {
             value={query}
           />
           <p className="text-muted-foreground text-xs">
-            {totalCount} comparison • typeahead diacritics-insensitive
-            (feritina→Feritină, tsh→TSH, glicemie≡glucoza) • search.json 7033
-            for SEO
+            {totalCount} analize comparabile • fără diacritice: tsh → TSH,
+            feritina → Feritină, glicemie = glucoză
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
           <span className="py-1 font-medium text-muted-foreground text-xs">
-            Concern:
+            Concernare:
           </span>
           <ToggleGroup
             className="flex flex-wrap gap-2"
@@ -344,14 +382,14 @@ export function AnalizeBrowse() {
               size="sm"
               variant="ghost"
             >
-              Clear
+              Resetează
             </Button>
           ) : null}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="py-1 font-medium text-muted-foreground text-xs">
-            Lab:
+            Laborator:
           </span>
           <ToggleGroup
             aria-label="Filter by lab"
@@ -381,7 +419,7 @@ export function AnalizeBrowse() {
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="py-1 font-medium text-muted-foreground text-xs">
-            Sample:
+            Probă:
           </span>
           <ToggleGroup
             aria-label="Filter by sample"
@@ -421,11 +459,11 @@ export function AnalizeBrowse() {
           <CardContent className="py-10">
             <Empty>
               <EmptyHeader>
-                <EmptyTitle>Kindly widen</EmptyTitle>
+                <EmptyTitle>Niciun rezultat</EmptyTitle>
                 <EmptyDescription>
-                  No analize match your filters. Try clearing Concern×Lab×Sample
-                  chips or searching “tsh”, “feritina” without diacritics, or
-                  “glicemie” for “glucoza”.
+                  Nicio analiză nu se potrivește filtrelor. Resetează filtrele
+                  sau caută „tsh”, „feritina” fără diacritice, ori „glicemie”
+                  pentru „glucoza”.
                 </EmptyDescription>
               </EmptyHeader>
             </Empty>
@@ -441,7 +479,7 @@ export function AnalizeBrowse() {
                 size="sm"
                 variant="outline"
               >
-                Clear all filters
+                Resetează filtrele
               </Button>
               <Button
                 onClick={() => {
@@ -450,7 +488,7 @@ export function AnalizeBrowse() {
                 }}
                 size="sm"
               >
-                Try tsh
+                Încearcă tsh
               </Button>
             </div>
           </CardContent>

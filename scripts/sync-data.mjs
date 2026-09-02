@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 // Sync scrape-autoresearch truth → packages/data/data/ with SHA256 manifest
 import {
@@ -51,6 +52,22 @@ for (const f of readdirSync(join(src, "prior_art/locations"))) {
   );
 }
 
+// Build price-index (backend truth wiring) — honest join offering_key → tuple → id
+// Runs after copy so dest has fresh canonical-graph + vendor-mappings for the builder
+try {
+  const res = spawnSync("node", [join(root, "scripts/build-price-index.mjs")], {
+    env: { ...process.env, SCRAPE_SRC: src },
+    stdio: "inherit",
+  });
+  if (res.status !== 0) {
+    console.warn(
+      `[sync-data] build-price-index exited ${res.status} (honest skip)`
+    );
+  }
+} catch (e) {
+  console.warn(`[sync-data] build-price-index failed: ${e.message}`);
+}
+
 // manifest
 const manifest = {};
 for (const f of files) {
@@ -61,6 +78,12 @@ for (const f of readdirSync(join(dest, "locations"))) {
 }
 if (existsSync(join(dest, "search.json"))) {
   manifest["search.json"] = sha(join(dest, "search.json"));
+}
+if (existsSync(join(dest, "price-index.json"))) {
+  manifest["price-index.json"] = sha(join(dest, "price-index.json"));
+}
+if (existsSync(join(dest, "price-index.min.json"))) {
+  manifest["price-index.min.json"] = sha(join(dest, "price-index.min.json"));
 }
 
 writeFileSync(

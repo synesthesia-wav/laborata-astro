@@ -1,5 +1,11 @@
 import type { LabId } from "@workspace/data/types";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
+import { Button } from "@workspace/ui/components/button";
 import {
   Card,
   CardContent,
@@ -19,10 +25,13 @@ import {
 import { PRICE_OFFERS_B12, type PriceOffer } from "./data";
 
 interface Props {
+  disabled?: boolean;
+  error?: string;
   idSuffix?: string;
   lang?: "ro" | "en";
   loading?: boolean;
   offers?: readonly PriceOffer[];
+  onRetry?: () => void;
   priceAsOf?: string;
   sampleType?: string;
 }
@@ -54,8 +63,48 @@ export function PriceComparison({
   lang = "ro",
   priceAsOf = "august 2026",
   idSuffix = "price",
-  sampleType = "blood",
+  sampleType: _sampleType = "blood",
+  error,
+  onRetry,
+  disabled = false,
 }: Props) {
+  if (error) {
+    return (
+      <Card id={`price-comparison-${idSuffix}`}>
+        <CardHeader>
+          <CardTitle className="text-base">Comparație prețuri</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <Alert variant="destructive">
+            <AlertTitle>Nu am putut încărca prețurile</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          {onRetry ? (
+            <Button onClick={onRetry} size="sm" variant="outline">
+              Reîncearcă
+            </Button>
+          ) : null}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (disabled) {
+    return (
+      <Card className="opacity-60" id={`price-comparison-${idSuffix}`}>
+        <CardHeader>
+          <CardTitle className="text-base">Comparație prețuri</CardTitle>
+          <CardDescription>Dezactivat</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border bg-muted/20 px-3 py-6 text-center text-muted-foreground text-sm">
+            Conținut dezactivat
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (loading) {
     return (
       <Card>
@@ -117,7 +166,7 @@ export function PriceComparison({
       <div className="flex flex-col gap-6" id={`price-comparison-${idSuffix}`}>
         <div className="flex flex-col gap-2">
           <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">
-            Cât costă testul Vitamina B12
+            Cât costă testul
           </h2>
           <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
             Comparăm prețul Laborata (cel mai mic dintre rețelele partenere) cu
@@ -137,11 +186,10 @@ export function PriceComparison({
               aria-live="polite"
               className="rounded-lg border border-dashed bg-muted/30 px-4 py-8 text-center"
             >
-              <p className="font-medium text-sm">Not available</p>
+              <p className="font-medium text-sm">Indisponibil</p>
               <p className="mx-auto mt-1 max-w-md text-muted-foreground text-xs leading-relaxed">
                 Testul nu este listat momentan la cei 5 parteneri. Încearcă un
-                sinonim (ex. TSH / feritină) sau revino — actualizăm zilnic din
-                vendor_offerings snapshot.
+                sinonim (ex. TSH / feritină) sau revino — actualizăm zilnic.
               </p>
             </div>
             <div className="mt-4 border-t bg-muted/20 px-3 py-3 text-muted-foreground text-xs leading-relaxed">
@@ -149,14 +197,13 @@ export function PriceComparison({
                 <>
                   plus 30 MDL once — collection fee paid once per visit, even
                   with multiple tests. Sante &amp; MedExpert: 0 MDL — included.
-                  Source: vendor_fees.json ({sampleType}).
+                  Alfa: 25 MDL.
                 </>
               ) : (
                 <>
                   plus 30 lei o singură dată — taxa de recoltare se plătește o
                   singură dată per vizită, chiar dacă adaugi mai multe teste.
-                  Sante și MedExpert: 0 lei — inclus. Alfa: 25 lei. Sursă:
-                  vendor_fees.json ({sampleType}).
+                  Sante și MedExpert: 0 lei — inclus. Alfa: 25 lei.
                 </>
               )}
             </div>
@@ -177,23 +224,16 @@ export function PriceComparison({
       ? `From ${formatMdl(lowest)} MDL`
       : `De la ${formatMdl(lowest)} lei`;
 
-  // 270 lei grouped example — keep honest: show MDL=lei 1:1 for MD, not invention
-  const groupedNote =
-    lang === "en"
-      ? "270 MDL (EN) / 270 lei (RO) — grouped"
-      : "270 lei (RO) / 270 MDL (EN)";
-
   return (
     <div className="flex flex-col gap-6" id={`price-comparison-${idSuffix}`}>
       <div className="flex flex-col gap-2">
         <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">
-          Cât costă testul Vitamina B12
+          Cât costă testul
         </h2>
         <p className="max-w-3xl text-muted-foreground text-sm leading-relaxed">
           Comparăm prețul Laborata (cel mai mic dintre rețelele partenere) cu
           oferte similare verificate recent. Taxa de recoltare se afișează
-          separat — o plătești o singură dată per vizită, chiar dacă adaugi mai
-          multe teste. {groupedNote}.
+          separat — o plătești o singură dată per vizită.
         </p>
       </div>
 
@@ -292,7 +332,7 @@ export function PriceComparison({
               <>
                 plus 30 MDL once — collection fee paid once per visit, even if
                 you add more tests. Sante &amp; MedExpert: 0 MDL — included.
-                Alfa: 25 MDL once. Source: vendor_fees.json (blood) ·{" "}
+                Alfa: 25 MDL once ·{" "}
                 <a
                   className="underline underline-offset-4 hover:text-foreground"
                   href="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"
@@ -316,8 +356,8 @@ export function PriceComparison({
               <>
                 plus 30 lei o singură dată — taxa de recoltare se plătește o
                 singură dată per vizită, chiar dacă adaugi mai multe teste.
-                Sante și MedExpert: 0 lei — inclus. Alfa: 25 lei o singură dată.
-                Sursă: vendor_fees.json (sânge venos) ·{" "}
+                Sante și MedExpert: 0 lei — inclus. Alfa: 25 lei o singură dată
+                ·{" "}
                 <a
                   className="underline underline-offset-4 hover:text-foreground"
                   href="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"

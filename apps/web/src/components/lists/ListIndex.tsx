@@ -11,6 +11,14 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@workspace/ui/components/dialog";
+import {
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -19,6 +27,7 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
 import { Skeleton } from "@workspace/ui/components/skeleton";
+import { toast } from "@workspace/ui/components/toast";
 import { useEffect, useState } from "react";
 import type { List } from "../../lib/lists";
 import {
@@ -34,6 +43,7 @@ export function ListIndex() {
   const [lists, setLists] = useState<List[] | null>(null);
   const [newName, setNewName] = useState("");
   const [shareIncoming, setShareIncoming] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   useEffect(() => {
     const anon = getOrCreateAnonToken();
@@ -105,6 +115,7 @@ export function ListIndex() {
   const handleDelete = (id: string) => {
     const next = (lists ?? []).filter((l) => l.id !== id);
     persist(next);
+    setDeleteTarget(null);
   };
 
   const handleRename = (id: string, name: string) => {
@@ -124,9 +135,17 @@ export function ListIndex() {
         window.location.origin
       );
       await navigator.clipboard.writeText(url);
-      alert(`Link copied: ${url.slice(0, 80)}... token <2k (${token.length})`);
+      toast.add({
+        title: "Link copiat",
+        description: `Token ${token.length} <2k — deschide pe alt telefon fără cont.`,
+        type: "success",
+      });
     } catch (e) {
-      alert(String(e));
+      toast.add({
+        title: "Eroare la copiere",
+        description: String(e),
+        type: "error",
+      });
     }
   };
 
@@ -278,11 +297,11 @@ export function ListIndex() {
                       Copy share link
                     </Button>
                     <Button
-                      onClick={() => handleDelete(l.id)}
+                      onClick={() => setDeleteTarget(l.id)}
                       size="sm"
                       variant="ghost"
                     >
-                      Delete
+                      Șterge
                     </Button>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -311,6 +330,35 @@ export function ListIndex() {
           })}
         </div>
       )}
+
+      <Dialog
+        open={deleteTarget !== null}
+        onOpenChange={(o) => !o && setDeleteTarget(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Ștergi lista?</DialogTitle>
+            <DialogDescription>
+              Această acțiune va șterge lista
+              {deleteTarget
+                ? ` „${lists?.find((l) => l.id === deleteTarget)?.name}”`
+                : ""}
+              . Poți anula imediat după.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
+              Anulează
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => deleteTarget && handleDelete(deleteTarget)}
+            >
+              Șterge
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <Card className="border-dashed">
         <CardHeader>

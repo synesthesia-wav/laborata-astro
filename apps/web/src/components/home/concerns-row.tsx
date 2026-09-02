@@ -6,12 +6,12 @@ import {
 } from "@workspace/ui/components/toggle-group";
 
 const CONCERNS = [
-  { label: "Energy and sleep", value: "energy-sleep" },
-  { label: "Heart", value: "heart" },
-  { label: "Hormones", value: "hormones" },
-  { label: "Gut", value: "gut" },
-  { label: "Nutrient gaps", value: "nutrient-gaps" },
-  { label: "Inflammation", value: "inflammation" },
+  { label: "Energie și somn", value: "energy-sleep" },
+  { label: "Inimă", value: "heart" },
+  { label: "Hormoni", value: "hormones" },
+  { label: "Digestiv", value: "gut" },
+  { label: "Deficit nutrienți", value: "nutrient-gaps" },
+  { label: "Inflamație", value: "inflammation" },
 ] as const;
 
 interface Props {
@@ -26,11 +26,16 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
       aria-labelledby={`concerns-heading-${idSuffix}`}
       className="flex flex-col gap-3"
     >
-      <h2 className="sr-only" id={`concerns-heading-${idSuffix}`}>
-        Browse by concern
-      </h2>
+      <div className="flex items-center gap-2">
+        <span className="font-medium text-muted-foreground text-xs tracking-wide">
+          Filtrează după
+        </span>
+        <h2 className="sr-only" id={`concerns-heading-${idSuffix}`}>
+          Filtrează după concern
+        </h2>
+      </div>
       <ToggleGroup
-        aria-label="Browse by concern"
+        aria-label="Filtrează după concern"
         className="flex flex-wrap gap-2"
         onValueChange={(v) => onChange?.(v[0] ?? "")}
         size="sm"
@@ -41,7 +46,7 @@ export function ConcernsRow({ value, onChange, idSuffix = "home" }: Props) {
         {CONCERNS.map((c) => (
           <ToggleGroupItem
             aria-label={c.label}
-            className="rounded-full"
+            className="rounded-full px-3.5 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
             key={c.value}
             onClick={() => {
               const next = value === c.value ? "" : c.value;

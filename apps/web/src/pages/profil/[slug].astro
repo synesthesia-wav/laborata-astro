@@ -66,7 +66,7 @@ const displayName = name
   .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
   .join(" ");
 const title = `${displayName} — Profil | Laborata`;
-const description = `Profil ${displayName}: ${referenceComponentIds.length} teste, quorum ${quorumSize}/${totalComps}. Acoperire Sante 4/4 etc Not yet sold here never invent.`;
+const description = `Profil ${displayName} — ${referenceComponentIds.length} analize. Vezi ce conține fiecare laborator și ce lipsește.`;
 ---
 
 <Layout description={description} lang="ro" title={title}>
@@ -88,21 +88,16 @@ const description = `Profil ${displayName}: ${referenceComponentIds.length} test
       client:load
     />
     <div
-      class="mt-8 rounded-xl border border-dashed bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground"
+      class="mt-8 rounded-xl border bg-muted/20 p-4 text-xs leading-relaxed text-muted-foreground"
     >
-      <p class="font-medium text-foreground">Watcher / WhoFor / ReadNext</p>
+      <p class="font-medium text-foreground">Despre pachet</p>
       <p>
-        Honest N-of-M: we show <span class="font-mono">quorum_size</span>/<span
-          class="font-mono"
-          >total_comps</span
-        >
-        and per-lab <span class="font-mono">4/4</span> or
-        <span class="font-mono">0/4 Not yet sold as a bundle here</span>
-        — never invent Sante protocol or reference intervals.
+        Afișăm 4/4 = tot pachetul la acel laborator, 0/4 = nu e pachet aici. Nu
+        inventăm conținut — doar ce listează laboratoarele.
       </p>
       <p class="mt-2">
-        Add all or one-by-one via lists (soft 12). Lists persist in
-        localStorage, share token &lt;2k.
+        Adaugă tot pachetul sau teste individual în liste (max. 12). Listele se
+        salvează local și se partajează prin link.
       </p>
     </div>
   </section>

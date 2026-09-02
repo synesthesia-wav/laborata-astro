@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -10,6 +15,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Separator } from "@workspace/ui/components/separator";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
   Table,
   TableBody,
@@ -21,9 +27,13 @@ import {
 import { addToList, createList, getOrCreateAnonToken } from "../../lib/lists";
 
 interface Props {
+  disabled?: boolean;
+  error?: string;
   id: string;
+  loading?: boolean;
   memberCount?: number;
   name: string;
+  onRetry?: () => void;
   quorumSize: number;
   referenceComponentIds: string[];
   totalComps?: number;
@@ -65,10 +75,63 @@ export function BundleDetail({
   referenceComponentIds,
   vendors,
   quorumSize,
-  totalComps,
-  memberCount,
+  totalComps: _totalComps,
+  memberCount: _memberCount,
   vendorCount,
+  loading = false,
+  error,
+  onRetry,
+  disabled = false,
 }: Props) {
+  if (loading) {
+    return (
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-4 w-full" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-32 w-full" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-sm">Pachet</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <Alert variant="destructive">
+            <AlertTitle>Eroare</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          {onRetry ? (
+            <Button onClick={onRetry} size="sm" variant="outline">
+              Reîncearcă
+            </Button>
+          ) : null}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (disabled) {
+    return (
+      <Card className="opacity-60">
+        <CardHeader>
+          <CardTitle className="text-sm">Pachet</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-lg border bg-muted/20 px-3 py-6 text-center text-muted-foreground text-sm">
+            Conținut dezactivat
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
   const total = referenceComponentIds.length;
   const watcherInfo = WATCHER_MAP[id] ?? {
     readNext: "Ask doctor which components you need — we show honest coverage.",
@@ -123,7 +186,7 @@ export function BundleDetail({
     // stay on page, give feedback
     const el = document.getElementById(`added-${testId}`);
     if (el) {
-      el.textContent = "Added ✓";
+      el.textContent = "Adăugat ✓";
       setTimeout(() => (el.textContent = "Adaugă"), 1500);
     }
   };
@@ -133,16 +196,7 @@ export function BundleDetail({
       <Card>
         <CardHeader>
           <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">Bundle • {total} tests</Badge>
-            <Badge
-              className="font-mono text-[10px] tracking-widest"
-              variant="outline"
-            >
-              SYSTEM • {id.toUpperCase()}
-            </Badge>
-            <Badge variant="outline">
-              quorum {quorumSize}/{totalComps ?? total}
-            </Badge>
+            <Badge variant="secondary">Pachet • {total} teste</Badge>
           </div>
           <CardTitle className="text-balance text-xl">{name}</CardTitle>
           <CardDescription>{referenceComponentIds.join(" · ")}</CardDescription>
@@ -163,7 +217,7 @@ export function BundleDetail({
           </div>
           <div className="flex flex-wrap gap-2">
             <Button onClick={handleAddAll} size="sm">
-              Add all {total} → List
+              Adaugă toate {total} în listă
             </Button>
             <Button
               onClick={() => (window.location.href = "/liste")}
@@ -174,9 +228,8 @@ export function BundleDetail({
             </Button>
           </div>
           <p className="text-muted-foreground text-xs">
-            {vendorCount} labs • quorum {quorumSize}/{totalComps ?? total}{" "}
-            honest • member_count {memberCount ?? total} • Not yet sold here
-            never invent.
+            {vendorCount} laboratoare · {total} teste în pachetul de referință —
+            afișăm lipsurile onest.
           </p>
         </CardContent>
       </Card>
@@ -187,8 +240,7 @@ export function BundleDetail({
             Acoperire N-of-M per laborator
           </CardTitle>
           <CardDescription>
-            Sante 4/4 etc — Not yet sold here if 0/{total}. Use
-            quorum_size/total_comps honest.
+            4/4 = tot pachetul la laborator; 0/4 = nu e pachet aici.
           </CardDescription>
         </CardHeader>
         <CardContent className="overflow-x-auto">
@@ -227,10 +279,10 @@ export function BundleDetail({
                     </TableCell>
                     <TableCell className="px-3 text-muted-foreground text-xs">
                       {notSold
-                        ? "Not yet sold as a bundle here"
+                        ? "Nu e pachet aici"
                         : missingCount === 0
                           ? "—"
-                          : `${missingCount} missing (quorum honest)`}
+                          : `${missingCount} lipsă`}
                     </TableCell>
                   </TableRow>
                 );
@@ -242,9 +294,9 @@ export function BundleDetail({
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm">Componente — one-by-one</CardTitle>
+          <CardTitle className="text-sm">Componente — individual</CardTitle>
           <CardDescription>
-            Add all or one-by-one via lists (soft 12)
+            Adaugă tot pachetul sau teste individual în liste (max. 12)
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-2">
@@ -272,10 +324,7 @@ export function BundleDetail({
           ))}
           <Separator />
           <div className="flex flex-wrap gap-2 text-muted-foreground text-xs">
-            <span>quorum_size: {quorumSize}</span>
-            <span>• total_comps: {totalComps ?? "n/a"}</span>
-            <span>• vendors: {vendors.join(", ") || "none"}</span>
-            <span>• member_count: {memberCount ?? total}</span>
+            <span>{vendors.join(", ") || "—"}</span>
           </div>
         </CardContent>
       </Card>

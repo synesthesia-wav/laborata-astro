@@ -8,6 +8,7 @@
     "./canonical": "./src/canonical.ts",
     "./branches": "./src/branches.ts",
     "./fees": "./src/fees.ts",
+    "./prices": "./src/prices.ts",
     ".": "./src/index.ts"
   },
   "scripts": {

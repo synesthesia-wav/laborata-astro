@@ -2,6 +2,11 @@
 
 import { BRANCHES } from "@workspace/data/branches";
 import type { Branch } from "@workspace/data/types";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -28,6 +33,7 @@ import {
 } from "@workspace/ui/components/item";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Separator } from "@workspace/ui/components/separator";
+import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -37,7 +43,7 @@ import { useMemo, useState } from "react";
 const LABS_ORDER = ["all", "alfa", "sante", "synevo", "invitro", "medexpert"];
 const LAB_LABEL: Record<string, string> = {
   alfa: "Alfa",
-  all: "All labs",
+  all: "Toate",
   invitro: "Invitro",
   medexpert: "MedExpert",
   sante: "Sante",
@@ -114,15 +120,23 @@ function formatNextOpen(hours: Record<string, string[] | null>): string {
 }
 
 interface Props {
+  disabled?: boolean;
+  error?: string;
   hideLabFilter?: boolean;
   idSuffix?: string;
   initialLab?: string;
+  loading?: boolean;
+  onRetry?: () => void;
 }
 
 export function BranchesExplorer({
   idSuffix = "explorer",
   initialLab = "all",
   hideLabFilter = false,
+  loading = false,
+  error,
+  onRetry,
+  disabled = false,
 }: Props) {
   const [lab, setLab] = useState(initialLab);
   const [sample, setSample] = useState("all");
@@ -148,26 +162,59 @@ export function BranchesExplorer({
   );
   const mapBranch: Branch | null = selectedBranch ?? filtered[0] ?? null;
 
+  if (loading) {
+    return (
+      <Card id={`branches-explorer-${idSuffix}`}>
+        <CardHeader>
+          <Skeleton className="h-5 w-32" />
+          <Skeleton className="h-4 w-full" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[340px] w-full rounded-xl" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card id={`branches-explorer-${idSuffix}`}>
+        <CardHeader>
+          <CardTitle className="text-base">Filiale</CardTitle>
+          <CardDescription>Nu am putut încărca filialele</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <Alert variant="destructive">
+            <AlertTitle>Eroare</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          {onRetry ? (
+            <Button onClick={onRetry} size="sm" variant="outline">
+              Reîncearcă
+            </Button>
+          ) : null}
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="min-w-0" id={`branches-explorer-${idSuffix}`}>
       <CardHeader>
         <CardTitle className="text-base">
           {hideLabFilter && lab !== "all"
-            ? `${LAB_LABEL[lab] ?? lab} — ${count} branches`
-            : `Filiale — ${count} branches match`}
+            ? `${LAB_LABEL[lab] ?? lab} — ${count} filiale`
+            : `Filiale — ${count} găsite`}
         </CardTitle>
         <CardDescription className="text-xs leading-relaxed">
-          Filter lab × sample × sector. Real hours{" "}
-          <span className="font-mono">["07:30-15:00"]</span> /{" "}
-          <span className="font-mono">["08:00-11:30","12:30-16:00"]</span> ·
-          Phone · sampleTypes Sânge/Urină/Frotiu · geo lat/lng
-          {count === 12 ? " · 12 branches match demo" : ""}
+          Filtrează după laborator, probă și sector. Vezi program, telefon și
+          hartă.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         {!hideLabFilter && (
           <ToggleGroup
-            aria-label="Filter by lab"
+            aria-label="Filtrează după laborator"
             className="flex flex-wrap gap-2"
             onValueChange={(v) => {
               const nv = (v as string[])[0] ?? "all";
@@ -182,6 +229,7 @@ export function BranchesExplorer({
               <ToggleGroupItem
                 aria-label={LAB_LABEL[v] ?? v}
                 className="rounded-full"
+                disabled={disabled}
                 key={`lab-${v}`}
                 value={v}
               >
@@ -191,7 +239,7 @@ export function BranchesExplorer({
           </ToggleGroup>
         )}
         <ToggleGroup
-          aria-label="Filter by sample"
+          aria-label="Filtrează după probă"
           className="flex flex-wrap gap-2"
           onValueChange={(v) => {
             const nv = (v as string[])[0] ?? "all";
@@ -204,17 +252,18 @@ export function BranchesExplorer({
         >
           {SAMPLE_OPTIONS.map((v) => (
             <ToggleGroupItem
-              aria-label={v === "all" ? "All samples" : String(v)}
+              aria-label={v === "all" ? "Toate probele" : String(v)}
               className="rounded-full"
+              disabled={disabled}
               key={`sample-${v}`}
               value={String(v)}
             >
-              {v === "all" ? "All samples" : String(v)}
+              {v === "all" ? "Toate" : String(v)}
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
         <ToggleGroup
-          aria-label="Filter by sector"
+          aria-label="Filtrează după sector"
           className="flex flex-wrap gap-2"
           onValueChange={(v) => {
             const nv = (v as string[])[0] ?? "all";
@@ -227,12 +276,13 @@ export function BranchesExplorer({
         >
           {STREET_OPTIONS.map((v) => (
             <ToggleGroupItem
-              aria-label={v === "all" ? "All sectors" : v}
+              aria-label={v === "all" ? "Toate sectoarele" : v}
               className="rounded-full"
+              disabled={disabled}
               key={`street-${v}`}
               value={v}
             >
-              {v === "all" ? "All sectors" : v}
+              {v === "all" ? "Toate" : v}
             </ToggleGroupItem>
           ))}
         </ToggleGroup>
@@ -241,16 +291,10 @@ export function BranchesExplorer({
           className="text-muted-foreground text-xs"
           id={`branches-count-${idSuffix}`}
         >
-          {count} branches match
+          {count} filiale găsite
           {lab === "all" ? "" : ` · ${LAB_LABEL[lab] ?? lab}`}
           {sample === "all" ? "" : ` · ${sample}`}
           {street === "all" ? "" : ` · ${street}`}
-          {" · "}
-          {BRANCHES.filter((b) => b.labId === "alfa").length} alfa ·{" "}
-          {BRANCHES.filter((b) => b.labId === "sante").length} sante ·{" "}
-          {BRANCHES.filter((b) => b.labId === "synevo").length} synevo ·{" "}
-          {BRANCHES.filter((b) => b.labId === "invitro").length} invitro ·{" "}
-          {BRANCHES.filter((b) => b.labId === "medexpert").length} medexpert
         </div>
         {mapBranch ? (
           <iframe
@@ -267,174 +311,130 @@ export function BranchesExplorer({
             className="flex h-[280px] w-full items-center justify-center rounded-xl border bg-muted p-4 text-center text-muted-foreground text-xs"
             id={`branches-map-${idSuffix}`}
           >
-            No branch to show on map — try All sectors
+            Nicio filială de afișat — încearcă „Toate sectoarele”
           </div>
         )}
-        <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-          <ScrollArea className="h-[340px] rounded-xl border">
-            <ItemGroup>
-              {filtered.length === 0 ? (
-                <div className="p-6">
-                  <Empty>
-                    <EmptyHeader>
-                      <EmptyTitle>No branch matches</EmptyTitle>
-                      <EmptyDescription>
-                        Kindly widen your search — try All sectors or All
-                        samples. No branch matches your filters.
-                      </EmptyDescription>
-                    </EmptyHeader>
-                  </Empty>
-                </div>
-              ) : (
-                filtered.map((b) => {
-                  const open = isOpenNow(
-                    b.hours as Record<string, string[] | null>
-                  );
-                  const hoursLabel = formatNextOpen(
-                    b.hours as Record<string, string[] | null>
-                  );
-                  const isSelected = selectedId === b.id;
-                  return (
-                    <Item
-                      aria-selected={isSelected}
-                      className="cursor-pointer hover:bg-accent/50"
-                      key={b.id}
-                      onClick={() => setSelectedId(b.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          setSelectedId(b.id);
-                        }
-                      }}
-                      role="button"
-                      size="sm"
-                      tabIndex={0}
-                      variant={
-                        isSelected ? "default" : open ? "muted" : "outline"
-                      }
-                    >
-                      <ItemMedia variant="icon">🏥</ItemMedia>
-                      <ItemContent>
-                        <ItemTitle className="gap-1.5">
-                          <span className="truncate">{b.address}</span>
-                          {open ? (
-                            <Badge
-                              className="h-4 px-1.5 text-[10px]"
-                              variant="default"
-                            >
-                              Open now
-                            </Badge>
-                          ) : (
-                            <Badge
-                              className="h-4 text-[10px]"
-                              variant="outline"
-                            >
-                              Closed · Opens at 8:00
-                            </Badge>
-                          )}
-                        </ItemTitle>
-                        <ItemDescription className="flex flex-col gap-1">
-                          <span className="line-clamp-1">
-                            {hoursLabel} {b.hoursNote ? `· ${b.hoursNote}` : ""}
-                          </span>
-                          <span className="flex flex-wrap items-center gap-1.5">
-                            <a
-                              className="underline underline-offset-4 hover:text-foreground"
-                              href={`tel:${b.phone.replaceAll(" ", "").replaceAll("(", "").replaceAll(")", "").replaceAll("-", "")}`}
-                            >
-                              {b.phone}
-                            </a>
-                            <span>·</span>
-                            <span>{b.sampleTypes.join(", ")}</span>
-                            <span>·</span>
-                            <span className="font-mono">
-                              {b.geo.lat.toFixed(3)}, {b.geo.lng.toFixed(3)}
-                            </span>
-                            <Badge
-                              className="hidden sm:inline-flex"
-                              variant="outline"
-                            >
-                              {b.streetKey}
-                            </Badge>
-                            <Badge variant="secondary">
-                              {b.sampleTypes[0]}
-                            </Badge>
-                            <Badge variant="outline">{b.labId}</Badge>
-                          </span>
-                        </ItemDescription>
-                      </ItemContent>
-                      <ItemActions>
-                        <Badge
-                          className="hidden sm:inline-flex"
-                          variant="outline"
-                        >
-                          {b.labId}
-                        </Badge>
-                      </ItemActions>
-                    </Item>
-                  );
-                })
-              )}
-            </ItemGroup>
-          </ScrollArea>
-          <div className="flex flex-col gap-3">
-            <div className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-xl border bg-muted p-4 text-center">
-              <span className="text-muted-foreground text-xs">
-                Map preview — {count} pins · geo lat/lng
-              </span>
-              <span className="max-w-[22ch] text-muted-foreground text-xs leading-relaxed">
-                Static embed placeholder — no heavy map lib day one. Pins use
-                real lat/lng from @workspace/data/branches.
-              </span>
-              <div className="grid w-full grid-cols-2 gap-2 pt-2 text-left">
-                {filtered.slice(0, 4).map((b) => (
-                  <div
-                    className="truncate rounded border bg-card px-2 py-1.5 text-xs"
-                    key={`pin-${b.id}`}
-                  >
-                    <span className="font-medium">{b.labId}</span> ·{" "}
-                    {b.geo.lat.toFixed(2)},{b.geo.lng.toFixed(2)}
-                  </div>
-                ))}
-                {filtered.length === 0 && (
-                  <div className="col-span-2 rounded border border-dashed bg-card px-2 py-1.5 text-center text-muted-foreground text-xs">
-                    Not empty map — map stays, list shows Kindly widen.
-                  </div>
-                )}
+        <ScrollArea className="h-[340px] rounded-xl border">
+          <ItemGroup>
+            {filtered.length === 0 ? (
+              <div className="p-6">
+                <Empty>
+                  <EmptyHeader>
+                    <EmptyTitle>Nicio filială potrivită</EmptyTitle>
+                    <EmptyDescription>
+                      Lărgește filtrele — încearcă „Toate sectoarele” sau „Toate
+                      probele”.
+                    </EmptyDescription>
+                  </EmptyHeader>
+                </Empty>
               </div>
-              <Separator className="my-1" />
-              <span className="font-mono text-[10px] text-muted-foreground">
-                Example: {BRANCHES[0]?.address ?? "—"} ·{" "}
-                {BRANCHES[0]?.phone ?? "—"} ·{" "}
-                {BRANCHES[0]?.sampleTypes.join(", ") ?? "—"}
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="outline">320px verificat</Badge>
-              <Badge variant="outline">light ✓</Badge>
-              <Badge variant="secondary">145 total</Badge>
-            </div>
-          </div>
-        </div>
+            ) : (
+              filtered.map((b) => {
+                const open = isOpenNow(
+                  b.hours as Record<string, string[] | null>
+                );
+                const hoursLabel = formatNextOpen(
+                  b.hours as Record<string, string[] | null>
+                );
+                const isSelected = selectedId === b.id;
+                return (
+                  <Item
+                    aria-disabled={disabled}
+                    aria-selected={isSelected}
+                    className={
+                      disabled
+                        ? "opacity-60"
+                        : "cursor-pointer hover:bg-accent/50"
+                    }
+                    key={b.id}
+                    onClick={() => {
+                      if (!disabled) {
+                        setSelectedId(b.id);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (disabled) {
+                        return;
+                      }
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedId(b.id);
+                      }
+                    }}
+                    role="button"
+                    size="sm"
+                    tabIndex={disabled ? -1 : 0}
+                    variant={
+                      isSelected ? "default" : open ? "muted" : "outline"
+                    }
+                  >
+                    <ItemMedia variant="icon">🏥</ItemMedia>
+                    <ItemContent>
+                      <ItemTitle className="gap-1.5">
+                        <span className="truncate">{b.address}</span>
+                        {open ? (
+                          <Badge variant="default">Deschis acum</Badge>
+                        ) : (
+                          <Badge variant="outline">Închis acum</Badge>
+                        )}
+                      </ItemTitle>
+                      <ItemDescription className="flex flex-col gap-1">
+                        <span className="line-clamp-1">
+                          {hoursLabel} {b.hoursNote ? `· ${b.hoursNote}` : ""}
+                        </span>
+                        <span className="flex flex-wrap items-center gap-1.5">
+                          <a
+                            className="underline underline-offset-4 hover:text-foreground"
+                            href={`tel:${b.phone.replaceAll(" ", "").replaceAll("(", "").replaceAll(")", "").replaceAll("-", "")}`}
+                          >
+                            {b.phone}
+                          </a>
+                          <span>·</span>
+                          <span>{b.sampleTypes.join(", ")}</span>
+                          <Badge
+                            className="hidden sm:inline-flex"
+                            variant="outline"
+                          >
+                            {b.streetKey}
+                          </Badge>
+                        </span>
+                      </ItemDescription>
+                    </ItemContent>
+                    <ItemActions>
+                      <Badge
+                        className="hidden sm:inline-flex"
+                        variant="outline"
+                      >
+                        {b.labId}
+                      </Badge>
+                    </ItemActions>
+                  </Item>
+                );
+              })
+            )}
+          </ItemGroup>
+        </ScrollArea>
         <Separator />
         <div className="flex flex-wrap gap-2">
           <Button
+            disabled={disabled}
             onClick={() => {
               window.location.href = "/harta";
             }}
             size="sm"
             variant="outline"
           >
-            View harta
+            Vezi harta
           </Button>
           <Button
+            disabled={disabled}
             onClick={() => {
               window.location.href = "/laboratoare";
             }}
             size="sm"
             variant="ghost"
           >
-            All labs
+            Toate laboratoarele
           </Button>
         </div>
       </CardContent>

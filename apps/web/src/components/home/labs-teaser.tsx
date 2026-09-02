@@ -44,14 +44,6 @@ import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Separator } from "@workspace/ui/components/separator";
 import { Skeleton } from "@workspace/ui/components/skeleton";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@workspace/ui/components/table";
-import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@workspace/ui/components/toggle-group";
@@ -169,9 +161,6 @@ export function LabsTeaser({
   const selectedLabMeta = mapBranch
     ? LABS.find((l) => l.id === mapBranch.labId)
     : undefined;
-  const directionsHref = mapBranch
-    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapBranch.address)}`
-    : "#";
   const mapsSearchHref = mapBranch
     ? `https://www.google.com/maps/search/?api=1&query=${mapBranch.geo.lat},${mapBranch.geo.lng}`
     : "#";
@@ -199,10 +188,10 @@ export function LabsTeaser({
   };
 
   return (
-    <Card className="min-w-0" id={`labs-teaser-${idSuffix}`}>
-      <CardHeader>
+    <Card className="min-w-0 overflow-hidden" id={`labs-teaser-${idSuffix}`}>
+      <CardHeader className="gap-2 pb-3">
         <Breadcrumb>
-          <BreadcrumbList>
+          <BreadcrumbList className="text-xs">
             <BreadcrumbItem>
               <BreadcrumbLink href="/laboratoare">Laboratoare</BreadcrumbLink>
             </BreadcrumbItem>
@@ -222,118 +211,135 @@ export function LabsTeaser({
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <CardTitle className="text-base">
-          Partner network — 5 labs, {sourceBranches.length} branches
+        <CardTitle className="text-balance font-heading font-semibold text-[15px] leading-tight">
+          Rețea parteneră — 5 laboratoare, {sourceBranches.length} filiale
         </CardTitle>
-        <CardDescription>
-          Filter by lab × sample × sector. Map on /harta. Real hours{" "}
-          <span className="font-mono text-xs">
-            [&#34;07:30-15:00&#34;] / [&#34;08:00-11:30&#34;,
-            &#34;12:30-16:00&#34;]
-          </span>
+        <CardDescription className="text-xs leading-relaxed">
+          Filtrează după laborator, probă și sector. Vezi program, telefon și
+          hartă.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
-        <ToggleGroup
-          aria-label="Filter by lab"
-          className="flex flex-wrap gap-2"
-          onValueChange={(v) => {
-            const nv = (v as string[])[0] ?? "all";
-            if (!disabled) {
-              setLab(nv);
-            }
-          }}
-          size="sm"
-          spacing={2}
-          value={lab ? [lab] : []}
-          variant="outline"
-        >
-          {["all", "synevo", "invitro", "sante", "medexpert", "alfa"].map(
-            (v) => (
+      <CardContent className="flex flex-col gap-4">
+        <div className="inset-card flex flex-col gap-3">
+          <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
+            Laborator
+          </span>
+          <ToggleGroup
+            aria-label="Filtrează după laborator"
+            className="flex flex-wrap gap-1.5"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "all";
+              if (!disabled) {
+                setLab(nv);
+              }
+            }}
+            size="sm"
+            spacing={2}
+            value={lab ? [lab] : []}
+            variant="outline"
+          >
+            {["all", "synevo", "invitro", "sante", "medexpert", "alfa"].map(
+              (v) => (
+                <ToggleGroupItem
+                  aria-label={v === "all" ? "Toate laboratoarele" : v}
+                  className="rounded-full px-3 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                  disabled={disabled}
+                  key={v}
+                  value={v}
+                >
+                  {v === "all" ? "Toate" : v}
+                </ToggleGroupItem>
+              )
+            )}
+          </ToggleGroup>
+          <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
+            Probă
+          </span>
+          <ToggleGroup
+            aria-label="Filtrează după probă"
+            className="flex flex-wrap gap-1.5"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "all";
+              if (!disabled) {
+                setSample(nv);
+              }
+            }}
+            size="sm"
+            spacing={2}
+            value={sample ? [sample] : []}
+            variant="outline"
+          >
+            {["all", "Sânge", "Urină", "Frotiu"].map((v) => (
               <ToggleGroupItem
-                aria-label={v === "all" ? "All labs" : v}
-                className="rounded-full"
+                aria-label={v === "all" ? "Toate probele" : v}
+                className="rounded-full px-3 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                disabled={disabled}
+                key={v}
+                value={String(v)}
+              >
+                {v === "all" ? "Toate" : v}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+          <span className="font-medium text-[11px] text-muted-foreground uppercase tracking-wider">
+            Sector
+          </span>
+          <ToggleGroup
+            aria-label="Filtrează după sector"
+            className="flex flex-wrap gap-1.5"
+            onValueChange={(v) => {
+              const nv = (v as string[])[0] ?? "all";
+              if (!disabled) {
+                setStreet(nv);
+              }
+            }}
+            size="sm"
+            spacing={2}
+            value={street ? [street] : []}
+            variant="outline"
+          >
+            {[
+              "all",
+              "botanica",
+              "centru",
+              "riscani",
+              "buiucani",
+              "ciocana",
+            ].map((v) => (
+              <ToggleGroupItem
+                aria-label={v === "all" ? "Toate sectoarele" : v}
+                className="rounded-full px-3 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
                 disabled={disabled}
                 key={v}
                 value={v}
               >
-                {v === "all" ? "All labs" : v}
+                {v === "all" ? "Toate" : v}
               </ToggleGroupItem>
-            )
-          )}
-        </ToggleGroup>
-        <ToggleGroup
-          aria-label="Filter by sample"
-          className="flex flex-wrap gap-2"
-          onValueChange={(v) => {
-            const nv = (v as string[])[0] ?? "all";
-            if (!disabled) {
-              setSample(nv);
-            }
-          }}
-          size="sm"
-          spacing={2}
-          value={sample ? [sample] : []}
-          variant="outline"
-        >
-          {["all", "Sânge", "Urină", "Frotiu"].map((v) => (
-            <ToggleGroupItem
-              aria-label={v === "all" ? "All samples" : v}
-              className="rounded-full"
-              disabled={disabled}
-              key={v}
-              value={String(v)}
-            >
-              {v === "all" ? "All samples" : v}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-        <ToggleGroup
-          aria-label="Filter by sector"
-          className="flex flex-wrap gap-2"
-          onValueChange={(v) => {
-            const nv = (v as string[])[0] ?? "all";
-            if (!disabled) {
-              setStreet(nv);
-            }
-          }}
-          size="sm"
-          spacing={2}
-          value={street ? [street] : []}
-          variant="outline"
-        >
-          {["all", "botanica", "centru", "riscani", "buiucani", "ciocana"].map(
-            (v) => (
-              <ToggleGroupItem
-                aria-label={v === "all" ? "All sectors" : v}
-                className="rounded-full"
-                disabled={disabled}
-                key={v}
-                value={v}
-              >
-                {v === "all" ? "All sectors" : v}
-              </ToggleGroupItem>
-            )
-          )}
-        </ToggleGroup>
-        <div aria-live="polite" className="text-muted-foreground text-xs">
-          {count} branches found
-          {street === "all" ? "" : ` • ${street}`}{" "}
-          {sample === "all" ? "" : ` • ${sample}`}{" "}
-          {count === 12 ? "• 12 match demo" : ""}
-          {count === 145 ? "• 145 total" : ""}
+            ))}
+          </ToggleGroup>
         </div>
-        <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-          <ScrollArea className="h-[280px] rounded-xl border">
-            <ItemGroup>
+        <div
+          aria-live="polite"
+          className="inset-card py-2.5 font-medium text-muted-foreground text-xs"
+        >
+          <span className="tabular-nums">{count} filiale</span> găsite
+          {street === "all" ? "" : ` · ${street}`}{" "}
+          {sample === "all" ? "" : ` · ${sample}`} ·{" "}
+          <span className={selectedOpen ? "text-primary" : ""}>
+            {selectedOpen ? "deschis acum" : "închis"}
+          </span>
+        </div>
+        <div className="grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
+          <ScrollArea className="h-[320px] rounded-2xl border bg-muted/20">
+            <ItemGroup className="p-1.5">
               {filtered.length === 0 ? (
-                <div className="p-6">
-                  <Empty>
+                <div className="p-8">
+                  <Empty className="border-0 bg-transparent">
                     <EmptyHeader>
-                      <EmptyTitle>No branch matches</EmptyTitle>
+                      <EmptyTitle>Nicio filială potrivită</EmptyTitle>
                       <EmptyDescription>
-                        Try widening filters — try All sectors. Kindly widen
-                        your search.
+                        Lărgește filtrele — încearcă „Toate sectoarele” sau
+                        „Toate probele”.
                       </EmptyDescription>
                     </EmptyHeader>
                   </Empty>
@@ -345,42 +351,41 @@ export function LabsTeaser({
                   );
                   return (
                     <Item
+                      className="rounded-xl"
                       key={b.id}
                       size="sm"
                       variant={open ? "muted" : "outline"}
                     >
                       <ItemMedia variant="icon">🏥</ItemMedia>
                       <ItemContent>
-                        <ItemTitle className="gap-1.5">
+                        <ItemTitle className="gap-1.5 text-sm">
                           <span className="truncate">{b.address}</span>
                           {open ? (
-                            <Badge
-                              className="h-4 px-1.5 text-[10px]"
-                              variant="default"
-                            >
-                              Open now
+                            <Badge className="rounded-full" variant="default">
+                              Deschis
                             </Badge>
                           ) : (
-                            <Badge className="h-4" variant="outline">
-                              Closed · Opens at 8:00
+                            <Badge className="rounded-full" variant="outline">
+                              Închis
                             </Badge>
                           )}
                         </ItemTitle>
-                        <ItemDescription className="line-clamp-1">
-                          {b.hours.Mon?.join(" • ") ?? "Closed"}{" "}
-                          {b.hoursNote ? `· ${b.hoursNote}` : ""} · {b.phone} ·{" "}
-                          {b.sampleTypes.join(", ")} · {b.geo.lat.toFixed(3)},{" "}
-                          {b.geo.lng.toFixed(3)}
+                        <ItemDescription className="line-clamp-1 text-xs">
+                          {b.hours.Mon?.join(" · ") ?? "Închis"}{" "}
+                          {b.hoursNote ? `· ${b.hoursNote} · ` : "· "}
+                          {b.phone}
                         </ItemDescription>
                       </ItemContent>
                       <ItemActions>
                         <Badge
-                          className="hidden sm:inline-flex"
+                          className="hidden rounded-full sm:inline-flex"
                           variant="outline"
                         >
                           {b.labId}
                         </Badge>
-                        <Badge variant="secondary">{b.sampleTypes[0]}</Badge>
+                        <Badge className="rounded-full" variant="secondary">
+                          {b.sampleTypes[0]}
+                        </Badge>
                       </ItemActions>
                     </Item>
                   );
@@ -388,111 +393,105 @@ export function LabsTeaser({
               )}
             </ItemGroup>
           </ScrollArea>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             {mapBranch ? (
               <>
                 <iframe
-                  className="h-[280px] w-full rounded-xl border"
+                  className="h-[200px] w-full rounded-2xl border"
                   loading="lazy"
                   src={embedSrc}
                   title={`Map — ${mapBranch.address}`}
                 />
-                <a
-                  className="text-xs underline underline-offset-4 hover:text-foreground"
-                  href={mapsSearchHref}
-                  rel="noopener"
-                  target="_blank"
-                >
-                  Open in Google Maps
-                </a>
-                <div className="flex flex-col gap-3 rounded-xl border bg-card p-4">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge variant="outline">{mapBranch.labId}</Badge>
+                <div className="inset-card flex flex-col gap-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <Badge className="rounded-full" variant="outline">
+                      {mapBranch.labId}
+                    </Badge>
                     {selectedLabMeta?.renar ? (
-                      <Badge variant="secondary">
-                        Renar • Operated by {capitalize(mapBranch.labId)}
+                      <Badge className="rounded-full" variant="secondary">
+                        Renar
                       </Badge>
-                    ) : (
-                      <Badge variant="outline">
-                        Operated by {capitalize(mapBranch.labId)}
-                      </Badge>
-                    )}
-                    <Badge variant="secondary">
+                    ) : null}
+                    <Badge className="rounded-full" variant="secondary">
                       {mapBranch.sampleTypes[0] ?? "Sânge"}
                     </Badge>
                     {selectedOpen ? (
-                      <Badge variant="default">Open now</Badge>
+                      <Badge className="rounded-full" variant="default">
+                        Deschis acum
+                      </Badge>
                     ) : (
-                      <Badge variant="outline">Closed</Badge>
+                      <Badge className="rounded-full" variant="outline">
+                        Închis acum
+                      </Badge>
                     )}
                   </div>
-                  <div className="flex flex-col gap-1 text-sm">
-                    <span className="break-words font-medium">
+                  <div className="flex flex-col gap-1">
+                    <span className="break-words font-medium text-sm leading-tight">
                       {mapBranch.address}
                     </span>
                     <a
-                      className="w-fit break-all text-xs underline underline-offset-4 hover:text-foreground"
+                      className="w-fit break-all font-medium text-xs underline decoration-muted-foreground/30 underline-offset-4 hover:decoration-foreground"
                       href={telHref(mapBranch.phone)}
                     >
                       {mapBranch.phone}
                     </a>
                     <a
-                      className="w-fit text-xs underline underline-offset-4 hover:text-foreground"
-                      href={directionsHref}
+                      className="text-muted-foreground text-xs underline underline-offset-4 hover:text-foreground"
+                      href={mapsSearchHref}
                       rel="noopener"
                       target="_blank"
                     >
-                      Directions
+                      Open in Google Maps · Direcții →
                     </a>
-                    <span className="text-muted-foreground text-xs">
+                    <span className="font-mono text-[11px] text-muted-foreground">
                       {mapBranch.geo.lat.toFixed(5)},{" "}
                       {mapBranch.geo.lng.toFixed(5)}
                     </span>
                   </div>
                   <Separator />
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="px-2 text-xs">Day</TableHead>
-                          <TableHead className="px-2 text-xs">Hours</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {weekdayOrder.map((d) => {
-                          const v = mapBranch.hours[d];
-                          return (
-                            <TableRow key={d}>
-                              <TableCell className="px-2 py-1 font-medium text-xs">
-                                {weekdayLabel[d]}
-                              </TableCell>
-                              <TableCell className="px-2 py-1 font-mono text-xs">
-                                {v ? v.join(" • ") : "Closed"}
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
-                      </TableBody>
-                    </Table>
+                  <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-xs">
+                    {weekdayOrder.map((d) => {
+                      const v = mapBranch.hours[d];
+                      return (
+                        <>
+                          <span className="font-medium" key={`${d}-lab`}>
+                            {weekdayLabel[d]}
+                          </span>
+                          <span
+                            className="font-mono text-muted-foreground"
+                            key={d}
+                          >
+                            {v ? v.join(" · ") : "Închis"}
+                          </span>
+                        </>
+                      );
+                    })}
                   </div>
                 </div>
               </>
             ) : (
-              <div className="flex aspect-[4/3] items-center justify-center rounded-xl border bg-muted">
+              <div className="flex aspect-[4/3] items-center justify-center rounded-2xl border bg-muted/20">
                 <span className="text-muted-foreground text-xs">
-                  Map preview — {count} pins · geo lat/lng
+                  Harta — selectează o filială
                 </span>
               </div>
             )}
           </div>
         </div>
-        <Separator />
-        <div className="flex gap-2">
-          <Button render={<a href="/harta" />} variant="outline">
-            View full map
+        <div className="flex gap-2 pt-1">
+          <Button
+            className="rounded-full"
+            render={<a href="/harta" />}
+            variant="default"
+          >
+            Vezi harta completă
           </Button>
-          <Button render={<a href="/laboratoare" />} variant="ghost">
-            All labs
+          <Button
+            className="rounded-full"
+            render={<a href="/laboratoare" />}
+            variant="outline"
+          >
+            Toate laboratoarele
           </Button>
         </div>
       </CardContent>

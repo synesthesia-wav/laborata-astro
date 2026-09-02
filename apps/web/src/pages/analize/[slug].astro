@@ -2,7 +2,10 @@
 import graph from "../../../../../packages/data/data/canonical-graph.json" with {
   type: "json",
 };
-import { PRODUCT_GALLERY } from "../../components/product/data";
+import {
+  PRICE_OFFERS_B12,
+  PRODUCT_GALLERY,
+} from "../../components/product/data";
 import { Faq } from "../../components/product/faq";
 import { PriceComparison } from "../../components/product/price-comparison";
 import { ProductGallery } from "../../components/product/product-gallery";
@@ -12,13 +15,14 @@ import Layout from "../../layouts/Layout.astro";
 
 interface GraphItem {
   id: string;
+  name_ro?: string;
   role: string;
   tuple_key: string;
 }
 
 export function getStaticPaths() {
   const items = (graph as { items: GraphItem[] }).items.filter(
-    (i) => i.role === "comparison" || i.role === "catalog_only"
+    (i) => i.role === "comparison"
   );
   return items.map((it) => ({ params: { slug: it.id } }));
 }
@@ -29,20 +33,21 @@ if (!item) {
   return Astro.redirect("/analize/vitamina-b12", 302);
 }
 
+const rawName = (item as GraphItem).name_ro ?? slug.replaceAll("-", " ");
 const displayName =
-  slug === "vitamina-b12"
-    ? "Vitamina B12 (Cobalamină)"
-    : slug.replaceAll("-", " ");
+  slug === "vitamina-b12" ? "Vitamina B12 (Cobalamină)" : rawName;
+const compactName = slug === "vitamina-b12" ? "Vitamina B12" : rawName;
+const isB12 = slug === "vitamina-b12";
 const title = `${displayName} | Laborata — Analize`;
 const description =
   slug === "vitamina-b12"
     ? "Vitamina B12 (Cobalamină). Măsoară B12 total circulant, rezultat în 1 zi, de la 175 lei. Comparație prețuri Synevo, Sante, Invitro, Alfa."
-    : `${displayName} — analiză disponibilă la Synevo, Sante, Invitro, Alfa. Compară prețuri, vezi taxa o singură dată.`;
+    : `${displayName} — analiză disponibilă la partenerii Laborata. Compară prețuri, taxa de recoltare o singură dată.`;
 const url = new URL(
   Astro.url.pathname,
   Astro.site ?? Astro.url.origin
 ).toString();
-const isB12 = slug === "vitamina-b12";
+const priceOffers = isB12 ? PRICE_OFFERS_B12 : [];
 ---
 
 <Layout
@@ -58,11 +63,11 @@ const isB12 = slug === "vitamina-b12";
     set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "MedicalTest",
-      name: isB12 ? "Vitamina B12 (Cobalamină)" : displayName,
+      name: displayName,
       alternateName: slug,
       description,
       url,
-      relevantSpecialty: "Hematology",
+      relevantSpecialty: "Laboratory",
       code: {
         "@type": "MedicalCode",
         code: (item as GraphItem).tuple_key,
@@ -82,6 +87,8 @@ const isB12 = slug === "vitamina-b12";
     <ProductHeader
       idSuffix={`${slug}-hero`}
       lang="ro"
+      name={displayName}
+      lowestPrice={isB12 ? 175 : null}
       priceAsOf="august 2026"
       sourceUrl="https://www.invitro.md/ro/services/prelevarea-sangelui-venos"
       client:load
@@ -91,7 +98,7 @@ const isB12 = slug === "vitamina-b12";
   <!-- Specs -->
   <section class="border-t bg-muted/20 px-4 py-10 sm:px-6">
     <div class="mx-auto flex w-full max-w-7xl flex-col">
-      <ProductSpecs idSuffix={`${slug}-specs`} client:load />
+      <ProductSpecs idSuffix={`${slug}-specs`} name={displayName} client:load />
     </div>
   </section>
 
@@ -101,6 +108,7 @@ const isB12 = slug === "vitamina-b12";
       <PriceComparison
         idSuffix={slug}
         lang="ro"
+        offers={priceOffers}
         priceAsOf="august 2026"
         client:load
       />
@@ -110,7 +118,7 @@ const isB12 = slug === "vitamina-b12";
   <!-- FAQ -->
   <section class="px-4 py-10 sm:px-6">
     <div class="mx-auto w-full max-w-3xl">
-      <Faq idSuffix={slug} client:load />
+      <Faq idSuffix={slug} name={compactName} client:load />
     </div>
   </section>
 

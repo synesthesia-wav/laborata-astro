@@ -1,5 +1,9 @@
 import { RiArrowDownSLine } from "@remixicon/react";
-import { Badge } from "@workspace/ui/components/badge";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
 import { Button } from "@workspace/ui/components/button";
 import {
   Card,
@@ -16,9 +20,12 @@ import { SPEC_OFFERS_B12, type SpecOffer } from "./data";
 
 interface Props {
   disabled?: boolean;
+  error?: string;
   idSuffix?: string;
   loading?: boolean;
+  name?: string;
   offers?: readonly SpecOffer[];
+  onRetry?: () => void;
   permissionDenied?: boolean;
 }
 
@@ -49,9 +56,33 @@ export function ProductSpecs({
   disabled = false,
   permissionDenied = false,
   idSuffix = "specs",
+  name = "Vitamina B12 (Cobalamină)",
   offers,
+  error,
+  onRetry,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
+
+  if (error) {
+    return (
+      <Card id={`specs-${idSuffix}`}>
+        <CardHeader>
+          <CardTitle className="text-sm">Detalii analiză</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <Alert variant="destructive">
+            <AlertTitle>Nu am putut încărca specificațiile</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+          {onRetry ? (
+            <Button onClick={onRetry} size="sm" variant="outline">
+              Reîncearcă
+            </Button>
+          ) : null}
+        </CardContent>
+      </Card>
+    );
+  }
 
   if (loading) {
     return (
@@ -129,7 +160,7 @@ export function ProductSpecs({
     >
       <div className="flex flex-col gap-3">
         <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">
-          Ce măsoară Vitamina B12 (Cobalamină)
+          Ce măsoară {name}
         </h2>
         <div className="flex flex-col gap-3 text-muted-foreground text-sm leading-relaxed">
           <p>
@@ -155,8 +186,7 @@ export function ProductSpecs({
                 rezultat la limită poate necesita MMA.
               </p>
               <p className="text-xs">
-                Acoperire sursă: probă 91% · metodă 69% · TAT 93% · pregătire
-                53% · intervale 6,9% (honest null unde lipsesc).
+                Date per partener — afișăm „—” unde sursa nu listează valoarea.
               </p>
             </div>
           ) : null}
@@ -182,8 +212,7 @@ export function ProductSpecs({
         <CardHeader>
           <CardTitle className="text-sm">Detalii analiză</CardTitle>
           <CardDescription>
-            Specificații per partener — valori oneste, neinventate. Lipsă =
-            afișăm „—”.
+            Specificații per partener — lipsă = „—”.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
@@ -229,9 +258,6 @@ export function ProductSpecs({
                         .filter((v, i, a) => a.indexOf(v) === i)
                         .join(" · ")
                     : "—"}
-                  <Badge className="ml-2 text-[10px]" variant="outline">
-                    69% acoperire
-                  </Badge>
                 </span>
                 <span className="text-muted-foreground text-xs">
                   {methodValues.length > 0
@@ -243,7 +269,7 @@ export function ProductSpecs({
                     ? ` · ${data
                         .filter((d) => d.method === null)
                         .map((d) => d.lab)
-                        .join(", ")}: — (honest null)`
+                        .join(", ")}: —`
                     : null}
                 </span>
               </dd>
@@ -263,8 +289,7 @@ export function ProductSpecs({
                     : "—"}
                 </span>
                 <span className="text-muted-foreground text-xs">
-                  93% acoperire overall · Synevo 1 zi · Sante 14 zile lucrătoare
-                  (honest per-offering)
+                  Synevo 1 zi · Sante 14 zile lucrătoare
                   {data.some((d) => d.turnaround === null)
                     ? ` · ${data
                         .filter((d) => d.turnaround === null)
@@ -296,16 +321,14 @@ export function ProductSpecs({
                             .filter((d) => d.collection_protocol === null)
                             .map((d) => d.lab)
                             .join(", ")}: Nespecifică`
-                        : null}{" "}
-                      · 53% au protocol, rest Nespecifică (honest)
+                        : null}
                     </span>
                   </>
                 ) : (
                   <>
                     <span className="font-medium">Nespecifică</span>
                     <span className="text-muted-foreground text-xs">
-                      53% acoperire în sursă — niciun protocol listat pentru
-                      acest test.
+                      Niciun protocol listat pentru acest test.
                     </span>
                   </>
                 )}
@@ -328,8 +351,7 @@ export function ProductSpecs({
                     Sursă:{" "}
                     {data.find((d) => d.reference_ranges.length > 0)?.lab ??
                       "Synevo"}{" "}
-                    · 36% Synevo au intervale, 2,6% Sante — rest null honest,
-                    afișăm doar când există.
+                    — afișăm doar când există.
                   </span>
                 </dd>
               </div>
@@ -339,9 +361,8 @@ export function ProductSpecs({
                   Intervale de referință
                 </dt>
                 <dd className="text-muted-foreground text-xs">
-                  Indisponibil — 6,9% acoperire în sursă, niciun interval listat
-                  pentru acest test. Afișăm intervalul sursă pe buletin când
-                  există.
+                  Indisponibil — niciun interval listat pentru acest test.
+                  Afișăm intervalul sursă pe buletin când există.
                 </dd>
               </div>
             )}
@@ -351,8 +372,7 @@ export function ProductSpecs({
                 Acoperire
               </dt>
               <dd className="text-muted-foreground text-xs">
-                {available.length}/{data.length} parteneri cu date · onest per
-                vendor_fees specimen/method/TAT.
+                {available.length}/{data.length} parteneri cu date.
               </dd>
             </div>
           </dl>
@@ -362,9 +382,8 @@ export function ProductSpecs({
       <div className="flex flex-col gap-3 text-muted-foreground text-xs">
         <Separator />
         <p>
-          Produsul nu este B12 activă (holotranscobalamină), MMA sau
-          homocisteină. Date oneste din vendor_offerings snapshot — nu inventăm
-          Sante 2,6% ref ranges.
+          Date din surse parteneri — actualizate august 2026. Afișăm „—” unde
+          sursa nu listează valoarea.
         </p>
       </div>
     </div>

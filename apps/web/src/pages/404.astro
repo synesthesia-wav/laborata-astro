@@ -1,49 +1,42 @@
 ---
-import "@workspace/ui/globals.css";
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link href="/favicon.svg" rel="icon" type="image/svg+xml">
-    <title>404 — Not Found</title>
-  </head>
-  <body class="bg-background text-foreground antialiased">
-    <header class="sticky top-0 z-10 border-b bg-background/80 backdrop-blur">
-      <div
-        class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
+<Layout
+  description="Pagina nu există — revino la analize sau hartă."
+  lang="ro"
+  title="404 — Pagina nu există | Laborata"
+>
+  <main class="mx-auto flex w-full max-w-7xl min-w-0 flex-col p-4 sm:p-6">
+    <div
+      class="flex min-h-[50vh] flex-col items-center justify-center gap-4 rounded-xl border border-dashed p-8 text-center"
+    >
+      <span class="text-xs font-medium tracking-widest text-muted-foreground"
+        >404</span
       >
-        <h1 class="font-heading text-sm font-semibold tracking-tight">
-          Laborata
-        </h1>
-        <span class="text-xs text-muted-foreground">404</span>
+      <h1 class="font-heading text-2xl font-semibold tracking-tight">
+        Pagina nu există
+      </h1>
+      <p class="max-w-md text-sm text-muted-foreground">
+        Ruta cerută nu există. Revino la prima pagină sau caută o analiză.
+      </p>
+      <div class="flex flex-wrap justify-center gap-2">
+        <a
+          class="inline-flex h-9 items-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+          href="/"
+          >Acasă</a
+        >
+        <a
+          class="inline-flex h-9 items-center rounded-full border bg-card px-4 text-sm font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+          href="/analize"
+          >Vezi analize</a
+        >
+        <a
+          class="inline-flex h-9 items-center rounded-full border bg-card px-4 text-sm font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+          href="/harta"
+          >Vezi harta</a
+        >
       </div>
-    </header>
-    <main class="mx-auto flex w-full max-w-7xl min-w-0 flex-col p-4 sm:p-6">
-      <div
-        class="flex min-h-[50vh] flex-col items-center justify-center gap-4 rounded-xl border border-dashed p-8 text-center"
-      >
-        <h1 class="font-heading text-2xl font-semibold tracking-tight">
-          404 — Not found
-        </h1>
-        <p class="max-w-md text-sm text-muted-foreground">
-          The route you requested does not exist. Return to the home or showcase
-          grid.
-        </p>
-        <div class="flex gap-2">
-          <a
-            class="inline-flex h-9 items-center rounded-xl bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            href="/"
-            >Home</a
-          >
-          <a
-            class="inline-flex h-9 items-center rounded-xl border bg-card px-4 text-sm font-medium hover:bg-muted"
-            href="/showcase"
-            >Showcase</a
-          >
-        </div>
-      </div>
-    </main>
-  </body>
-</html>
+    </div>
+  </main>
+</Layout>

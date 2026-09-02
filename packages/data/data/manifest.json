@@ -1,15 +1,17 @@
 {
-  "generated_at": "2026-09-01T15:45:14.568Z",
   "files": {
     "canonical-graph.json": "244d84812f7469c3bbf6f8541daf75ec2c33fce2a61a896ca3e4e44b33886f0b",
     "vendor-mappings.json": "82f6c7b94150f07ee9d0247d0a7686d72d20e3cda78943e26d2a06f510300d53",
     "vendor_fees.json": "ae5d9093ea4731d29dde4967b4afeedac070ba6135f2af40ef10087d1c4a9e5b",
     "panel-archetypes-final-llm.json": "a6ebc44106693191798efca73fc0b4cad882513fd172ec8cb814175553be3f10",
-    "search.json": "3e096cb043d6736d4bdde20064d6cf92bd064351e1bd52fbdcfb3612e434e7ef",
     "locations/alfa_locations.json": "48fa76a1854405e3ab3ab79c65c941a9ddf049cd235c6739240a3f6506933f2b",
     "locations/invitro_locations.json": "242134502523b55de58454b7972d7d4a77e9624db7a52125769180a8f37a9549",
     "locations/medexpert_locations.json": "3e1610b75bf476fecff876b612069890e60f3e39b012976d98452053978127c4",
     "locations/sante_locations.json": "9b66a8d72f035d617718955833f9a43887aa70f6f6b653dbd6813174b83dfe55",
-    "locations/synevo_locations.json": "5a362936f7ef8af88635ddc196bfd91e7da15a7abd0d0f48869fb39fa0c900c0"
-  }
+    "locations/synevo_locations.json": "5a362936f7ef8af88635ddc196bfd91e7da15a7abd0d0f48869fb39fa0c900c0",
+    "search.json": "6279fc9145f759e388be7ddd22a387264a3852679d95e2602c0424dc1fcc7cfb",
+    "price-index.json": "f3ebb728cf6e57f9eae75817d276106f911e4cf2d754467efecce3a105d24699",
+    "price-index.min.json": "0d088f1880f8ed49ec4a97855a2794bdc972e23ddf667119d7b0d1ca42af5f21"
+  },
+  "generated_at": "2026-09-02T10:52:02.034Z"
 }

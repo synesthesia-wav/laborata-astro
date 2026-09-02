@@ -33,10 +33,7 @@ for (const b of BRANCHES) {
       </h1>
       <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
         5 rețele partenere — {total} filiale în Chișinău. Alege rețeaua, apoi
-        filtrează după probă × sector. Fiecare filială arată program real{" "}
-        <span class="font-mono text-xs"
-          >["07:30-15:00"] / ["08:00-11:30","12:30-16:00"]</span
-        >, telefon, Sânge/Urină/Frotiu și lat/lng.
+        filtrează după probă și sector. Vezi program, telefon și hartă.
       </p>
     </div>
 
@@ -51,7 +48,7 @@ for (const b of BRANCHES) {
                 </Badge>
               </CardTitle>
               <CardDescription>
-                {counts[lab.id] ?? 0} filiale · {lab.id}
+                {counts[lab.id] ?? 0} filiale în Chișinău
               </CardDescription>
             </CardHeader>
             <CardContent className="mt-auto flex flex-col gap-3">

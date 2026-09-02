@@ -34,6 +34,8 @@ import {
   TableHeader,
   TableRow,
 } from "@workspace/ui/components/table";
+import { AnalizeBrowse } from "../components/analize/AnalizeBrowse";
+import { BranchesExplorer } from "../components/branches/branches-explorer";
 import { BundlesShelf } from "../components/home/bundles-shelf";
 import { CatalogShelf } from "../components/home/catalog-shelf";
 import { ConcernsRow } from "../components/home/concerns-row";
@@ -50,6 +52,7 @@ import { PriceComparison } from "../components/product/price-comparison";
 import { ProductGallery } from "../components/product/product-gallery";
 import { ProductHeader } from "../components/product/product-header";
 import { ProductSpecs } from "../components/product/product-specs";
+import { BundleDetail } from "../components/profil/BundleDetail";
 ---
 
 <html lang="ro">
@@ -1734,6 +1737,231 @@ import { ProductSpecs } from "../components/product/product-specs";
               <LabsTeaser idSuffix="home-labs-dark" client:load />
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6">
+        <div class="flex flex-col gap-2">
+          <h2 class="font-heading text-xl font-semibold tracking-tight">
+            W3 — Missing islands (real) + error states
+          </h2>
+          <p class="text-sm text-muted-foreground">
+            BranchesExplorer / AnalizeBrowse / BundleDetail — real mounts with
+            loading / error+retry / disabled. Product islands now expose
+            error/onRetry (verified via real prop, not wrapper).
+          </p>
+        </div>
+        <div class="mt-6 grid gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >ProductGallery — loading</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <ProductGallery
+                idSuffix="showcase-gallery-loading"
+                images={PRODUCT_GALLERY}
+                loading
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >ProductGallery — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <ProductGallery
+                idSuffix="showcase-gallery-error"
+                images={PRODUCT_GALLERY}
+                error="Nu am putut încărca imaginile"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >PriceComparison — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <PriceComparison
+                idSuffix="showcase-price-error"
+                error="Nu am putut încărca prețurile"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >ProductHeader — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <ProductHeader
+                idSuffix="showcase-header-error"
+                error="Nu am putut încărca datele"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >ProductSpecs — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <ProductSpecs
+                idSuffix="showcase-specs-error"
+                error="Nu am putut încărca specificațiile"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >BranchesExplorer — loading</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <BranchesExplorer
+                idSuffix="showcase-branches-loading"
+                loading
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >BranchesExplorer — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <BranchesExplorer
+                idSuffix="showcase-branches-error"
+                error="Nu am putut încărca filialele"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >BranchesExplorer — disabled</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <BranchesExplorer
+                idSuffix="showcase-branches-disabled"
+                disabled
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">AnalizeBrowse — loading</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AnalizeBrowse loading client:load />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >AnalizeBrowse — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <AnalizeBrowse
+                error="Nu am putut încărca analizele"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >AnalizeBrowse — disabled</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <AnalizeBrowse disabled client:load />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">BundleDetail — loading</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <BundleDetail
+                id="arch-albumina"
+                name="Albumina"
+                referenceComponentIds={[
+                  "proteina-totala",
+                  "vitamina-b12",
+                  "albumina",
+                  "feritina",
+                ]}
+                vendors={["sante", "synevo"]}
+                quorumSize={4}
+                vendorCount={2}
+                loading
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm"
+                >BundleDetail — error + retry</CardTitle
+              >
+            </CardHeader>
+            <CardContent>
+              <BundleDetail
+                id="arch-albumina"
+                name="Albumina"
+                referenceComponentIds={["albumina", "feritina"]}
+                vendors={["sante"]}
+                quorumSize={2}
+                vendorCount={1}
+                error="Nu am putut încărca pachetul"
+                onRetry={() => {}}
+                client:load
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-sm">BundleDetail — disabled</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <BundleDetail
+                id="arch-albumina"
+                name="Albumina"
+                referenceComponentIds={["albumina", "feritina"]}
+                vendors={["sante"]}
+                quorumSize={2}
+                vendorCount={1}
+                disabled
+                client:load
+              />
+            </CardContent>
+          </Card>
         </div>
       </section>
 

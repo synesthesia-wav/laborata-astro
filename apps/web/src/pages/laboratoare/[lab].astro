@@ -20,7 +20,7 @@ const labName = labMeta.name;
 ---
 
 <Layout
-  description={`${labName} — ${count} filiale în Chișinău. Filtrează după probă × sector, vezi Open now / Opens at 8:00, telefon, program real ["07:30-15:00"].`}
+  description={`${labName} — ${count} filiale în Chișinău. Filtrează după probă și sector, vezi program, telefon și hartă.`}
   lang="ro"
   title={`${labName} — ${count} filiale | Laborata`}
 >
@@ -39,14 +39,9 @@ const labName = labMeta.name;
         — {count} filiale
       </h1>
       <p class="max-w-3xl text-sm leading-relaxed text-muted-foreground">
-        Filtrează după tip probă (Sânge / Urină / Frotiu) × sector (botanica /
-        centru / riscani / ciocana / buiucani / telecentru). Fiecare filială
-        arată telefon, program real cu pauză{" "}
-        <span class="font-mono text-xs">["08:00-11:30","12:30-16:00"]</span>,
-        sampleTypes și geo lat/lng. Open now din{" "}
-        <code class="rounded bg-muted px-1 py-0.5 font-mono text-xs"
-          >isOpenNow</code
-        >.
+        Filtrează după tip probă (Sânge / Urină / Frotiu) și sector (botanica /
+        centru / riscani / ciocana / buiucani / telecentru). Vezi program,
+        telefon și hartă.
       </p>
     </div>
 

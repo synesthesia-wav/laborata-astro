@@ -8,13 +8,14 @@ import { FAQ_ITEMS } from "./data";
 
 interface Props {
   idSuffix?: string;
+  name?: string;
 }
 
-export function Faq({ idSuffix = "faq" }: Props) {
+export function Faq({ idSuffix = "faq", name = "Vitamina B12" }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">
-        Întrebări frecvente — Vitamina B12
+        Întrebări frecvente — {name}
       </h2>
 
       <Accordion

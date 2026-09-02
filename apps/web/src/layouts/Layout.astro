@@ -1,5 +1,7 @@
 ---
 import "@workspace/ui/globals.css";
+import { Toaster } from "@workspace/ui/components/toast";
+import { MobileNav } from "../components/layout/mobile-nav";
 
 interface Props {
   canonical?: string;
@@ -31,40 +33,108 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
     <slot name="head" />
   </head>
   <body class="bg-background text-foreground antialiased">
-    <header class="sticky top-0 z-10 border-b bg-background/80 backdrop-blur">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:rounded-xl focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+      >Sari la conținut</a
+    >
+    <header
+      class="sticky top-0 z-30 border-b bg-background/80 backdrop-blur supports-backdrop-filter:backdrop-blur-sm"
+      role="banner"
+    >
       <div
         class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
       >
         <a class="font-heading text-sm font-semibold tracking-tight" href="/"
           >Laborata</a
         >
-        <span class="hidden text-xs text-muted-foreground sm:inline"
-          >MDL • Laboratoare acreditate</span
-        >
-        <a
-          class="inline-flex h-8 items-center rounded-full border bg-card px-3 text-xs font-medium hover:bg-muted"
-          href="/analize"
-          >Vezi analize</a
-        >
+        <nav aria-label="Principal" class="hidden items-center gap-1 md:flex">
+          <a
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            href="/analize"
+            >Analize</a
+          >
+          <a
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            href="/laboratoare"
+            >Laboratoare</a
+          >
+          <a
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            href="/harta"
+            >Harta</a
+          >
+          <a
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            href="/liste"
+            >Liste</a
+          >
+          <a
+            class="rounded-full px-3 py-1.5 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            href="/comparatie"
+            >Compară</a
+          >
+        </nav>
+        <div class="flex items-center gap-2">
+          <span class="hidden text-xs text-muted-foreground lg:inline"
+            >MDL • Laboratoare acreditate</span
+          >
+          <a
+            class="inline-flex h-8 items-center rounded-full border bg-card px-3 text-xs font-medium hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
+            href="/analize"
+            >Vezi analize</a
+          >
+          <div class="md:hidden">
+            <MobileNav client:load />
+          </div>
+        </div>
       </div>
     </header>
 
-    <main class="flex w-full min-w-0 flex-col">
+    <main id="main-content" class="flex w-full min-w-0 flex-col" tabindex="-1">
       <slot />
     </main>
 
-    <footer
-      class="border-t px-4 py-6 text-center text-xs text-muted-foreground sm:px-6"
-    >
-      <div class="mx-auto max-w-7xl">
-        © {new Date().getFullYear()} Laborata • Date demonstrative — vezi lista
-        și compară prețuri. În curând rezervi la
-        <a
-          class="underline underline-offset-4 hover:text-foreground"
-          href="mailto:hello@laborata.md"
-          >hello@laborata.md</a
-        >
+    <footer class="border-t px-4 py-6 text-xs text-muted-foreground sm:px-6">
+      <div class="mx-auto flex w-full max-w-7xl flex-col gap-4">
+        <nav aria-label="Subsol" class="flex flex-wrap justify-center gap-3">
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="/analize"
+            >Analize</a
+          >
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="/laboratoare"
+            >Laboratoare</a
+          >
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="/harta"
+            >Harta</a
+          >
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="/liste"
+            >Liste</a
+          >
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="/comparatie"
+            >Compară</a
+          >
+        </nav>
+        <div class="text-center">
+          © {new Date().getFullYear()} Laborata • Date demonstrative — vezi
+          lista și compară prețuri. În curând rezervi la
+          <a
+            class="underline underline-offset-4 hover:text-foreground"
+            href="mailto:hello@laborata.md"
+            >hello@laborata.md</a
+          >
+        </div>
       </div>
     </footer>
+    <Toaster client:load />
   </body>
 </html>

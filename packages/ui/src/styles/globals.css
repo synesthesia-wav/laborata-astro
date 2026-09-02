@@ -26,13 +26,13 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0.005 325.62);
   --input: oklch(0.922 0.005 325.62);
-  --ring: oklch(0.711 0.019 323.02);
+  --ring: oklch(0.52 0.105 223.128);
   --chart-1: oklch(0.865 0.012 325.68);
   --chart-2: oklch(0.542 0.034 322.5);
   --chart-3: oklch(0.435 0.029 321.78);
   --chart-4: oklch(0.364 0.029 323.89);
   --chart-5: oklch(0.263 0.024 320.12);
-  --radius: 0.625rem;
+  --radius: 1rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0.008 326);
   --sidebar-primary: oklch(0.609 0.126 221.723);
@@ -130,5 +130,23 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .inset-card {
+    @apply rounded-2xl bg-muted/40 p-3 dark:bg-muted/20;
+  }
+  .inset-card-hover {
+    @apply rounded-2xl bg-muted/40 p-3 transition-colors hover:bg-muted/60 dark:bg-muted/20 dark:hover:bg-muted/30;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

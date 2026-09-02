@@ -82,6 +82,24 @@
 ## Done When
 - Every applicable state rendered in `showcase.astro`, every confirmed problem fixed+retested, `bun run build` + `bun run typecheck` pass, `shadscan ≥43`, `analize/[slug]` + `tests/[slug]` same entity with `MedicalTest` JSON-LD, `search` diacritics-insensitive, `harta 145` + `liste soft 12 + share` + `comparatie fee-included`.
 
+## Wiring — `feat(data-price-index)` (backend price wiring, 2026-09-02)
+
+> **Status:** Backend PR `feat(data-price-index)` — price truth wired, no visual redesign per `AGENTS.md` frontend/backend split. Frontend swap `isB12 ? PRICE_OFFERS_B12 : []` → `getPricesForId(slug)` deferred to `feat(web-price-wiring)` with Vercel preview.
+
+**Join path:** `offering_key → vendor-mappings.json → tuple_key → canonical-graph.json → id (slug)`
+
+- `offering_key = sha256(vendor|norm(name)|url)` (Alfa `nameOnly`): deterministic ground truth in `vendor_offerings/*.snapshot.json` (7562 rows: Synevo 1391, Sante 861, Invitro 1085, Alfa 3517, MedExpert 708)
+- `vendor-mappings.json` (7,540 keys) maps each `offering_key` → `tuple_key = analyte|fraction|specimen|ig|method|variant` (already normalized `sange-venos→blood`, `eclia→clia`, `variant` exact-match; numeric suffixes preserved `f1≠f75`)
+- `canonical-graph.json` (spec `canonical-v4-tuple-dedupe-correct`, 7033 items: 417 comparison items → 378 unique slugs due to 32 duplicate slugs like `feritina` blood vs CSF; `tuple UNIQUE`) maps `tuple_key → id` (slug, e.g. `vitamina-b12` → `vitamina-b12||blood||clia|`)
+- **Builder:** `scripts/build-price-index.mjs` loads both JSON + all snapshots, joins exact `tuple` (no LLM invent), skips with warn if `tuple not in graph` (honest 3,197 skipped — mostly Alfa single-gene `mttp`, `wnt7a` vendor_specific not in quorum; 1 unmapped). Emits `packages/data/data/price-index.json` (`spec_version`, `generated_at`, `counts: {total, mapped, skipped, byVendor, comparisonCovered, withGte2, withGte2VendorsDistinct}`, `offeringsById: Record<id, VendorItem[]>`) + `price-index.min.json` (`{[id]: Record<LabId, price_mdl>}` cheapest per vendor)
+- **VendorItem** deterministic: `price_mdl`, `code`, `turnaround`/`turnaround_min/max_days` from snapshot (never LLM-overwritten); `specimen`/`method`/`variant` derived from `tuple` normalized fields (honest `null` where missing); `collection_protocol=null`, `reference_ranges=[]` placeholders; `sourceUrl=url`, `lastSeen=scraped_at`, `branchIds=[]`
+- **Honest counts (2026-09-02):** 7,562 ingested → 4,364 mapped (57.7%): Sante 861→821 (95.4%), Synevo 1,391→1,352 (97.2%), Invitro 1,085→1,005 (92.6%), MedExpert 708→670 (94.6%), Alfa 3,517→516 (14.7% — 3,001 single-gene NGS vendor_specific). IDs covered 2,929 (378 unique comparison slugs: 296 with ≥1 offer, 274 with ≥2 vendors; threshold 400 not met honestly — see `validate.mjs` WARN). Example `vitamina-b12 → 4 vendors: Sante 166, Alfa 240, Synevo 245, Invitro 250` (mock was Sante 175/ Synevo 195/ Alfa 190/ Invitro 210 — real Sante cheapest holds).
+- **Manifest:** `scripts/sync-data.mjs` now runs `build-price-index.mjs` after copy and adds `price-index.json` + `price-index.min.json` SHA256 to `manifest.json` (12 files)
+- **Types:** `packages/data/src/prices.ts` exports `getPricesForId(id)`, `getCheapestPrice(id)`, `getCheapestOffer(id)`, `getPricesByVendor(id)`; TODO comment shows frontend swap; `types.ts` VendorItem already aligned
+- **Validate:** `packages/data/data/validate.mjs` checks `price-index.json` exists, `spec_version` matches, logs per-vendor mapped, comparison coverage (296/378 ≥1, 274/378 ≥2 vendors), `vitamina-b12` 4 vendors, `price-index.min` exists; WARN (not FAIL) if <400 honest
+- **Frontend read-only:** `apps/web/src/pages/analize/[slug].astro:50` still `isB12 ? PRICE_OFFERS_B12 : []` — backend does not edit `apps/web` per split; `grep -rn PRICE_OFFERS_B12` confirms wiring ready for follow-up
+- **Invariants preserved:** `tuple_key` alias normalization, `variant` exact-match, `quorum≥2` already done, `price_mdl`/`code`/`turnaround` deterministic (ADR-0004)
+
 ## First Herdr Commands (run now)
 ```bash
 herdr tab create --workspace wB --label data-wiring --cwd /Users/victorvanica/coding-projects/laborata-astro --no-focus

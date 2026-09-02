@@ -1,4 +1,10 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@workspace/ui/components/alert";
+import { Button } from "@workspace/ui/components/button";
+import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -9,15 +15,21 @@ import { Skeleton } from "@workspace/ui/components/skeleton";
 import { cn } from "@workspace/ui/lib/utils";
 
 interface Props {
+  disabled?: boolean;
+  error?: string;
   idSuffix?: string;
   images: readonly string[];
   loading?: boolean;
+  onRetry?: () => void;
 }
 
 export function ProductGallery({
   images,
   idSuffix = "",
   loading = false,
+  error,
+  onRetry,
+  disabled = false,
 }: Props) {
   if (loading) {
     return (
@@ -28,6 +40,30 @@ export function ProductGallery({
           <Skeleton className="h-16 w-16 rounded-lg" />
           <Skeleton className="h-16 w-16 rounded-lg" />
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex aspect-square w-full flex-col items-center justify-center gap-3 rounded-xl border bg-card p-6 text-center">
+        <Alert variant="destructive">
+          <AlertTitle>Eroare la încărcarea imaginilor</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+        {onRetry ? (
+          <Button onClick={onRetry} size="sm" variant="outline">
+            Reîncearcă
+          </Button>
+        ) : null}
+      </div>
+    );
+  }
+
+  if (disabled) {
+    return (
+      <div className="flex aspect-square w-full items-center justify-center rounded-xl border bg-muted p-6 text-center opacity-60">
+        <p className="text-muted-foreground text-sm">Conținut dezactivat</p>
       </div>
     );
   }
@@ -68,8 +104,8 @@ export function ProductGallery({
         </CarouselContent>
         {images.length > 1 ? (
           <>
-            <CarouselPrevious className="left-2 size-8 opacity-0 transition-opacity group-hover/gallery:opacity-100" />
-            <CarouselNext className="right-2 size-8 opacity-0 transition-opacity group-hover/gallery:opacity-100" />
+            <CarouselPrevious className="left-2 size-8 opacity-0 transition-opacity group-focus-within/gallery:opacity-100 group-hover/gallery:opacity-100" />
+            <CarouselNext className="right-2 size-8 opacity-0 transition-opacity group-focus-within/gallery:opacity-100 group-hover/gallery:opacity-100" />
           </>
         ) : null}
       </Carousel>

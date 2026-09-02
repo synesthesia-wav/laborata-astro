@@ -35,10 +35,6 @@ interface Props {
   tests?: CanonicalItem[];
 }
 
-function formatPriceMdl(n: number): string {
-  return new Intl.NumberFormat("ro-RO").format(n);
-}
-
 export function CatalogShelf({
   disabled = false,
   idSuffix = "home-catalog",
@@ -96,58 +92,79 @@ export function CatalogShelf({
   }
 
   return (
-    <div className="flex min-w-0 flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <h2
-          className="font-heading font-semibold text-xl tracking-tight"
-          id={`catalog-heading-${idSuffix}`}
+    <div
+      className="flex min-w-0 flex-col gap-5"
+      id={`catalog-shelf-${idSuffix}`}
+    >
+      <div className="flex items-end justify-between gap-4">
+        <div className="flex flex-col gap-1.5">
+          <h2
+            className="font-heading font-semibold text-xl tracking-tight"
+            id={`catalog-heading-${idSuffix}`}
+          >
+            Analize frecvente
+          </h2>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            Most searched — honest coverage, same name everywhere
+          </p>
+        </div>
+        <Button
+          className="hidden rounded-full sm:inline-flex"
+          render={<a href="/analize" />}
+          size="sm"
+          variant="outline"
         >
-          Common tests
-        </h2>
-        <p className="text-muted-foreground text-sm">
-          Most searched — same name everywhere
-        </p>
+          Vezi toate
+        </Button>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {tests.map((t) => {
           const slug = t.slug_ro ?? t.id;
-          const priceLabel = `From ${formatPriceMdl(33)} MDL`;
-          const largePriceExample = formatPriceMdl(1_250_000);
+          const sample = t.sampleType ?? t.tuple_key.split("|")[2] ?? "Sânge";
+          const vendorsLabel =
+            t.vendor_count > 0 ? `${t.vendor_count}/5 labs` : "catalog";
           return (
             <Card
-              className="flex h-full flex-col overflow-hidden"
+              className="group flex h-full flex-col overflow-hidden transition-colors hover:bg-card/80"
               id={`test-${t.id}-${idSuffix}`}
               key={t.id}
             >
               <AspectRatio
                 ratio={4 / 3}
-                className="flex w-full items-center justify-center border-b bg-muted"
+                className="flex w-full items-center justify-center border-b bg-muted/40"
               >
-                <span className="text-muted-foreground text-xs">No image</span>
+                <span
+                  aria-hidden="true"
+                  className="rounded-full bg-muted px-2.5 py-1 font-medium text-muted-foreground text-xs"
+                >
+                  Fără imagine · {sample}
+                </span>
               </AspectRatio>
-              <CardHeader className="pb-2">
-                <div className="flex items-center gap-2">
-                  <Badge className="text-[11px]" variant="secondary">
-                    {t.sampleType ?? t.tuple_key.split("|")[2] ?? "Sânge"}
+              <CardHeader className="gap-2 pb-3">
+                <div className="flex items-center gap-1.5">
+                  <Badge
+                    className="rounded-full px-2 py-0 text-[11px]"
+                    variant="secondary"
+                  >
+                    {sample}
                   </Badge>
-                  <span className="break-all text-muted-foreground text-xs">
-                    {priceLabel}
-                    <span className="sr-only">
-                      {" "}
-                      · {largePriceExample} wrapping test
-                    </span>
-                  </span>
+                  <Badge
+                    className="rounded-full px-2 py-0 text-[11px]"
+                    variant="outline"
+                  >
+                    {vendorsLabel}
+                  </Badge>
                 </div>
-                <CardTitle className="line-clamp-2 break-words text-base leading-tight">
+                <CardTitle className="line-clamp-2 break-words text-[15px] leading-tight">
                   {t.name_ro ?? t.name_en ?? t.id}
                 </CardTitle>
-                <CardDescription className="line-clamp-2 break-words text-xs">
+                <CardDescription className="line-clamp-2 break-words text-xs leading-relaxed">
                   {t.oneSentenceWatcher ?? t.tuple_key}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="mt-auto min-w-0">
+              <CardContent className="mt-auto min-w-0 pt-0">
                 <Button
-                  className="w-full min-w-0 truncate"
+                  className="w-full rounded-full"
                   disabled={disabled}
                   render={<a href={`/analize/${slug}`} />}
                   size="sm"
