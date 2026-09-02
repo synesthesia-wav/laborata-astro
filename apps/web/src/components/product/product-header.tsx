@@ -23,12 +23,28 @@ interface Props {
   onRetry?: () => void;
   permissionDenied?: boolean;
   priceAsOf?: string;
+  sampleType?: string | null;
   sourceUrl?: string;
+  turnaround?: string | null;
   variant?: string | null;
 }
 
 function formatMdl(n: number): string {
   return new Intl.NumberFormat("ro-RO").format(n);
+}
+
+function specimenShort(v: string | null | undefined): string | null {
+  if (!v) return null;
+  const m: Record<string, string> = {
+    blood: "Sânge",
+    frotiu: "Frotiu",
+    plasma: "Plasmă",
+    serum: "Ser",
+    swab: "Frotiu",
+    urine: "Urină",
+  };
+  const key = v.toLowerCase();
+  return m[key] ?? v;
 }
 
 export function ProductHeader({
@@ -43,6 +59,8 @@ export function ProductHeader({
   priceAsOf = "august 2026",
   sourceUrl = "https://www.invitro.md/ro/services/prelevarea-sangelui-venos",
   variant = null,
+  sampleType = null,
+  turnaround = null,
   error,
   onRetry,
 }: Props) {
@@ -128,6 +146,22 @@ export function ProductHeader({
     <div className="flex flex-col gap-6" id={`product-header-${idSuffix}`}>
       <div className="flex flex-wrap gap-3">
         <Badge variant="secondary">Test de sânge</Badge>
+        {sampleType && specimenShort(sampleType) ? (
+          <Badge
+            className="text-[12px] tracking-wider uppercase"
+            variant="outline"
+          >
+            {specimenShort(sampleType)}
+          </Badge>
+        ) : null}
+        {turnaround ? (
+          <Badge
+            className="text-[12px] tracking-wider uppercase"
+            variant="outline"
+          >
+            {turnaround}
+          </Badge>
+        ) : null}
         {variant ? <Badge variant="outline">{variant}</Badge> : null}
         {isLarge ? <Badge variant="outline">preț mare</Badge> : null}
       </div>

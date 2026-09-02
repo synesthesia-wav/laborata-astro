@@ -74,6 +74,9 @@ const cheapestMdlEn =
 const primarySourceUrlEn =
   rawPricesEn?.[0]?.sourceUrl ??
   "https://www.invitro.md/ro/services/prelevarea-sangelui-venos";
+const tupleSpecimenEn = (item as GraphItem | undefined)?.tuple_key?.split("|")[2] || null;
+const sampleTypeRawEn = rawPricesEn?.[0]?.specimen ?? (tupleSpecimenEn && tupleSpecimenEn.trim() ? tupleSpecimenEn : null);
+const turnaroundRawEn = rawPricesEn?.[0]?.turnaround ?? null;
 ---
 
 <Layout
@@ -115,7 +118,9 @@ const primarySourceUrlEn =
       lowestPrice={cheapestMdlEn}
       name={displayName}
       priceAsOf="August 2026"
+      sampleType={sampleTypeRawEn}
       sourceUrl={primarySourceUrlEn}
+      turnaround={turnaroundRawEn}
       client:load
     />
   </section>
