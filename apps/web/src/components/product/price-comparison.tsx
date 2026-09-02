@@ -1,3 +1,4 @@
+import { RiExternalLinkLine } from "@remixicon/react";
 import type { LabId } from "@workspace/data/types";
 import {
   Alert,
@@ -5,7 +6,8 @@ import {
   AlertTitle,
 } from "@workspace/ui/components/alert";
 import { Badge } from "@workspace/ui/components/badge";
-import { Button } from "@workspace/ui/components/button";
+import { Button, buttonVariants } from "@workspace/ui/components/button";
+import { cn } from "@workspace/ui/lib/utils";
 import {
   Card,
   CardContent,
@@ -55,6 +57,36 @@ const LAB_LABEL: Record<LabId, string> = {
 function formatMdl(n: number): string {
   // ro-RO grouping: 1.250.000
   return new Intl.NumberFormat("ro-RO").format(n);
+}
+
+function trackClickout(vendor: LabId, lab: string, sourceUrl: string | null) {
+  try {
+    const payload = JSON.stringify({
+      event: "clickout",
+      lab,
+      sourceUrl,
+      ts: Date.now(),
+      vendor,
+    });
+    const key = "laborata:telemetry:clickout";
+    const existing = (() => {
+      try {
+        return JSON.parse(localStorage.getItem(key) ?? "[]");
+      } catch {
+        return [];
+      }
+    })();
+    if (Array.isArray(existing)) {
+      existing.push(JSON.parse(payload));
+      localStorage.setItem(key, JSON.stringify(existing.slice(-100)));
+    }
+    if (navigator.sendBeacon && sourceUrl) {
+      const blob = new Blob([payload], { type: "application/json" });
+      navigator.sendBeacon("/api/telemetry/clickout", blob);
+    }
+  } catch {
+    // ignore private mode / no storage
+  }
 }
 
 export function PriceComparison({
@@ -128,6 +160,7 @@ export function PriceComparison({
     available: boolean;
     lab: string;
     price: number | null;
+    sourceUrl: string | null;
     variant: string | null;
     vendor: LabId;
   }> = LAB_ORDER.map((vendor) => {
@@ -137,6 +170,7 @@ export function PriceComparison({
         available: false,
         lab: LAB_LABEL[vendor],
         price: null,
+        sourceUrl: null,
         variant: null,
         vendor,
       };
@@ -145,6 +179,7 @@ export function PriceComparison({
       available: true,
       lab: o.lab,
       price: o.price_mdl,
+      sourceUrl: o.sourceUrl ?? null,
       variant: o.variant ?? null,
       vendor: o.vendor,
     };
@@ -259,6 +294,9 @@ export function PriceComparison({
                 <TableRow className="bg-muted/50">
                   <TableHead className="px-5">Laborator</TableHead>
                   <TableHead className="px-5 text-right">Preț test</TableHead>
+                  <TableHead className="px-5 text-right">
+                    {lang === "en" ? "Book" : "Rezervă"}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -287,6 +325,9 @@ export function PriceComparison({
                         </TableCell>
                         <TableCell className="px-5 text-right text-muted-foreground text-sm">
                           — <span className="text-xs">Not available</span>
+                        </TableCell>
+                        <TableCell className="px-5 text-right text-muted-foreground text-xs">
+                          —
                         </TableCell>
                       </TableRow>
                     );
@@ -320,6 +361,34 @@ export function PriceComparison({
                         <span className="tabular-nums">
                           {formatMdl(row.price)} {lang === "en" ? "MDL" : "lei"}
                         </span>
+                      </TableCell>
+                      <TableCell className="px-5 text-right">
+                        {row.sourceUrl ? (
+                          <a
+                            href={row.sourceUrl}
+                            target="_blank"
+                            rel="noopener"
+                            onClick={() =>
+                              trackClickout(row.vendor, row.lab, row.sourceUrl)
+                            }
+                            className={cn(
+                              buttonVariants({ variant: "ghost", size: "sm" }),
+                              "h-7 gap-1 rounded-full px-2 text-xs"
+                            )}
+                            aria-label={`Deschide ${row.lab} — vezi testul pe site-ul laboratorului`}
+                          >
+                            <RiExternalLinkLine
+                              aria-hidden="true"
+                              className="size-3.5"
+                            />
+                            <span className="hidden sm:inline">
+                              Vezi la {row.lab}
+                            </span>
+                            <span className="sr-only">Vezi la {row.lab}</span>
+                          </a>
+                        ) : (
+                          <span className="text-muted-foreground text-xs">—</span>
+                        )}
                       </TableCell>
                     </TableRow>
                   );

@@ -46,6 +46,7 @@ const rawPrices = getPricesForId(slug);
 const priceOffers = (rawPrices ?? []).map((o) => ({
   lab: LAB_LABEL[o.vendor] ?? o.vendor,
   price_mdl: o.price_mdl,
+  sourceUrl: o.sourceUrl,
   variant: o.variant,
   vendor: o.vendor,
 }));

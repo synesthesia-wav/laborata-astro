@@ -66,6 +66,7 @@ const _rawB12 = getPricesForId("vitamina-b12");
 const PRICE_OFFERS_REAL_B12 = (_rawB12 ?? []).map((o) => ({
   lab: _labLabel[o.vendor] ?? o.vendor,
   price_mdl: o.price_mdl,
+  sourceUrl: o.sourceUrl,
   variant: o.variant,
   vendor: o.vendor,
 }));

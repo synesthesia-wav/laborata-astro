@@ -11,6 +11,7 @@ export interface PriceRow {
 export interface PriceOffer {
   lab: string;
   price_mdl: number;
+  sourceUrl?: string | null;
   variant?: string | null;
   vendor: LabId;
 }
@@ -40,26 +41,81 @@ export const PRODUCT_GALLERY = [
  * Data wiring W1 vendors 417 graph — swap with real canonical-graph + vendor_offerings snapshot when ready.
  */
 export const PRICE_OFFERS_B12: readonly PriceOffer[] = [
-  { lab: "Sante", price_mdl: 175, variant: null, vendor: "sante" },
-  { lab: "Synevo", price_mdl: 195, variant: null, vendor: "synevo" },
-  { lab: "Alfa", price_mdl: 190, variant: null, vendor: "alfa" },
-  { lab: "Invitro", price_mdl: 210, variant: null, vendor: "invitro" },
+  {
+    lab: "Sante",
+    price_mdl: 175,
+    sourceUrl: "https://online.sante.md/analiza/vitamina-b12/",
+    variant: null,
+    vendor: "sante",
+  },
+  {
+    lab: "Synevo",
+    price_mdl: 195,
+    sourceUrl: "https://synevo.md/shop/vitamina-b12/",
+    variant: null,
+    vendor: "synevo",
+  },
+  {
+    lab: "Alfa",
+    price_mdl: 190,
+    sourceUrl: "https://alfalab.md/ro/analize-medicale/V/vitamina-b12-166",
+    variant: null,
+    vendor: "alfa",
+  },
+  {
+    lab: "Invitro",
+    price_mdl: 210,
+    sourceUrl: "https://www.invitro.md/ro/services/vitamina-b12",
+    variant: null,
+    vendor: "invitro",
+  },
 ] as const;
 
 /** 1/5 vendors — Showcase stress: single offer state */
 export const PRICE_OFFERS_SINGLE: readonly PriceOffer[] = [
-  { lab: "Sante", price_mdl: 175, variant: null, vendor: "sante" },
+  {
+    lab: "Sante",
+    price_mdl: 175,
+    sourceUrl: "https://online.sante.md/analiza/vitamina-b12/",
+    variant: null,
+    vendor: "sante",
+  },
 ] as const;
 
 /** Large price stress: 1.250.000 lei */
 export const PRICE_OFFERS_LARGE: readonly PriceOffer[] = [
-  { lab: "Synevo", price_mdl: 1_250_000, variant: null, vendor: "synevo" },
-  { lab: "Sante", price_mdl: 1_250_300, variant: null, vendor: "sante" },
-  { lab: "Invitro", price_mdl: 1_251_000, variant: null, vendor: "invitro" },
-  { lab: "Alfa", price_mdl: 1_249_900, variant: null, vendor: "alfa" },
+  {
+    lab: "Synevo",
+    price_mdl: 1_250_000,
+    sourceUrl: "https://synevo.md/shop/vitamina-b12/",
+    variant: null,
+    vendor: "synevo",
+  },
+  {
+    lab: "Sante",
+    price_mdl: 1_250_300,
+    sourceUrl: "https://online.sante.md/analiza/vitamina-b12/",
+    variant: null,
+    vendor: "sante",
+  },
+  {
+    lab: "Invitro",
+    price_mdl: 1_251_000,
+    sourceUrl: "https://www.invitro.md/ro/services/vitamina-b12",
+    variant: null,
+    vendor: "invitro",
+  },
+  {
+    lab: "Alfa",
+    price_mdl: 1_249_900,
+    sourceUrl: "https://alfalab.md/ro/analize-medicale/V/vitamina-b12-166",
+    variant: null,
+    vendor: "alfa",
+  },
   {
     lab: "MedExpert",
     price_mdl: 1_300_000,
+    sourceUrl: "https://medexpert.md/product/vitamina-b12/",
     variant: null,
     vendor: "medexpert",
   },
@@ -70,17 +126,31 @@ export const PRICE_OFFERS_VARIANT: readonly PriceOffer[] = [
   {
     lab: "Synevo",
     price_mdl: 195,
+    sourceUrl: "https://synevo.md/shop/vitamina-b12/",
     variant: "24-ore",
     vendor: "synevo",
   },
   {
     lab: "Sante",
     price_mdl: 175,
+    sourceUrl: "https://online.sante.md/analiza/vitamina-b12/",
     variant: "cantitativ",
     vendor: "sante",
   },
-  { lab: "Alfa", price_mdl: 190, variant: null, vendor: "alfa" },
-  { lab: "Invitro", price_mdl: 210, variant: null, vendor: "invitro" },
+  {
+    lab: "Alfa",
+    price_mdl: 190,
+    sourceUrl: "https://alfalab.md/ro/analize-medicale/V/vitamina-b12-166",
+    variant: null,
+    vendor: "alfa",
+  },
+  {
+    lab: "Invitro",
+    price_mdl: 210,
+    sourceUrl: "https://www.invitro.md/ro/services/vitamina-b12",
+    variant: null,
+    vendor: "invitro",
+  },
 ] as const;
 
 /** Deprecated demo — kept for type compat, do not use in PriceComparison */

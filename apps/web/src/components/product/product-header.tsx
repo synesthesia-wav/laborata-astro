@@ -98,10 +98,10 @@ export function ProductHeader({
           </p>
         </div>
         <Button
-          aria-label="Adaugă în coș — indisponibil"
+          aria-label="Adaugă în listă — indisponibil"
           className="w-full"
           disabled
-          id={`add-to-cart-${idSuffix}`}
+          id={`add-to-list-${idSuffix}`}
           size="lg"
         >
           <RiShoppingBagLine aria-hidden="true" data-icon="inline-start" />
@@ -191,15 +191,15 @@ export function ProductHeader({
         </div>
         <Separator />
         <Button
-          aria-label={`Adaugă în coș — ${name}${priceLabel ? ` — ${priceLabel}` : ""}`}
+          aria-label={`Adaugă în listă — ${name}${priceLabel ? ` — ${priceLabel}` : ""}`}
           className="w-full"
           disabled={disabled}
-          id={`add-to-cart-${idSuffix}`}
+          id={`add-to-list-${idSuffix}`}
           onClick={onAddToCart}
           size="lg"
         >
           <RiShoppingBagLine aria-hidden="true" data-icon="inline-start" />
-          {priceLabel ? `Adaugă în coș — ${priceLabel}` : "Adaugă în listă"}
+          {priceLabel ? `Adaugă în listă — ${priceLabel}` : "Adaugă în listă"}
         </Button>
         <p className="text-center text-muted-foreground text-xs">
           Taxa de recoltare se adaugă o singură dată la final (Sante/MedExpert:
