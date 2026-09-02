@@ -1,6 +1,7 @@
 "use client";
 
 import { BRANCHES } from "@workspace/data/branches";
+import { PRICE_MIN_BY_ID } from "@workspace/data/prices";
 import type { LabId } from "@workspace/data/types";
 import {
   Alert,
@@ -46,20 +47,6 @@ import type { SearchDoc } from "../../lib/search";
 import { foldDiacritics } from "../../lib/search";
 
 const LABS: LabId[] = ["synevo", "sante", "invitro", "medexpert", "alfa"];
-
-function pseudoPrice(testId: string, lab: LabId): number {
-  // deterministic price 100-300 + lab offset, never invent real protocol — just for demo comparison logic
-  const hash = testId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const base = 100 + (hash % 200);
-  const labOffset: Record<LabId, number> = {
-    alfa: -5,
-    invitro: 15,
-    medexpert: 8,
-    sante: -10,
-    synevo: 5,
-  };
-  return base + (labOffset[lab] ?? 0);
-}
 
 function sampleFor(testId: string, docs: SearchDoc[] | null): string {
   const d = docs?.find((x) => x.id === testId);
@@ -192,11 +179,14 @@ export function ListDetail({ id: propId }: { id: string }) {
 
   const priceMap = useMemo(() => {
     const map: Record<string, Partial<Record<LabId, number>>> = {};
-    const targets = list?.items ?? [];
-    for (const tid of targets) {
-      map[tid] = {};
-      for (const lab of LABS) {
-        map[tid][lab] = pseudoPrice(tid, lab);
+    for (const tid of list?.items ?? []) {
+      const perVendor = PRICE_MIN_BY_ID[tid] as
+        | Partial<Record<LabId, number>>
+        | undefined;
+      if (perVendor) {
+        map[tid] = { ...perVendor };
+      } else {
+        map[tid] = {};
       }
     }
     return map;

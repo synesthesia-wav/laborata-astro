@@ -119,6 +119,23 @@ function formatNextOpen(hours: Record<string, string[] | null>): string {
   return label;
 }
 
+function haversineKm(
+  lat1: number,
+  lng1: number,
+  lat2: number,
+  lng2: number
+): number {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLng = (lng2 - lng1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
 interface Props {
   disabled?: boolean;
   error?: string;
@@ -146,6 +163,12 @@ export function BranchesExplorer({
   const [sample, setSample] = useState(initialSample);
   const [street, setStreet] = useState(initialStreet);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [userLoc, setUserLoc] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [locError, setLocError] = useState<string | null>(null);
+  const [locating, setLocating] = useState(false);
 
   const filtered: Branch[] = useMemo(
     () =>
@@ -159,12 +182,43 @@ export function BranchesExplorer({
     [lab, sample, street]
   );
 
+  const handleLocate = () => {
+    if (!navigator.geolocation) {
+      setLocError("Geolocația nu este disponibilă");
+      return;
+    }
+    setLocating(true);
+    setLocError(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setUserLoc({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setLocating(false);
+      },
+      () => {
+        setLocError("Nu am putut obține locația — verifică permisiunile");
+        setLocating(false);
+      },
+      { enableHighAccuracy: false, maximumAge: 60000, timeout: 8000 }
+    );
+  };
+
+  const sortedFiltered: Branch[] = useMemo(() => {
+    if (!userLoc) {
+      return filtered;
+    }
+    return [...filtered].sort((a, b) => {
+      const da = haversineKm(userLoc.lat, userLoc.lng, a.geo.lat, a.geo.lng);
+      const db = haversineKm(userLoc.lat, userLoc.lng, b.geo.lat, b.geo.lng);
+      return da - db;
+    });
+  }, [filtered, userLoc]);
+
   const count = filtered.length;
   const selectedBranch = useMemo(
-    () => filtered.find((b) => b.id === selectedId) ?? null,
-    [filtered, selectedId]
+    () => sortedFiltered.find((b) => b.id === selectedId) ?? null,
+    [sortedFiltered, selectedId]
   );
-  const mapBranch: Branch | null = selectedBranch ?? filtered[0] ?? null;
+  const mapBranch: Branch | null = selectedBranch ?? sortedFiltered[0] ?? null;
 
   if (loading) {
     return (
@@ -300,6 +354,33 @@ export function BranchesExplorer({
           {sample === "all" ? "" : ` · ${sample}`}
           {street === "all" ? "" : ` · ${street}`}
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            size="sm"
+            variant={userLoc ? "secondary" : "outline"}
+            onClick={userLoc ? () => setUserLoc(null) : handleLocate}
+            disabled={disabled || locating}
+            className="h-7 rounded-full px-3 text-xs"
+            aria-label={
+              userLoc ? "Anulează sortarea după apropiere" : "Sortează după apropiere"
+            }
+          >
+            {locating
+              ? "Se localizează…"
+              : userLoc
+                ? "Anulează apropiere"
+                : "Sortează după apropiere"}
+          </Button>
+          {locError ? (
+            <span className="text-destructive text-xs">{locError}</span>
+          ) : null}
+          {userLoc ? (
+            <span className="text-muted-foreground text-xs">
+              Sortat după distanță · {userLoc.lat.toFixed(3)},{" "}
+              {userLoc.lng.toFixed(3)}
+            </span>
+          ) : null}
+        </div>
         {mapBranch ? (
           <iframe
             allowFullScreen={false}
@@ -320,7 +401,7 @@ export function BranchesExplorer({
         )}
         <ScrollArea className="h-[340px] rounded-xl border">
           <ItemGroup>
-            {filtered.length === 0 ? (
+            {sortedFiltered.length === 0 ? (
               <div className="p-6">
                 <Empty>
                   <EmptyHeader>
@@ -333,7 +414,7 @@ export function BranchesExplorer({
                 </Empty>
               </div>
             ) : (
-              filtered.map((b) => {
+              sortedFiltered.map((b) => {
                 const open = isOpenNow(
                   b.hours as Record<string, string[] | null>
                 );
@@ -401,6 +482,19 @@ export function BranchesExplorer({
                           >
                             {b.streetKey}
                           </Badge>
+                          {userLoc ? (
+                            <Badge
+                              variant="secondary"
+                              className="hidden sm:inline-flex"
+                            >
+                              {haversineKm(
+                                userLoc.lat,
+                                userLoc.lng,
+                                b.geo.lat,
+                                b.geo.lng
+                              ).toFixed(1)} km
+                            </Badge>
+                          ) : null}
                         </span>
                       </ItemDescription>
                     </ItemContent>

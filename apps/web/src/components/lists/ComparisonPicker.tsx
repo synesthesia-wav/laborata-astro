@@ -1,5 +1,6 @@
 "use client";
 
+import { PRICE_MIN_BY_ID } from "@workspace/data/prices";
 import type { LabId } from "@workspace/data/types";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
@@ -30,19 +31,6 @@ import type { SearchDoc } from "../../lib/search";
 import { foldDiacritics } from "../../lib/search";
 
 const LABS: LabId[] = ["synevo", "sante", "invitro", "medexpert", "alfa"];
-
-function pseudoPrice(testId: string, lab: LabId): number {
-  const hash = testId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const base = 100 + (hash % 200);
-  const off: Record<LabId, number> = {
-    alfa: -5,
-    invitro: 15,
-    medexpert: 8,
-    sante: -10,
-    synevo: 5,
-  };
-  return base + (off[lab] ?? 0);
-}
 
 export function ComparisonPicker() {
   const [selected, setSelected] = useState<string[]>([]);
@@ -85,10 +73,10 @@ export function ComparisonPicker() {
   const priceMap = useMemo(() => {
     const m: Record<string, Partial<Record<LabId, number>>> = {};
     for (const tid of selected) {
-      m[tid] = {};
-      for (const lab of LABS) {
-        m[tid][lab] = pseudoPrice(tid, lab);
-      }
+      const perVendor = PRICE_MIN_BY_ID[tid] as
+        | Partial<Record<LabId, number>>
+        | undefined;
+      m[tid] = perVendor ? { ...perVendor } : {};
     }
     return m;
   }, [selected]);
@@ -279,7 +267,9 @@ export function ComparisonPicker() {
                     </TableCell>
                     {LABS.map((lab) => (
                       <TableCell className="px-3 font-mono text-xs" key={lab}>
-                        {priceMap[tid]?.[lab]} lei
+                        {priceMap[tid]?.[lab] == null
+                          ? "—"
+                          : `${priceMap[tid]?.[lab]} lei`}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -290,6 +280,16 @@ export function ComparisonPicker() {
                       Total fee-included
                     </TableCell>
                     {LABS.map((lab) => {
+                      const hasAll = selected.every(
+                        (tid) => priceMap[tid]?.[lab] != null
+                      );
+                      if (!hasAll) {
+                        return (
+                          <TableCell className="px-3" key={lab}>
+                            —
+                          </TableCell>
+                        );
+                      }
                       const sum = selected.reduce(
                         (a, tid) => a + (priceMap[tid]?.[lab] ?? 0),
                         0

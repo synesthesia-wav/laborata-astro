@@ -21,7 +21,15 @@ const WEEKDAYS: Weekday[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function deriveStreetKey(address: string): string {
   const a = address.toLowerCase();
-  if (a.includes("botanica")) {
+  if (
+    a.includes("botanica") ||
+    a.includes("decebal") ||
+    a.includes("dacia") ||
+    a.includes("cuza") ||
+    a.includes("traian") ||
+    a.includes("zelinski") ||
+    a.includes("greaca")
+  ) {
     return "botanica";
   }
   if (

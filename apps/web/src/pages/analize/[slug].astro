@@ -1,5 +1,5 @@
 ---
-import { getPricesForId } from "@workspace/data/prices";
+import { getPricesForId, getSpecsForId } from "@workspace/data/prices";
 import graph from "../../../../../packages/data/data/canonical-graph.json" with {
   type: "json",
 };
@@ -60,6 +60,8 @@ const primarySourceUrl =
 const tupleSpecimen = (item as GraphItem).tuple_key.split("|")[2] || null;
 const sampleTypeRaw = rawPrices?.[0]?.specimen ?? (tupleSpecimen && tupleSpecimen.trim() ? tupleSpecimen : null);
 const turnaroundRaw = rawPrices?.[0]?.turnaround ?? null;
+const rawSpecs = getSpecsForId(slug);
+const specOffers = rawSpecs ?? undefined;
 const title = `${displayName} | Laborata — Analize`;
 const description =
   slug === "vitamina-b12"
@@ -121,7 +123,12 @@ const url = new URL(
   <!-- Specs -->
   <section class="border-t bg-muted/20 px-4 py-10 sm:px-6">
     <div class="mx-auto flex w-full max-w-7xl flex-col">
-      <ProductSpecs idSuffix={`${slug}-specs`} name={displayName} client:load />
+      <ProductSpecs
+        idSuffix={`${slug}-specs`}
+        name={displayName}
+        offers={specOffers}
+        client:load
+      />
     </div>
   </section>
 

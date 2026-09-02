@@ -1,5 +1,6 @@
 /** Price index — backend price wiring (Phase A decoupling) */
 import priceIndex from "../data/price-index.json" with { type: "json" };
+import priceMin from "../data/price-index.min.json" with { type: "json" };
 import type { VendorItem } from "./types.js";
 
 interface PriceIndexFile {
@@ -26,6 +27,10 @@ export const PRICE_SPEC_VERSION = idx.spec_version;
 export const PRICE_GENERATED_AT = idx.generated_at;
 export const PRICE_COUNTS = idx.counts;
 export const PRICE_OFFERINGS_BY_ID = idx.offeringsById;
+export const PRICE_MIN_BY_ID = priceMin as Record<
+  string,
+  Partial<Record<VendorItem["vendor"], number>>
+>;
 
 /**
  * Get all vendor offers for a canonical id (slug).
@@ -81,6 +86,36 @@ export function getPricesByVendor(
 //   const raw = getPricesForId(slug);
 //   const priceOffers = (raw ?? []).map(o => ({ lab: labName(o.vendor), price_mdl: o.price_mdl, vendor: o.vendor, variant: o.variant }))
 // Keep backend PR feat(data-price-index) verifiable by tests, no visual redesign per AGENTS.md frontend/backend split.
+
+export interface SpecInfo {
+  collection_protocol: string | null;
+  lab: string;
+  method: string | null;
+  reference_ranges: { analyte: string; range: string; unit: string | null }[];
+  specimen: string | null;
+  turnaround: string | null;
+  turnaround_max_days: number | null;
+  turnaround_min_days: number | null;
+  vendor: VendorItem["vendor"];
+}
+
+export function getSpecsForId(id: string): SpecInfo[] | undefined {
+  const arr = idx.offeringsById[id];
+  if (!arr) {
+    return undefined;
+  }
+  return arr.map((o) => ({
+    collection_protocol: o.collection_protocol,
+    lab: labName(o.vendor),
+    method: o.method,
+    reference_ranges: o.reference_ranges,
+    specimen: o.specimen,
+    turnaround: o.turnaround,
+    turnaround_max_days: o.turnaround_max_days,
+    turnaround_min_days: o.turnaround_min_days,
+    vendor: o.vendor,
+  }));
+}
 
 export function labName(vendor: VendorItem["vendor"]): string {
   const map: Record<string, string> = {
